@@ -48,7 +48,8 @@ const createNewPod = asyncHandler(async (req, res) => {
     podFreeWeight,
     podTotalWeight: podTotalWeight ? podTotalWeight : 0,
     productRawAmount: productRawAmount ? productRawAmount : 0,
-    usersOfThePod: [creatorId, ...usersOfThePod],
+    //if req has no usersofthepad data then it is only creator, if it has then creeator+ data
+    usersOfThePod: !usersOfThePod ? [creatorId] : [creatorId, ...usersOfThePod],
   };
 
   // Create and store new pod
@@ -68,6 +69,7 @@ const createNewPod = asyncHandler(async (req, res) => {
 const updatePod = asyncHandler(async (req, res) => {
   const {
     id,
+    userId,
     creatorId,
     podName,
     podFreeWeight,
@@ -106,7 +108,9 @@ const updatePod = asyncHandler(async (req, res) => {
   pod.podFreeWeight = podFreeWeight;
   pod.podTotalWeight = podTotalWeight;
   pod.productRawAmount = productRawAmount;
-  pod.usersOfThePod = [creatorId, ...usersOfThePod];
+  pod.usersOfThePod = !usersOfThePod
+    ? [creatorId]
+    : [creatorId, ...usersOfThePod];
   // user.active = active;
 
   const updatedPod = await pod.save();

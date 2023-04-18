@@ -2,11 +2,17 @@ const mongoose = require("mongoose");
 
 const podSchema = new mongoose.Schema(
   {
-    user: {
+    creatorId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
+    usersOfThePod: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     podName: {
       type: String,
       required: true,

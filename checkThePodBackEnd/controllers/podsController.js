@@ -1,72 +1,93 @@
 const User = require("../models/Users");
 const Pod = require("../models/Pods");
 const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcrypt");
-// @desc Get all users
-// @route GET /users
+// @desc Get all pods
+// @route GET /pods
 // @access Private
 //asyncHandler will take care what 'try catch' can
-const getAllUsers = asyncHandler(async (req, res) => {
-  // Get all users from MongoDB. if no methods will be used then use lean()
-  const users = await User.find().select("-password").lean();
+const getAllPods = asyncHandler(async (req, res) => {
+  // Get all pods from MongoDB. if no methods will be used then use lean()
+  const pods = await Pod.find().select("podName").lean();
 
-  // If no users
-  if (!users?.length) {
-    return res.status(400).json({ message: "No users found" });
+  // If no pods
+  if (!pods?.length) {
+    return res.status(400).json({ message: "No pods found" });
   }
 
-  res.json(users);
+  res.json(pods);
 });
 
-// @desc Create new user
-// @route POST /users
+// @desc Create new pod
+// @route POST /pods
 // @access Private
-const createNewUser = asyncHandler(async (req, res) => {
-  const { username, password, roles } = req.body;
+const createNewPod = asyncHandler(async (req, res) => {
+  const {
+    creatorId,
+    podName,
+    podFreeWeight,
+    podTotalWeight,
+    productRawAmount,
+    usersOfThePod,
+  } = req.body;
 
   // Confirm data
-  if (!username || !password || !Array.isArray(roles) || !roles.length) {
+  if (!creatorId || !podName || !podFreeWeight) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  // Check for duplicate username, if any parameter used with find documents suggest to use exec
-  const duplicate = await User.findOne({ username }).lean().exec();
+  // Check for duplicate podName, if any parameter used with find documents suggest to use exec
+  const duplicate = await Pod.findOne({ podName }).lean().exec();
 
   if (duplicate) {
-    return res.status(409).json({ message: "Duplicate username" });
+    return res.status(409).json({ message: "Duplicate podName" });
   }
 
-  // Hash password
-  const hashedPwd = await bcrypt.hash(password, 10); // salt rounds
+  const podObject = {
+    podName,
+    podFreeWeight,
+    podTotalWeight: podTotalWeight ? podTotalWeight : 0,
+    productRawAmount: productRawAmount ? productRawAmount : 0,
+    usersOfThePod: [creatorId, ...usersOfThePod],
+  };
 
-  const userObject = { username, password: hashedPwd, roles };
+  // Create and store new pod
+  const pod = await Pod.create(podObject);
 
-  // Create and store new user
-  const user = await User.create(userObject);
-
-  if (user) {
+  if (pod) {
     //created
-    res.status(201).json({ message: `New user ${username} created` });
+    res.status(201).json({ message: `New pod ${podname} created` });
   } else {
-    res.status(400).json({ message: "Invalid user data received" });
+    res.status(400).json({ message: "Invalid pod data received" });
   }
 });
 
-// @desc Update a user
-// @route PATCH /users
+// @desc Update a pod
+// @route PATCH /pods
 // @access Private
-const updateUser = asyncHandler(async (req, res) => {
-  const { id, username, roles, password } = req.body;
+const updatePod = asyncHandler(async (req, res) => {
+  const {
+    creatorId,
+    podName,
+    podFreeWeight,
+    podTotalWeight,
+    productRawAmount,
+    usersOfThePod,
+  } = req.body;
 
   // Confirm data
-  if (!id || !username || !Array.isArray(roles) || !roles.length) {
-    return res
-      .status(400)
-      .json({ message: "All fields are required except password" });
+  if (
+    !creatorId ||
+    !podName ||
+    !podFreeWeight ||
+    !podTotalWeight ||
+    !productRawAmount ||
+    !usersOfThePod
+  ) {
+    return res.status(400).json({ message: "All fields are required" });
   }
 
-  // Does the user exist to update?
-  const user = await User.findById(id).exec();
+  // Does the pod exist to update?
+  const pod = await pod.findById(id).exec();
 
   if (!user) {
     return res.status(400).json({ message: "User not found" });

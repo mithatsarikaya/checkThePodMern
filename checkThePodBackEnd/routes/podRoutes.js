@@ -4,9 +4,9 @@ const podsController = require("../controllers/podsController");
 
 router
   .route("/")
-  .get(usersController.getAllUsers)
-  .post(usersController.createNewUser)
-  .patch(usersController.updateUser)
-  .delete(usersController.deleteUser);
+  .get(podsController.getAllPods)
+  .post(podsController.createNewPod)
+  .patch(podsController.updatePod)
+  .delete(podsController.deletePod);
 
 module.exports = router;

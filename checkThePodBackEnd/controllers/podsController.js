@@ -43,6 +43,7 @@ const createNewPod = asyncHandler(async (req, res) => {
   }
 
   const podObject = {
+    creatorId,
     podName,
     podFreeWeight,
     podTotalWeight: podTotalWeight ? podTotalWeight : 0,
@@ -55,17 +56,18 @@ const createNewPod = asyncHandler(async (req, res) => {
 
   if (pod) {
     //created
-    res.status(201).json({ message: `New pod ${podname} created` });
+    res.status(201).json({ message: `New pod ${podName} created` });
   } else {
     res.status(400).json({ message: "Invalid pod data received" });
   }
 });
 
-// @desc Update a pod
+// @desc Update a pod, creator cant be updated
 // @route PATCH /pods
 // @access Private
 const updatePod = asyncHandler(async (req, res) => {
   const {
+    id,
     creatorId,
     podName,
     podFreeWeight,
@@ -76,7 +78,6 @@ const updatePod = asyncHandler(async (req, res) => {
 
   // Confirm data
   if (
-    !creatorId ||
     !podName ||
     !podFreeWeight ||
     !podTotalWeight ||
@@ -87,69 +88,60 @@ const updatePod = asyncHandler(async (req, res) => {
   }
 
   // Does the pod exist to update?
-  const pod = await pod.findById(id).exec();
+  const pod = await Pod.findById(id).exec();
 
-  if (!user) {
-    return res.status(400).json({ message: "User not found" });
+  if (!pod) {
+    return res.status(400).json({ message: "Pod not found" });
   }
 
   // Check for duplicate
-  const duplicate = await User.findOne({ username }).lean().exec();
+  const duplicate = await Pod.findOne({ podName }).lean().exec();
 
   // Allow updates to the original user
   if (duplicate && duplicate?._id.toString() !== id) {
-    return res.status(409).json({ message: "Duplicate username" });
+    return res.status(409).json({ message: "Duplicate podName" });
   }
 
-  user.username = username;
-  user.roles = roles;
+  pod.podName = podName;
+  pod.podFreeWeight = podFreeWeight;
+  pod.podTotalWeight = podTotalWeight;
+  pod.productRawAmount = productRawAmount;
+  pod.usersOfThePod = [creatorId, ...usersOfThePod];
   // user.active = active;
 
-  if (password) {
-    // Hash password
-    user.password = await bcrypt.hash(password, 10); // salt rounds
-  }
+  const updatedPod = await pod.save();
 
-  const updatedUser = await user.save();
-
-  res.json({ message: `${updatedUser.username} updated` });
+  res.json({ message: `${updatedPod.podName} updated` });
 });
 
-// @desc Delete a user
-// @route DELETE /users
+// @desc Delete a pod
+// @route DELETE /pods
 // @access Private
-const deleteUser = asyncHandler(async (req, res) => {
+const deletePod = asyncHandler(async (req, res) => {
   const { id } = req.body;
 
   // Confirm data
   if (!id) {
-    return res.status(400).json({ message: "User ID Required" });
+    return res.status(400).json({ message: "Pod ID Required" });
   }
 
-  // Does the user still have assigned pods?
-  const pod = await Pod.findOne({ user: id }).lean().exec();
-  console.log({ pod });
-  if (pod) {
-    return res.status(400).json({ message: "User has assigned pods" });
+  // Does the pod exist to delete?
+  const pod = await Pod.findById(id).exec();
+
+  if (!pod) {
+    return res.status(400).json({ message: "Pod not found" });
   }
 
-  // Does the user exist to delete?
-  const user = await User.findById(id).exec();
+  const result = await pod.deleteOne();
 
-  if (!user) {
-    return res.status(400).json({ message: "User not found" });
-  }
-
-  const result = await user.deleteOne();
-
-  const reply = `Username ${result.username} with ID ${result._id} deleted`;
+  const reply = `Podname ${result.podname} with ID ${result._id} deleted`;
 
   res.json(reply);
 });
 
 module.exports = {
-  getAllUsers,
-  createNewUser,
-  updateUser,
-  deleteUser,
+  getAllPods,
+  createNewPod,
+  updatePod,
+  deletePod,
 };

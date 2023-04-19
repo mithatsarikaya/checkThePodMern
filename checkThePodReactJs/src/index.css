@@ -6,7 +6,7 @@
 
 section {
     margin: auto;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     width: 80%;
 }
 
@@ -14,19 +14,24 @@ header{
     text-align: center;
     font-size: 40px;
     margin-bottom: 10px;
+    color: greenyellow;
+    padding: 20px;
+    font-weight: 900;
 }
 
 nav{
-    border-bottom: 1px solid black;
+    border-bottom: 4px solid salmon;
 }
 
 nav > ul {
     display: flex;
     justify-content: space-around;
+    padding-bottom: 10px;
 }
 
 nav > ul > li {
     list-style: none;
+    font-weight: 800;
 }
 
 main {
@@ -37,16 +42,17 @@ main {
 }
 
 .pod {
-    width: 40%;
-    border: 1px solid salmon;
+    width: 60%;
+    border: 2px solid salmon;
     margin: 20px;
 }
 
 .pod > div {
     display: flex;
-    border: 1px solid salmon;
+    border: 2px solid salmon;
     align-items: center;
     justify-content: space-between;
+    padding: 10px;
 }
 
 .pod > div > label {

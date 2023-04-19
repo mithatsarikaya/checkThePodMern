@@ -6,6 +6,7 @@ export default function App() {
         <ul>
           <li>HOME</li>
           <li>LOGIN</li>
+          <li>CREATE</li>
         </ul>
       </nav>
       <main>

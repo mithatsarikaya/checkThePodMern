@@ -2,3 +2,29 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+section {
+    margin: auto;
+    border: 1px solid black;
+    width: 80%;
+    padding: 10px;
+}
+
+header{
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+nav > ul{
+    display: flex;
+    justify-content: space-around;
+
+
+}
+
+nav > ul > li {
+    list-style: none;
+}
+
+

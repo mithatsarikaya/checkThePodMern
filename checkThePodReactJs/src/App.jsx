@@ -1,6 +1,6 @@
 export default function App() {
   return (
-    <>
+    <section>
       <header>Check The Pod</header>
       <nav>
         <ul>
@@ -46,6 +46,6 @@ export default function App() {
           </div>
         </div>
       </main>
-    </>
+    </section>
   );
 }

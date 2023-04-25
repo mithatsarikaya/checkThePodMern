@@ -10,7 +10,9 @@ export default function Nav() {
         <Link tabIndex={2} to="/login">
           <li>LOGIN</li>
         </Link>
-        <li>CREATE</li>
+        <Link tabIndex={3} to="/createPod">
+          <li>Create Pod</li>
+        </Link>
       </ul>
     </nav>
   );

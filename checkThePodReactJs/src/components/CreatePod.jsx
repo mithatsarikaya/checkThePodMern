@@ -21,17 +21,13 @@ export default function CreatePod() {
   }
   console.log(pod);
 
-  async function handleSubmit() {
-    await fetch(url, {
+  function handleSubmit() {
+    fetch(url, {
       method: "POST",
-      header: {
+      headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        creatorId: "643e613afbef264b977596d1",
-        podName: "tavukpod4",
-        podFreeWeight: 250,
-      }),
+      body: JSON.stringify(pod),
     }).then((res) => console.log(res));
   }
 

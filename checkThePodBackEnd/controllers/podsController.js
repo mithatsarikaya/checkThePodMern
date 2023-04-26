@@ -29,10 +29,13 @@ const createNewPod = asyncHandler(async (req, res) => {
     productRawAmount,
     usersOfThePod,
   } = req.body;
+  console.log(req.body);
 
   // Confirm data
   if (!creatorId || !podName || !podFreeWeight) {
-    return res.status(400).json({ message: "All fields are required" });
+    return res
+      .status(400)
+      .json({ message: "Pod Name and Pod Tare are required." });
   }
 
   // Check for duplicate podName, if any parameter used with find documents suggest to use exec

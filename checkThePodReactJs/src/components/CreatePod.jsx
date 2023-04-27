@@ -75,7 +75,9 @@ export default function CreatePod() {
         <div className="createPodProp">
           <label htmlFor="">Add User to use together this pod</label>
           <select name="" id="">
-            <option value="user1"></option>
+            <option value="user1">user1</option>
+            <option value="user2">user2</option>
+            <option value="user3">user3</option>
           </select>
         </div>
 

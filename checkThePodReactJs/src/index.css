@@ -133,6 +133,24 @@ font-size: 20px;
     font-size: 30px;
     border-width: medium;
 }
+.createPodProp > select {
+    height: 40px;
+    width: 50%;
+    text-align: center;
+    font-size: 30px;
+    border-width: medium;
+    cursor: pointer;
+}
+
+.createPodProp > select > option {
+    background-color: salmon;
+    height: 40px;
+    width: 50%;
+    text-align: center;
+    font-size: 30px;
+    border-width: medium;
+    cursor: pointer;
+}
 
 .createPod--button{
     background-color:salmon;
@@ -147,3 +165,4 @@ font-size: 20px;
 .createPod--button:hover{
     font-size: 25px;
     }
+

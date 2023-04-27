@@ -13,6 +13,9 @@ export default function Nav() {
         <Link tabIndex={3} to="/createPod">
           <li>Create Pod</li>
         </Link>
+        <Link tabIndex={4} to="/updatePod">
+          <li>Update Pod</li>
+        </Link>
       </ul>
     </nav>
   );

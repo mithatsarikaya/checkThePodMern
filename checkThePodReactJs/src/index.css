@@ -110,7 +110,7 @@ font-size: 20px;
     align-items: center;
     border: 2px solid salmon;
     padding: 20px;
-    height: 60vh;
+    height: auto;
 
 }
 

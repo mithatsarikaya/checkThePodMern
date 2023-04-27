@@ -36,11 +36,18 @@ export default function CreatePod() {
       <div className="createPod">
         <div className="createPodProp">
           <label htmlFor="">Pod Name</label>
-          <input onChange={handleChange} name="podName" type="text" required />
+          <input
+            autoComplete="off"
+            onChange={handleChange}
+            name="podName"
+            type="text"
+            required
+          />
         </div>
         <div className="createPodProp">
           <label htmlFor="">Pod Tare</label>
           <input
+            autoComplete="off"
             onChange={handleChange}
             name="podFreeWeight"
             type="number"
@@ -49,16 +56,29 @@ export default function CreatePod() {
         </div>
         <div className="createPodProp">
           <label htmlFor="">Pod Total</label>
-          <input onChange={handleChange} name="podTotalWeight" type="number" />
+          <input
+            autoComplete="off"
+            onChange={handleChange}
+            name="podTotalWeight"
+            type="number"
+          />
         </div>
         <div className="createPodProp">
           <label htmlFor="">Pod Raw Product</label>
           <input
+            autoComplete="off"
             onChange={handleChange}
             name="productRawAmount"
             type="number"
           />
         </div>
+        <div className="createPodProp">
+          <label htmlFor="">Add User to use together this pod</label>
+          <select name="" id="">
+            <option value="user1"></option>
+          </select>
+        </div>
+
         <button onClick={handleSubmit} className="createPod--button">
           Create
         </button>

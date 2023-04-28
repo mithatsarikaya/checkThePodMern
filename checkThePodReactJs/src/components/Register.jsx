@@ -4,6 +4,7 @@ export default function Register() {
   const url = "http://localhost:3500/";
   const [passwordsMatched, setPasswordsMatched] = useState(false);
   const [isUsernameValid, setIsUsernameValid] = useState(false);
+  const [anyError, setAnyError] = useState("");
 
   const [registerData, setRegisterData] = useState({
     username: "",
@@ -33,12 +34,13 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(url + "users", {
+    const responseWithoutJson = await fetch(url + "users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(registerData),
     });
-    console.log(await response.json());
+    const response = await responseWithoutJson.json();
+    setAnyError(response.message);
   };
 
   return (
@@ -68,6 +70,9 @@ export default function Register() {
           placeholder="password again"
           onChange={checkPasswordMatch}
         />
+        <p style={{ display: !anyError ? "none" : "block", color: "red" }}>
+          {anyError}
+        </p>
         <input
           disabled={!passwordsMatched || !isUsernameValid}
           className="form--button"

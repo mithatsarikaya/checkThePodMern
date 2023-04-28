@@ -33,7 +33,6 @@ export default function CreatePod() {
 
   return (
     <main>
-      heyyooo
       <div className="createPod">
         <div className="createPodProp">
           <label htmlFor="">Pod Name</label>
@@ -82,9 +81,17 @@ export default function CreatePod() {
           </select>
         </div>
 
-        <button onClick={handleSubmit} className="createPod--button">
-          Create
-        </button>
+        <div className="buttons">
+          <button onClick={handleSubmit} className="createPod--button">
+            Take
+          </button>
+          <button onClick={handleSubmit} className="createPod--button">
+            Put
+          </button>
+          <button onClick={handleSubmit} className="createPod--button">
+            Reset
+          </button>
+        </div>
       </div>
     </main>
   );

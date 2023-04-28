@@ -1,8 +1,9 @@
 import { useState } from "react";
 
 export default function Register() {
+  const url = "http://localhost:3500/";
   const [passwordsMatched, setPasswordsMatched] = useState(false);
-  const [isReadySubmit, setIsReadySubmit] = useState(false);
+  const [isUsernameValid, setIsUsernameValid] = useState(false);
 
   const [registerData, setRegisterData] = useState({
     username: "",
@@ -12,6 +13,8 @@ export default function Register() {
   const checkPasswordMatch = (e) => {
     if (e.target.value.length > 4 && e.target.value === registerData.password) {
       setPasswordsMatched(true);
+    } else {
+      setPasswordsMatched(false);
     }
   };
 
@@ -20,13 +23,27 @@ export default function Register() {
       ...prevData,
       [e.target.name]: e.target.value,
     }));
+    if (registerData.username.length > 3) {
+      setIsUsernameValid(true);
+    } else {
+      setIsUsernameValid(false);
+    }
   };
-  console.log(registerData);
-  console.log(passwordsMatched);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch(url + "users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(registerData),
+    });
+    console.log(await response.json());
+  };
 
   return (
     <main>
-      <form action="">
+      <form action="" onSubmit={handleSubmit}>
         <input
           type="text"
           name="username"
@@ -48,11 +65,11 @@ export default function Register() {
           name="passwordConfirm"
           id=""
           required
-          placeholder="confirm the password"
+          placeholder="password again"
           onChange={checkPasswordMatch}
         />
         <input
-          disabled={!passwordsMatched && !isReadySubmit}
+          disabled={!passwordsMatched || !isUsernameValid}
           className="form--button"
           type="submit"
           value="REGISTER"

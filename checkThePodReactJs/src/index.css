@@ -95,9 +95,11 @@ form > input {
     cursor: pointer;
   }
 
-  .form--button:hover{
+.form--button:not([disabled]):hover{
 font-size: 20px;
 }
+
+input[type="submit"]:disabled{background-color:red;}
 
 
 /* CREATE POD */

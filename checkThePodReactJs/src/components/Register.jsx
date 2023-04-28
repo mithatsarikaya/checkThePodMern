@@ -5,6 +5,7 @@ export default function Register() {
   const [passwordsMatched, setPasswordsMatched] = useState(false);
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [anyError, setAnyError] = useState("");
+  const [isCreated, setIsCreated] = useState(false);
 
   const [registerData, setRegisterData] = useState({
     username: "",
@@ -40,7 +41,12 @@ export default function Register() {
       body: JSON.stringify(registerData),
     });
     const response = await responseWithoutJson.json();
-    setAnyError(response.message);
+
+    if (responseWithoutJson.ok) {
+      setIsCreated(true);
+    } else {
+      setAnyError(response.message);
+    }
   };
 
   return (
@@ -70,8 +76,16 @@ export default function Register() {
           placeholder="password again"
           onChange={checkPasswordMatch}
         />
-        <p style={{ display: !anyError ? "none" : "block", color: "red" }}>
+        <p
+          style={{
+            display: !anyError || isCreated ? "none" : "block",
+            color: "red",
+          }}
+        >
           {anyError}
+        </p>
+        <p style={{ display: !isCreated ? "none" : "block", color: "green" }}>
+          {`${registerData.username} created`}
         </p>
         <input
           disabled={!passwordsMatched || !isUsernameValid}

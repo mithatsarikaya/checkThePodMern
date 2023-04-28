@@ -10,12 +10,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    roles: [
-      {
-        type: String,
-        default: "User",
-      },
-    ],
+    // roles: [
+    //   {
+    //     type: String,
+    //     default: "User",
+    //   },
+    // ],
   },
   { timestamps: true }
 );

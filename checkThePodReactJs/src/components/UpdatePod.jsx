@@ -9,6 +9,10 @@ export default function CreatePod() {
     productRawAmount: 0,
   });
 
+  const allUsers = ["user1", "user2", "user3"];
+
+  const [usersOfThePod, setUsersOfThePod] = useState(["user1"]);
+
   const url = "http://localhost:3500/pods";
 
   function postTheData() {}

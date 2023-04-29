@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const url = "http://localhost:3500/";
+  const navigate = useNavigate();
+
   const [passwordsMatched, setPasswordsMatched] = useState(false);
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [anyError, setAnyError] = useState("");
@@ -30,6 +33,8 @@ export default function Register() {
     } else {
       setIsUsernameValid(false);
     }
+
+    setAnyError("");
   };
 
   const handleSubmit = async (e) => {
@@ -42,9 +47,12 @@ export default function Register() {
     });
     const response = await responseWithoutJson.json();
 
+    //if response okey send user to home page after 2 seconds, i should make them automatic login
     if (responseWithoutJson.ok) {
       setIsCreated(true);
+      setInterval(() => navigate("/"), 2000);
     } else {
+      setIsCreated(false);
       setAnyError(response.message);
     }
   };

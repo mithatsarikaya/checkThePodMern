@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SelectOfUsers from "./SelectOfUsers";
 
 export default function CreatePod() {
   const [pod, setPod] = useState({
@@ -9,9 +10,16 @@ export default function CreatePod() {
     productRawAmount: 0,
   });
 
-  const allUsers = ["user1", "user2", "user3"];
+  const user = "nuuklu";
+  const allUsers = ["nuuklu", "hypno", "user1", "user2", "user3"];
 
-  const [usersOfThePod, setUsersOfThePod] = useState(["user1"]);
+  const [usersOfThePod, setUsersOfThePod] = useState(["nuuklu", "user1"]);
+
+  const allUsersExceptUser = [];
+
+  allUsers.map((u) => {
+    if (!usersOfThePod.includes(u)) allUsersExceptUser.push(u);
+  });
 
   const url = "http://localhost:3500/pods";
 
@@ -78,11 +86,12 @@ export default function CreatePod() {
         </div>
         <div className="createPodProp">
           <label htmlFor="">Add User to use together this pod</label>
-          <select name="" id="">
+          <SelectOfUsers users={allUsersExceptUser} />
+          {/* <select name="" id="">
             <option value="user1">user1</option>
             <option value="user2">user2</option>
             <option value="user3">user3</option>
-          </select>
+          </select> */}
         </div>
 
         <div className="buttons">

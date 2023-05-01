@@ -1,10 +1,10 @@
 import OptionUser from "./OptionUser";
 
-export default function SelectOfUsers({ users }) {
+export default function SelectOfUsers({ users, addToPod }) {
   return (
-    <select name="" id="">
+    <select onChange={(e) => addToPod(e.target.value)} name="" id="">
       {users.map((user) => (
-        <OptionUser user={user} />
+        <OptionUser user={user} addToPod={addToPod} />
       ))}
     </select>
   );

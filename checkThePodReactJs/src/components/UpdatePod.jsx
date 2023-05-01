@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SelectOfUsers from "./SelectOfUsers";
+import LabelOfUser from "./LabelOfUser";
 
 //users of the page : owner of the pod and users that add by the owner
 
@@ -33,7 +34,6 @@ export default function CreatePod() {
       [e.target.name]: e.target.value,
     }));
   }
-  console.log(pod);
 
   function handleSubmit() {
     fetch(url, {
@@ -43,6 +43,15 @@ export default function CreatePod() {
       },
       body: JSON.stringify(pod),
     }).then((res) => console.log(res));
+  }
+
+  function removeFromPod(nameOfTheUser) {
+    setUsersOfThePod((prevPod) => prevPod.filter((p) => p !== nameOfTheUser));
+  }
+
+  function addToPod(nameOfTheUser) {
+    console.log(nameOfTheUser);
+    setUsersOfThePod((prevPod) => [...prevPod, nameOfTheUser]);
   }
 
   return (
@@ -87,8 +96,8 @@ export default function CreatePod() {
           />
         </div>
         <div className="createPodProp">
-          <label htmlFor="">Add User to use together this pod</label>
-          <SelectOfUsers users={allUsersExceptUser} />
+          <label htmlFor="">Share your pod with other users</label>
+          <SelectOfUsers users={allUsersExceptUser} addToPod={addToPod} />
           {/* <select name="" id="">
             <option value="user1">user1</option>
             <option value="user2">user2</option>
@@ -96,9 +105,13 @@ export default function CreatePod() {
           </select> */}
         </div>
         <div className="usersOfThePodLabels">
-          <b className="userTag">elma</b>
+          {usersOfThePod.map((u) => (
+            <LabelOfUser user={u} removeFromPod={removeFromPod} />
+          ))}
+
+          {/* <b className="userTag">elma</b>
           <b className="userTag">armut</b>
-          <b className="userTag">kavun</b>
+          <b className="userTag">kavun</b> */}
         </div>
 
         <div className="buttons">

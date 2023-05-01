@@ -1,6 +1,8 @@
 import { useState } from "react";
 import SelectOfUsers from "./SelectOfUsers";
 
+//users of the page : owner of the pod and users that add by the owner
+
 export default function CreatePod() {
   const [pod, setPod] = useState({
     creatorId: "",
@@ -92,6 +94,11 @@ export default function CreatePod() {
             <option value="user2">user2</option>
             <option value="user3">user3</option>
           </select> */}
+        </div>
+        <div className="usersOfThePodLabels">
+          <b className="userTag">elma</b>
+          <b className="userTag">armut</b>
+          <b className="userTag">kavun</b>
         </div>
 
         <div className="buttons">

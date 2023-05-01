@@ -168,6 +168,21 @@ input[type="submit"]:disabled{background-color:red;}
     font-size: 25px;
     }
 
+.usersOfThePodLabels{
+    display: flex;
+    gap: 7px;
+}
+
+.userTag{
+    border: solid 1px red;
+    border-radius: 5px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.userTag:hover{
+    background-color: rgb(249, 119, 119);
+}
 
 .buttons{
     display: flex;
@@ -175,3 +190,4 @@ input[type="submit"]:disabled{background-color:red;}
     gap: 5px;
     
 }
+

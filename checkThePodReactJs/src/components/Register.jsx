@@ -22,7 +22,6 @@ export default function Register() {
       setPasswordsMatched(false);
     }
   };
-
   const handleChange = (e) => {
     setRegisterData((prevData) => ({
       ...prevData,

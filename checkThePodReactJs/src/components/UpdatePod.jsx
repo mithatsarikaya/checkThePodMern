@@ -97,7 +97,11 @@ export default function CreatePod() {
         </div>
         <div className="createPodProp">
           <label htmlFor="">Share your pod with other users</label>
-          <SelectOfUsers users={allUsersExceptUser} addToPod={addToPod} />
+
+          {/* delete if no user left to add the pod. What a pod lol :) */}
+          {allUsersExceptUser.length !== 0 && (
+            <SelectOfUsers users={allUsersExceptUser} addToPod={addToPod} />
+          )}
           {/* <select name="" id="">
             <option value="user1">user1</option>
             <option value="user2">user2</option>

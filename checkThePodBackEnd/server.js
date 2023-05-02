@@ -31,6 +31,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/", require("./routes/root"));
 app.use("/users", require("./routes/userRoutes"));
 app.use("/pods", require("./routes/podRoutes"));
+app.use("/auth", require("./routes/authRoutes"));
 
 //when we put * for request it means that any request : it can be /asdasd or /455/asdsad
 //since express look for response for requests from top to down.

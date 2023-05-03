@@ -31,8 +31,6 @@ export default function Login() {
     setAuth(decoded.UserInfo);
   };
 
-  console.log(auth);
-
   const sendUserToRegisterPage = () => {
     navigate("/register");
   };

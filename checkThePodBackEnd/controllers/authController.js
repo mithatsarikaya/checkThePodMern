@@ -39,7 +39,7 @@ const login = async (req, res) => {
     sameSite: "None", //cross-site cookie
     maxAge: 1 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
   });
-  res.json({ accessToken });
+  res.status(201).json({ accessToken });
 };
 
 module.exports = { login };

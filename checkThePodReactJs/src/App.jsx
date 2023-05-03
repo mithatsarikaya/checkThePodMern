@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import CreatePod from "./components/CreatePod";
 import UpdatePod from "./components/UpdatePod";
+import RequireAuth from "./components/RequireAuth";
 
 export default function App() {
   return (
@@ -15,8 +16,10 @@ export default function App() {
         <Route path="/" element={<Pods />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/createPod" element={<CreatePod />} />
-        <Route path="/updatePod" element={<UpdatePod />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/createPod" element={<CreatePod />} />
+          <Route path="/updatePod" element={<UpdatePod />} />
+        </Route>
       </Routes>
     </section>
   );

@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import jwt_decode from "jwt-decode";
+import useAuth from "../hooks/useAuth";
 
 export default function Login() {
   const navigate = useNavigate();
   const url = "http://localhost:3500/";
+  const { auth, setAuth } = useAuth();
 
   const [loginInfos, setLoginInfos] = useState({ username: "", password: "" });
 
@@ -26,8 +28,10 @@ export default function Login() {
     });
     let token = await response.json();
     var decoded = jwt_decode(token.accessToken);
-    console.log(decoded);
+    setAuth(decoded.UserInfo);
   };
+
+  console.log(auth);
 
   const sendUserToRegisterPage = () => {
     navigate("/register");

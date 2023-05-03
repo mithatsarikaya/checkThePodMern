@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import useAuth from "../hooks/useAuth";
 
 export default function CreatePod() {
+  const { auth, setAuth } = useAuth();
+  console.log(auth);
+
   const [pod, setPod] = useState({
     creatorId: "",
     podName: "",
@@ -11,17 +15,17 @@ export default function CreatePod() {
 
   const url = "http://localhost:3500/pods";
 
-  function postTheData() {}
-
   function handleChange(e) {
     setPod((prevPod) => ({
       ...prevPod,
       [e.target.name]: e.target.value,
     }));
   }
-  console.log(pod);
 
   function handleSubmit() {
+    setPod((prevPod) => ({ ...prevPod, creatorId: auth.id }));
+
+    console.log(pod);
     fetch(url, {
       method: "POST",
       headers: {

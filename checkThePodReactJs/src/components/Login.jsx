@@ -7,6 +7,7 @@ export default function Login() {
   const navigate = useNavigate();
   const url = "http://localhost:3500/";
   const { auth, setAuth } = useAuth();
+  const { err, setErr } = useState("");
 
   const [loginInfos, setLoginInfos] = useState({ username: "", password: "" });
 
@@ -26,6 +27,11 @@ export default function Login() {
       },
       body: JSON.stringify(loginInfos),
     });
+
+    if (!response.ok) {
+      console.log(response);
+    }
+
     let token = await response.json();
     var decoded = jwt_decode(token.accessToken);
     setAuth(decoded.UserInfo);

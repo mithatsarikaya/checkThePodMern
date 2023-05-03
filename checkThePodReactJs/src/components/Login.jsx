@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import jwt_decode from "jwt-decode";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -23,7 +24,9 @@ export default function Login() {
       },
       body: JSON.stringify(loginInfos),
     });
-    console.log(await response.json());
+    let token = await response.json();
+    var decoded = jwt_decode(token.accessToken);
+    console.log(decoded);
   };
 
   const sendUserToRegisterPage = () => {

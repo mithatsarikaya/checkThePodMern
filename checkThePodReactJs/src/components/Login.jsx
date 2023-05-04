@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import useAuth from "../hooks/useAuth";
+import { RiLoaderFill } from "react-icons/ri";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -25,14 +26,17 @@ export default function Login() {
   };
 
   const handleLogin = async (e) => {
+    setAnyError("");
     e.preventDefault();
-    let response = await fetch(`${url}auth`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginInfos),
-    });
+    let response = setTimeout(async () => {
+      await fetch(`${url}auth`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginInfos),
+      });
+    }, 1500);
 
     if (!response.ok) {
       let errMsg = await response.json();
@@ -70,6 +74,13 @@ export default function Login() {
           required
           placeholder="password"
         />
+
+        {anyError ? (
+          <p style={{ color: "red" }}>{anyError}</p>
+        ) : (
+          <RiLoaderFill />
+        )}
+        {/* <RiLoaderFill />
         <p
           style={{
             display: !anyError ? "none" : "block",
@@ -77,7 +88,7 @@ export default function Login() {
           }}
         >
           {anyError}
-        </p>
+        </p> */}
         <input
           // tabIndex={2}
           className="form--button"

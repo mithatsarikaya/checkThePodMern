@@ -10,7 +10,6 @@ import RequireAuth from "./components/RequireAuth";
 export default function App() {
   return (
     <section>
-      <header>Check The Pods</header>
       <Nav />
       <Routes>
         <Route path="/" element={<Pods />} />

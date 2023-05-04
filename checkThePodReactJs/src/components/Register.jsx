@@ -49,7 +49,7 @@ export default function Register() {
     //if response okey send user to home page after 2 seconds, i should make them automatic login
     if (responseWithoutJson.ok) {
       setIsCreated(true);
-      setInterval(() => navigate("/"), 2000);
+      setTimeout(() => navigate("/"), 2000);
     } else {
       setIsCreated(false);
       setAnyError(response.message);

@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 
 export default function CreatePod() {

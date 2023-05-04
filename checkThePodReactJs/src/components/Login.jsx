@@ -47,6 +47,9 @@ export default function Login() {
       var decoded = jwt_decode(responseJson.accessToken);
       setAuth(decoded.UserInfo);
       setSuccess(responseJson.message);
+
+      //if user manages to login then send him to main page
+      setTimeout(() => navigate("/"), 1500);
     }
   };
 

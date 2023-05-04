@@ -9,6 +9,8 @@ export default function Login() {
   const url = "http://localhost:3500/";
   const { auth, setAuth } = useAuth();
   const [anyError, setAnyError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState("");
 
   const [loginInfos, setLoginInfos] = useState({ username: "", password: "" });
 
@@ -26,26 +28,25 @@ export default function Login() {
   };
 
   const handleLogin = async (e) => {
+    setIsLoading(true);
     setAnyError("");
     e.preventDefault();
-    let response = setTimeout(async () => {
-      await fetch(`${url}auth`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginInfos),
-      });
-    }, 1500);
+    let response = await fetch(`${url}auth`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginInfos),
+    });
 
     if (!response.ok) {
       let errMsg = await response.json();
-      console.log();
       setAnyError(errMsg.message);
     } else {
-      let token = await response.json();
-      var decoded = jwt_decode(token.accessToken);
+      let responseJson = await response.json();
+      var decoded = jwt_decode(responseJson.accessToken);
       setAuth(decoded.UserInfo);
+      setSuccess(responseJson.message);
     }
   };
 
@@ -75,11 +76,12 @@ export default function Login() {
           placeholder="password"
         />
 
-        {anyError ? (
+        {anyError || success ? (
           <p style={{ color: "red" }}>{anyError}</p>
-        ) : (
+        ) : isLoading ? (
           <RiLoaderFill />
-        )}
+        ) : null}
+        {success && !anyError && <p style={{ color: "green" }}>{success}</p>}
         {/* <RiLoaderFill />
         <p
           style={{
@@ -93,12 +95,14 @@ export default function Login() {
           // tabIndex={2}
           className="form--button"
           type="submit"
+          disabled={success}
           value="LOGIN"
         />
         <input
           className="form--button"
           onClick={sendUserToRegisterPage}
           type="button"
+          disabled={success}
           value="REGISTER"
         />
       </form>

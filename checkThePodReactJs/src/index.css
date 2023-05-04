@@ -27,11 +27,16 @@ nav > ul {
     display: flex;
     justify-content: space-around;
     padding-bottom: 10px;
+    list-style-type: none
 }
 
 nav > ul > li {
     list-style: none;
     font-weight: 800;
+}
+
+a {
+    text-decoration: none;
 }
 
 main {

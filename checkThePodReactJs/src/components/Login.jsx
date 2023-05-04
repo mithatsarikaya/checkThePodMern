@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import useAuth from "../hooks/useAuth";
 
@@ -7,9 +7,15 @@ export default function Login() {
   const navigate = useNavigate();
   const url = "http://localhost:3500/";
   const { auth, setAuth } = useAuth();
-  const { err, setErr } = useState("");
+  const [anyError, setAnyError] = useState("");
 
   const [loginInfos, setLoginInfos] = useState({ username: "", password: "" });
+
+  const userRef = useRef();
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
 
   const handleChange = (e) => {
     setLoginInfos((prevInfos) => ({
@@ -29,12 +35,14 @@ export default function Login() {
     });
 
     if (!response.ok) {
-      console.log(response);
+      let errMsg = await response.json();
+      console.log();
+      setAnyError(errMsg.message);
+    } else {
+      let token = await response.json();
+      var decoded = jwt_decode(token.accessToken);
+      setAuth(decoded.UserInfo);
     }
-
-    let token = await response.json();
-    var decoded = jwt_decode(token.accessToken);
-    setAuth(decoded.UserInfo);
   };
 
   const sendUserToRegisterPage = () => {
@@ -45,7 +53,7 @@ export default function Login() {
     <main>
       <form action="" onSubmit={handleLogin}>
         <input
-          tabIndex={1}
+          ref={userRef}
           onChange={handleChange}
           type="text"
           name="username"
@@ -54,7 +62,7 @@ export default function Login() {
           placeholder="username"
         />
         <input
-          tabIndex={2}
+          // tabIndex={1}
           onChange={handleChange}
           type="password"
           name="password"
@@ -62,8 +70,16 @@ export default function Login() {
           required
           placeholder="password"
         />
+        <p
+          style={{
+            display: !anyError ? "none" : "block",
+            color: "red",
+          }}
+        >
+          {anyError}
+        </p>
         <input
-          tabIndex={3}
+          // tabIndex={2}
           className="form--button"
           type="submit"
           value="LOGIN"

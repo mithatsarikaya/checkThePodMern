@@ -97,27 +97,15 @@ export default function CreatePod() {
         </div>
         <div className="createPodProp">
           <label htmlFor="">Share your pod with other users</label>
-
-          {/* delete if no user left to add the pod. What a pod lol :) */}
           {allUsersExceptUser.length !== 0 && (
             <SelectOfUsers users={allUsersExceptUser} addToPod={addToPod} />
           )}
-          {/* <select name="" id="">
-            <option value="user1">user1</option>
-            <option value="user2">user2</option>
-            <option value="user3">user3</option>
-          </select> */}
         </div>
         <div className="usersOfThePodLabels">
           {usersOfThePod.map((u) => (
             <LabelOfUser user={u} removeFromPod={removeFromPod} />
           ))}
-
-          {/* <b className="userTag">elma</b>
-          <b className="userTag">armut</b>
-          <b className="userTag">kavun</b> */}
         </div>
-
         <div className="buttons">
           <button onClick={handleSubmit} className="createPod--button">
             Take

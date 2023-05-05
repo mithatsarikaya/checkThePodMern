@@ -5,6 +5,10 @@ export default function Nav() {
   const { auth, setAuth } = useAuth();
 
   const username = auth?.username;
+
+  function handleLogout() {
+    setAuth({});
+  }
   return (
     <>
       <header>Check The Pods</header>
@@ -15,7 +19,7 @@ export default function Nav() {
             <li>HOME</li>
           </Link>
           {username ? (
-            <Link tabIndex={2} to="/login">
+            <Link onClick={handleLogout} tabIndex={2} to="/login">
               <li>LOGOUT</li>
             </Link>
           ) : (

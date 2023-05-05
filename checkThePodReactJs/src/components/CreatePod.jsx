@@ -1,9 +1,13 @@
 import { useState, useContext, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
+import SelectOfUsers from "./SelectOfUsers";
+import LabelOfUser from "./LabelOfUser";
 
 export default function CreatePod() {
   const { auth, setAuth } = useAuth();
-  console.log(auth);
+  const [allUsers, setAllUsers] = useState([]);
+
+  const user = auth.username;
 
   const [pod, setPod] = useState({
     creatorId: "",
@@ -12,6 +16,21 @@ export default function CreatePod() {
     podTotalWeight: 0,
     productRawAmount: 0,
   });
+
+  const allUsersExceptUser = [];
+
+  allUsers.map((u) => {
+    if (!usersOfThePod.includes(u)) allUsersExceptUser.push(u);
+  });
+
+  useEffect(() => {
+    fetch("http://localhost:3500/users")
+      .then((data) => data.json())
+      .then((userJsonData) => setAllUsers(userJsonData))
+      .catch((err) => console.log(err));
+  }, []);
+
+  console.log(allUsers);
 
   const url = "http://localhost:3500/pods";
 
@@ -77,13 +96,24 @@ export default function CreatePod() {
           />
         </div>
         <div className="createPodProp">
+          <label htmlFor="">Share your pod with other users</label>
+          {allUsersExceptUser.length !== 0 && (
+            <SelectOfUsers users={allUsersExceptUser} addToPod={addToPod} />
+          )}
+        </div>
+        <div className="usersOfThePodLabels">
+          {usersOfThePod.map((u) => (
+            <LabelOfUser user={u} removeFromPod={removeFromPod} />
+          ))}
+        </div>
+        {/* <div className="createPodProp">
           <label htmlFor="">Add User to use together this pod</label>
           <select name="" id="">
             <option value="user1">user1</option>
             <option value="user2">user2</option>
             <option value="user3">user3</option>
           </select>
-        </div>
+        </div> */}
 
         <button onClick={handleSubmit} className="createPod--button">
           Create

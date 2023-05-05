@@ -17,10 +17,13 @@ export default function CreatePod() {
     productRawAmount: 0,
   });
 
+  const usersOfThePod = [user];
+
   const allUsersExceptUser = [];
 
   allUsers.map((u) => {
-    if (!usersOfThePod.includes(u)) allUsersExceptUser.push(u);
+    if (!usersOfThePod.includes(u.username))
+      allUsersExceptUser.push(u.username);
   });
 
   useEffect(() => {
@@ -52,6 +55,15 @@ export default function CreatePod() {
       },
       body: JSON.stringify(pod),
     }).then((res) => console.log(res));
+  }
+
+  function removeFromPod(nameOfTheUser) {
+    setUsersOfThePod((prevPod) => prevPod.filter((p) => p !== nameOfTheUser));
+  }
+
+  function addToPod(nameOfTheUser) {
+    console.log(nameOfTheUser);
+    setUsersOfThePod((prevPod) => [...prevPod, nameOfTheUser]);
   }
 
   return (

@@ -59,7 +59,7 @@ export default function Login() {
 
   return (
     <main>
-      <form action="" onSubmit={handleLogin}>
+      <form className="from--login-register" action="" onSubmit={handleLogin}>
         <input
           ref={userRef}
           onChange={handleChange}

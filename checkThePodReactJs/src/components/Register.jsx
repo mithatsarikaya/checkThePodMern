@@ -58,7 +58,7 @@ export default function Register() {
 
   return (
     <main>
-      <form action="" onSubmit={handleSubmit}>
+      <form className="from--login-register" action="" onSubmit={handleSubmit}>
         <input
           type="text"
           name="username"

@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import SelectOfUsers from "./SelectOfUsers";
 import LabelOfUser from "./LabelOfUser";
@@ -17,7 +17,7 @@ export default function CreatePod() {
     productRawAmount: 0,
   });
 
-  const usersOfThePod = [user];
+  const [usersOfThePod, setUsersOfThePod] = useState([user]);
 
   const allUsersExceptUser = [];
 
@@ -32,8 +32,6 @@ export default function CreatePod() {
       .then((userJsonData) => setAllUsers(userJsonData))
       .catch((err) => console.log(err));
   }, []);
-
-  console.log(allUsers);
 
   const url = "http://localhost:3500/pods";
 
@@ -68,57 +66,58 @@ export default function CreatePod() {
 
   return (
     <main>
-      <div className="createPod">
-        <div className="createPodProp">
-          <label htmlFor="">Pod Name</label>
-          <input
-            autoComplete="off"
-            onChange={handleChange}
-            name="podName"
-            type="text"
-            required
-          />
-        </div>
-        <div className="createPodProp">
-          <label htmlFor="">Pod Tare</label>
-          <input
-            autoComplete="off"
-            onChange={handleChange}
-            name="podFreeWeight"
-            type="number"
-            required
-          />
-        </div>
-        <div className="createPodProp">
-          <label htmlFor="">Pod Total</label>
-          <input
-            autoComplete="off"
-            onChange={handleChange}
-            name="podTotalWeight"
-            type="number"
-          />
-        </div>
-        <div className="createPodProp">
-          <label htmlFor="">Pod Raw Product</label>
-          <input
-            autoComplete="off"
-            onChange={handleChange}
-            name="productRawAmount"
-            type="number"
-          />
-        </div>
-        <div className="createPodProp">
-          <label htmlFor="">Share your pod with other users</label>
-          {allUsersExceptUser.length !== 0 && (
-            <SelectOfUsers users={allUsersExceptUser} addToPod={addToPod} />
-          )}
-        </div>
-        <div className="usersOfThePodLabels">
-          {usersOfThePod.map((u) => (
-            <LabelOfUser user={u} removeFromPod={removeFromPod} />
-          ))}
-        </div>
-        {/* <div className="createPodProp">
+      <form className="form--create-update">
+        <div className="createPod">
+          <div className="createPodProp">
+            <label htmlFor="">Pod Name</label>
+            <input
+              autoComplete="off"
+              onChange={handleChange}
+              name="podName"
+              type="text"
+              required
+            />
+          </div>
+          <div className="createPodProp">
+            <label htmlFor="">Pod Tare</label>
+            <input
+              autoComplete="off"
+              onChange={handleChange}
+              name="podFreeWeight"
+              type="number"
+              required
+            />
+          </div>
+          <div className="createPodProp">
+            <label htmlFor="">Pod Total</label>
+            <input
+              autoComplete="off"
+              onChange={handleChange}
+              name="podTotalWeight"
+              type="number"
+            />
+          </div>
+          <div className="createPodProp">
+            <label htmlFor="">Pod Raw Product</label>
+            <input
+              autoComplete="off"
+              onChange={handleChange}
+              name="productRawAmount"
+              type="number"
+            />
+          </div>
+          <div className="createPodProp">
+            <label htmlFor="">Share your pod with other users</label>
+            {allUsersExceptUser.length !== 0 && (
+              <SelectOfUsers users={allUsersExceptUser} addToPod={addToPod} />
+            )}
+          </div>
+          <div className="usersOfThePodLabels">
+            {usersOfThePod.map((u) => (
+              <LabelOfUser user={u} removeFromPod={removeFromPod} />
+            ))}
+          </div>
+          {/* <div className="createPodProp">
           <label htmlFor="">Add User to use together this pod</label>
           <select name="" id="">
             <option value="user1">user1</option>
@@ -127,10 +126,11 @@ export default function CreatePod() {
           </select>
         </div> */}
 
-        <button onClick={handleSubmit} className="createPod--button">
-          Create
-        </button>
-      </div>
+          <button onClick={handleSubmit} className="createPod--button">
+            Create
+          </button>
+        </div>
+      </form>
     </main>
   );
 }

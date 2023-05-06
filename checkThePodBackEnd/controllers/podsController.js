@@ -17,6 +17,11 @@ const getAllPods = asyncHandler(async (req, res) => {
   res.json(pods);
 });
 
+// @desc Get all pods
+// @route GET /pods
+// @access Private
+const getPersonalPods = asyncHandler(async (req, res) => {});
+
 // @desc Create new pod
 // @route POST /pods
 // @access Private
@@ -166,6 +171,7 @@ const deletePod = asyncHandler(async (req, res) => {
 
 module.exports = {
   getAllPods,
+  getPersonalPods,
   createNewPod,
   updatePod,
   deletePod,

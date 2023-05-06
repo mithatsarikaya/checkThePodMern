@@ -9,4 +9,6 @@ router
   .patch(podsController.updatePod)
   .delete(podsController.deletePod);
 
+router.route("/personalPods").get(podsController.getPersonalPods);
+
 module.exports = router;

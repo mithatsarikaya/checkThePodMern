@@ -1,4 +1,4 @@
-export default function Pods() {
+export default function AllPods() {
   return (
     <main>
       <div className="pod">

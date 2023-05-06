@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Pods from "./components/Pods";
+import AllPods from "./components/AllPods";
 import Nav from "./components/Nav";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -12,7 +12,7 @@ export default function App() {
     <section>
       <Nav />
       <Routes>
-        <Route path="/" element={<Pods />} />
+        <Route path="/" element={<AllPods />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route element={<RequireAuth />}>

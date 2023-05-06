@@ -12,7 +12,7 @@ section {
 
 header{
     text-align: center;
-    font-size: 40px;
+    font-size: 30px;
     margin-bottom: 5px;
     color: greenyellow;
     padding: 10px;
@@ -106,10 +106,17 @@ form > input {
   }
 
 .form--button:not([disabled]):hover{
-font-size: 20px;
+    font-size: 20px;
 }
 
+/* disabled input and button */
 input[type="submit"]:disabled{background-color:red;}
+button:disabled{background-color:red;}
+
+
+button:not([disabled]):hover{
+    font-size: 20px;
+}
 
 
 /* CREATE POD */
@@ -174,12 +181,13 @@ input[type="submit"]:disabled{background-color:red;}
     cursor: pointer;   
 }
 
-.createPod--button:hover{
+.createPod--button:not([disabled]):hover{
     font-size: 25px;
-    }
+}
 
 .usersOfThePodLabels{
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto auto;
     gap: 7px;
 }
 
@@ -188,6 +196,7 @@ input[type="submit"]:disabled{background-color:red;}
     border-radius: 5px;
     padding: 2px;
     cursor: pointer;
+    text-align: center;
 }
 
 .userTag:hover{

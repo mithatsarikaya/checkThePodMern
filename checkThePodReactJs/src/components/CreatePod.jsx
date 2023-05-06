@@ -7,6 +7,11 @@ export default function CreatePod() {
   const { auth } = useAuth();
   const [allUsers, setAllUsers] = useState([]);
 
+  const [serverMessage, setServerMessage] = useState({
+    message: "",
+    ok: false,
+  });
+
   const user = auth.username;
 
   //owner is default user of the pod, user cannot remove himself
@@ -61,18 +66,24 @@ export default function CreatePod() {
     e.preventDefault();
     setPod((prevPod) => ({ ...prevPod, creatorId: auth.id }));
 
-    console.log(pod);
     fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(pod),
-    }).then((res) => console.log(res));
+    })
+      .then((res) => {
+        setServerMessage((prevMsg) => ({ ...prevMsg, ok: res.ok }));
+        return res.json();
+      })
+      .then((data) =>
+        setServerMessage((prevMsg) => ({ ...prevMsg, message: data.message }))
+      );
   }
 
-  console.log(usersOfThePod);
-  console.log(pod);
+  console.log(serverMessage);
+
   return (
     <main>
       <form onSubmit={handleSubmit} className="form--create-update">
@@ -126,16 +137,15 @@ export default function CreatePod() {
               <LabelOfUser user={u} removeFromPod={removeFromPod} />
             ))}
           </div>
-          {/* <div className="createPodProp">
-          <label htmlFor="">Add User to use together this pod</label>
-          <select name="" id="">
-            <option value="user1">user1</option>
-            <option value="user2">user2</option>
-            <option value="user3">user3</option>
-          </select>
-        </div> */}
+          {serverMessage && (
+            <p style={{ color: serverMessage.ok ? "green" : "red" }}>
+              {serverMessage.message}
+            </p>
+          )}
 
-          <button className="createPod--button">Create</button>
+          <button disabled={serverMessage.ok} className="createPod--button">
+            Create
+          </button>
         </div>
       </form>
     </main>

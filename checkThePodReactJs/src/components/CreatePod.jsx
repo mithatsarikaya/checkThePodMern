@@ -4,10 +4,21 @@ import SelectOfUsers from "./SelectOfUsers";
 import LabelOfUser from "./LabelOfUser";
 
 export default function CreatePod() {
-  const { auth, setAuth } = useAuth();
+  const { auth } = useAuth();
   const [allUsers, setAllUsers] = useState([]);
 
   const user = auth.username;
+
+  //owner is default user of the pod, user cannot remove himself
+  const [usersOfThePod, setUsersOfThePod] = useState([user]);
+
+  function removeFromPod(nameOfTheUser) {
+    setUsersOfThePod((prevPod) => prevPod.filter((p) => p !== nameOfTheUser));
+  }
+
+  function addToPod(nameOfTheUser) {
+    setUsersOfThePod((prevPod) => [...prevPod, nameOfTheUser]);
+  }
 
   const [pod, setPod] = useState({
     creatorId: "",
@@ -15,9 +26,13 @@ export default function CreatePod() {
     podFreeWeight: 0,
     podTotalWeight: 0,
     productRawAmount: 0,
+    usersOfThePod: usersOfThePod,
   });
 
-  const [usersOfThePod, setUsersOfThePod] = useState([user]);
+  //my very first figuring out of necessity of useEffect, i am quite happy darling
+  useEffect(() => {
+    setPod((prevPod) => ({ ...prevPod, usersOfThePod }));
+  }, [usersOfThePod]);
 
   const allUsersExceptUser = [];
 
@@ -42,7 +57,8 @@ export default function CreatePod() {
     }));
   }
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     setPod((prevPod) => ({ ...prevPod, creatorId: auth.id }));
 
     console.log(pod);
@@ -55,18 +71,11 @@ export default function CreatePod() {
     }).then((res) => console.log(res));
   }
 
-  function removeFromPod(nameOfTheUser) {
-    setUsersOfThePod((prevPod) => prevPod.filter((p) => p !== nameOfTheUser));
-  }
-
-  function addToPod(nameOfTheUser) {
-    console.log(nameOfTheUser);
-    setUsersOfThePod((prevPod) => [...prevPod, nameOfTheUser]);
-  }
-
+  console.log(usersOfThePod);
+  console.log(pod);
   return (
     <main>
-      <form className="form--create-update">
+      <form onSubmit={handleSubmit} className="form--create-update">
         <div className="createPod">
           <div className="createPodProp">
             <label htmlFor="">Pod Name</label>
@@ -126,9 +135,7 @@ export default function CreatePod() {
           </select>
         </div> */}
 
-          <button onClick={handleSubmit} className="createPod--button">
-            Create
-          </button>
+          <button className="createPod--button">Create</button>
         </div>
       </form>
     </main>

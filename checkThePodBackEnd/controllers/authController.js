@@ -14,13 +14,14 @@ const login = async (req, res) => {
 
   const foundUser = await User.findOne({ username }).exec();
   if (!foundUser) {
-    return res.status(401).json({ message: "No username registered" });
+    return res.status(401).json({ message: "Wrong username or password" });
   }
 
   const match = await bcrypt.compare(password, foundUser.password);
 
   //there is a username but password is wrong
-  if (!match) return res.status(401).json({ message: "Wrong password" });
+  if (!match)
+    return res.status(401).json({ message: "Wrong username or password" });
 
   const accessToken = jwt.sign(
     {
@@ -39,7 +40,9 @@ const login = async (req, res) => {
     sameSite: "None", //cross-site cookie
     maxAge: 1 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
   });
-  res.status(201).json({ accessToken });
+  res
+    .status(201)
+    .json({ accessToken, message: "username and password are valid" });
 };
 
 module.exports = { login };

@@ -45,6 +45,23 @@ const createNewPod = asyncHandler(async (req, res) => {
     return res.status(409).json({ message: "Duplicate podName" });
   }
 
+  //user send users username i need to save them with theirId
+
+  if (usersOfThePod.length > 5) {
+    return res
+      .status(400)
+      .json({ message: "You can not share your pod with more than 4 people" });
+  }
+
+  //convert list of usernames to list of their id's
+  const idOfTheUsersOfThePod = [];
+
+  for (let i = 0; i < usersOfThePod.length; i++) {
+    const username = usersOfThePod[i];
+    let foundUserFromCreatedPod = await User.findOne({ username });
+    idOfTheUsersOfThePod.push(foundUserFromCreatedPod._id);
+  }
+
   const podObject = {
     creatorId,
     podName,
@@ -52,7 +69,7 @@ const createNewPod = asyncHandler(async (req, res) => {
     podTotalWeight: podTotalWeight ? podTotalWeight : 0,
     productRawAmount: productRawAmount ? productRawAmount : 0,
     //if req has no usersofthepad data then it is only creator, if it has then creeator+ data
-    usersOfThePod: !usersOfThePod ? [creatorId] : [creatorId, ...usersOfThePod],
+    usersOfThePod: !usersOfThePod ? [creatorId] : idOfTheUsersOfThePod,
   };
 
   // Create and store new pod
@@ -60,6 +77,7 @@ const createNewPod = asyncHandler(async (req, res) => {
 
   if (pod) {
     //created
+    console.log(pod + "created");
     res.status(201).json({ message: `New pod ${podName} created` });
   } else {
     res.status(400).json({ message: "Invalid pod data received" });

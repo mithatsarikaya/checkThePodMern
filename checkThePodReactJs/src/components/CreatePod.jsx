@@ -62,6 +62,8 @@ export default function CreatePod() {
     }));
   }
 
+  //findimg
+
   function handleSubmit(e) {
     e.preventDefault();
     setPod((prevPod) => ({ ...prevPod, creatorId: auth.id }));

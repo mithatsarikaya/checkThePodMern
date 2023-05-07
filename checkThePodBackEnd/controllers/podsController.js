@@ -5,6 +5,7 @@ const asyncHandler = require("express-async-handler");
 // @route GET /pods
 // @access Private
 //asyncHandler will take care what 'try catch' can
+//adding
 const getAllPods = asyncHandler(async (req, res) => {
   // Get all pods from MongoDB. if no methods will be used then use lean()
   const pods = await Pod.find().select("podName").lean();

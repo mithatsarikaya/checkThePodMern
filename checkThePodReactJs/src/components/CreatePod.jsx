@@ -46,6 +46,7 @@ export default function CreatePod() {
       allUsersExceptUser.push(u.username);
   });
 
+  //get users to be able to share the pod with them
   useEffect(() => {
     fetch("http://localhost:3500/users")
       .then((data) => data.json())
@@ -72,6 +73,7 @@ export default function CreatePod() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        token: auth.token,
       },
       body: JSON.stringify(pod),
     })
@@ -83,8 +85,6 @@ export default function CreatePod() {
         setServerMessage((prevMsg) => ({ ...prevMsg, message: data.message }))
       );
   }
-
-  console.log(serverMessage);
 
   return (
     <main>

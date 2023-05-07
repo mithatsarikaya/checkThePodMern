@@ -37,7 +37,7 @@ const createNewPod = asyncHandler(async (req, res) => {
     productRawAmount,
     usersOfThePod,
   } = req.body;
-  console.log(req.body);
+  console.log(req.headers);
 
   // Confirm data
   if (!creatorId || !podName || !podFreeWeight) {

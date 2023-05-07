@@ -44,14 +44,17 @@ export default function Login() {
       setAnyError(errMsg.message);
     } else {
       let responseJson = await response.json();
-      var decoded = jwt_decode(responseJson.accessToken);
-      setAuth(decoded.UserInfo);
+      let token = responseJson.accessToken;
+      var decoded = jwt_decode(token);
+      setAuth({ ...decoded.UserInfo, token });
       setSuccess(responseJson.message);
 
       //if user manages to login then send him to main page
       setTimeout(() => navigate("/"), 1500);
     }
   };
+
+  console.log(auth);
 
   const sendUserToRegisterPage = () => {
     navigate("/register");

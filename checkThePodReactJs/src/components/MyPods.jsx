@@ -8,7 +8,7 @@ export default function MyPods() {
   const url = "http://localhost:3500/";
 
   useEffect(() => {
-    fetch(`${url}personalPods`, {
+    fetch(`${url}pods/personalPods`, {
       method: "GET",
       header: { "Content-Type": "application/json" },
       body: auth._id,

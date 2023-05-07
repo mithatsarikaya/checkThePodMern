@@ -18,9 +18,11 @@ const getAllPods = asyncHandler(async (req, res) => {
 });
 
 // @desc Get all pods
-// @route GET /pods
+// @route GET /pods/personalPods
 // @access Private
-const getPersonalPods = asyncHandler(async (req, res) => {});
+const getPersonalPods = asyncHandler(async (req, res) => {
+  console.log(req.cookies);
+});
 
 // @desc Create new pod
 // @route POST /pods

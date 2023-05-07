@@ -19,9 +19,14 @@ export default function Nav() {
             <li>HOME</li>
           </Link>
           {username ? (
-            <Link onClick={handleLogout} tabIndex={2} to="/login">
-              <li>LOGOUT</li>
-            </Link>
+            <>
+              <Link onClick={handleLogout} tabIndex={2} to="/login">
+                <li>LOGOUT</li>
+              </Link>
+              <Link to="/myPods">
+                <li>My PODS</li>
+              </Link>
+            </>
           ) : (
             <Link tabIndex={2} to="/login">
               <li>LOGIN</li>

@@ -3,7 +3,7 @@ const Pod = require("../models/Pods");
 const asyncHandler = require("express-async-handler");
 // @desc Get all pods
 // @route GET /pods
-// @access Private
+// @access public
 //asyncHandler will take care what 'try catch' can
 //adding
 const getAllPods = asyncHandler(async (req, res) => {
@@ -22,8 +22,11 @@ const getAllPods = asyncHandler(async (req, res) => {
 // @route GET /pods/personalPods
 // @access Private
 const getPersonalPods = asyncHandler(async (req, res) => {
-  console.log(req.cookies);
-  const pods = await Pod.find().lean();
+  let userId = req.headers.id;
+  console.log(userId);
+  const pods = await Pod.find({ usersOfThePod: userId }).lean();
+  console.log({ pods });
+  console.log(pods.length);
   res.json(pods);
 });
 

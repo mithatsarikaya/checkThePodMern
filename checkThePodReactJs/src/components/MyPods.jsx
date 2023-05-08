@@ -5,17 +5,15 @@ import useAuth from "../hooks/useAuth";
 export default function MyPods() {
   const [podsOfTheUser, setPodsOfTheUser] = useState([]);
   const { auth } = useAuth();
+  const userId = auth.id;
   const url = "http://localhost:3500/";
-
   useEffect(() => {
     fetch(`${url}pods/personalPods`, {
       method: "GET",
-      header: { "Content-Type": "application/json" },
-      body: auth._id,
+      headers: { "Content-Type": "application/json", id: userId },
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setPodsOfTheUser(data);
       });
   }, []);

@@ -26,7 +26,7 @@ export default function CreatePod() {
   }
 
   const [pod, setPod] = useState({
-    creatorId: "",
+    creatorId: auth.id,
     podName: "",
     podFreeWeight: 0,
     podTotalWeight: 0,
@@ -67,7 +67,6 @@ export default function CreatePod() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setPod((prevPod) => ({ ...prevPod, creatorId: auth.id }));
 
     fetch(url, {
       method: "POST",

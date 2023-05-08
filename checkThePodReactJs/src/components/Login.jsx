@@ -11,6 +11,7 @@ export default function Login() {
   const [anyError, setAnyError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState("");
+  const [areInputsValid, setAreInputsValid] = useState(false);
 
   const [loginInfos, setLoginInfos] = useState({ username: "", password: "" });
 
@@ -20,6 +21,17 @@ export default function Login() {
     userRef.current.focus();
   }, []);
 
+  useEffect(() => {
+    let username = loginInfos.username;
+    let password = loginInfos.password;
+
+    if (username.length > 3 && password.length > 3) {
+      setAreInputsValid(true);
+    } else {
+      setAreInputsValid(false);
+    }
+  }, [loginInfos.username, loginInfos.password]);
+
   const handleChange = (e) => {
     setLoginInfos((prevInfos) => ({
       ...prevInfos,
@@ -28,9 +40,9 @@ export default function Login() {
   };
 
   const handleLogin = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     setAnyError("");
-    e.preventDefault();
     let response = await fetch(`${url}auth`, {
       method: "POST",
       headers: {
@@ -73,7 +85,6 @@ export default function Login() {
           placeholder="username"
         />
         <input
-          // tabIndex={1}
           onChange={handleChange}
           type="password"
           name="password"
@@ -98,10 +109,9 @@ export default function Login() {
           {anyError}
         </p> */}
         <input
-          // tabIndex={2}
           className="form--button"
           type="submit"
-          disabled={success}
+          disabled={success || !areInputsValid}
           value="LOGIN"
         />
         <input

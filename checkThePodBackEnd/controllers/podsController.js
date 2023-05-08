@@ -23,6 +23,8 @@ const getAllPods = asyncHandler(async (req, res) => {
 // @access Private
 const getPersonalPods = asyncHandler(async (req, res) => {
   console.log(req.cookies);
+  const pods = await Pod.find().lean();
+  res.json(pods);
 });
 
 // @desc Create new pod
@@ -37,7 +39,7 @@ const createNewPod = asyncHandler(async (req, res) => {
     productRawAmount,
     usersOfThePod,
   } = req.body;
-  console.log(req.headers);
+  console.log(req.body);
 
   // Confirm data
   if (!creatorId || !podName || !podFreeWeight) {

@@ -12,7 +12,12 @@ export default function MyPods() {
       method: "GET",
       header: { "Content-Type": "application/json" },
       body: auth._id,
-    }).then();
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setPodsOfTheUser(data);
+      });
   }, []);
 
   return (

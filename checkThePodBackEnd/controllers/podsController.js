@@ -27,7 +27,7 @@ const getPersonalPods = asyncHandler(async (req, res) => {
   const pods = await Pod.find({ usersOfThePod: userId }).lean();
   console.log({ pods });
   console.log(pods.length);
-  res.json(pods);
+  return res.json(pods);
 });
 
 // @desc Create new pod

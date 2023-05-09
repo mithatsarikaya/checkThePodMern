@@ -18,8 +18,21 @@ export default function MyPods() {
       });
   }, []);
 
+  const podsElements = podsOfTheUser.map((p) => (
+    <Pod
+      creator={p._id}
+      podName={p.podName}
+      usersOfThePod={p.usersOfThePod}
+      podFreeWeight={p.podFreeWeight}
+      podTotalWeight={p.podTotalWeight}
+      productRawAmount={p.productRawAmount}
+    />
+  ));
+
   return (
     <main>
+      {podsElements}
+
       {/* <div className="pod">
         <div className="podName">
           <label htmlFor="">Pod Name</label>

@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import AuthContext from "../context/AuthProvider";
 
 export default function Pod({
+  podId,
   creator,
   usersOfThePod,
   podName,
@@ -8,6 +10,14 @@ export default function Pod({
   podTotalWeight,
   productRawAmount,
 }) {
+  const { auth } = useContext(AuthContext);
+
+  let isOwner = auth.id === creator;
+
+  const handleDeletePod = (id) => {
+    console.log(id);
+  };
+
   return (
     <div className="pod">
       <div className="podName">
@@ -25,6 +35,19 @@ export default function Pod({
       <div className="podRaw">
         <label htmlFor="">Raw Product</label>
         <h3 className="podName--raw">{productRawAmount}</h3>
+      </div>
+      <div className="buttons">
+        <button className="createPod--button">Take</button>
+        <button className="createPod--button">Put</button>
+        <button className="createPod--button">Reset</button>
+        {isOwner && (
+          <button
+            onClick={() => handleDeletePod(podId)}
+            className="createPod--button"
+          >
+            Delete
+          </button>
+        )}
       </div>
     </div>
   );

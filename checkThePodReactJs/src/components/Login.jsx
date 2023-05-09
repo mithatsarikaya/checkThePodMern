@@ -66,8 +66,6 @@ export default function Login() {
     }
   };
 
-  console.log(auth);
-
   const sendUserToRegisterPage = () => {
     navigate("/register");
   };

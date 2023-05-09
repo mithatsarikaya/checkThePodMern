@@ -205,7 +205,7 @@ button:not([disabled]):hover{
 
 .buttons{
     display: flex;
-    width: 80%;
+    width: 100%;
     gap: 5px;
     
 }

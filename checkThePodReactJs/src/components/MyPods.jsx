@@ -20,7 +20,8 @@ export default function MyPods() {
 
   const podsElements = podsOfTheUser.map((p) => (
     <Pod
-      creator={p._id}
+      podId={p._id}
+      creator={p.creatorId}
       podName={p.podName}
       usersOfThePod={p.usersOfThePod}
       podFreeWeight={p.podFreeWeight}

@@ -1,22 +1,31 @@
 import { useEffect, useState } from "react";
 import Pod from "./Pod";
 import useAuth from "../hooks/useAuth";
+import useUserFetch from "../hooks/useUserFetch";
+// import { fetchFromUser } from "../requestMethods";
 
 export default function MyPods() {
   const [podsOfTheUser, setPodsOfTheUser] = useState([]);
   const { auth } = useAuth();
   const userId = auth.id;
   const url = "http://localhost:3500/";
+
   useEffect(() => {
-    fetch(`${url}pods/personalPods`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json", id: userId },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setPodsOfTheUser(data);
-      });
+    let data = useUserFetch({ method: "GET" }, { url: "pods/personalPods" });
+    setPodsOfTheUser(data);
+    // console.log(podsOfTheUser);
   }, []);
+  /////**********works like a charm
+  // useEffect(() => {
+  //   fetch(`${url}pods/personalPods`, {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json", id: userId },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setPodsOfTheUser(data);
+  //     });
+  // }, []);
 
   const podsElements = podsOfTheUser.map((p) => (
     <Pod

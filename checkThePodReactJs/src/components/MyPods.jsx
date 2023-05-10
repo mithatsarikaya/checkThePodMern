@@ -3,18 +3,30 @@ import Pod from "./Pod";
 import useAuth from "../hooks/useAuth";
 import useUserFetch from "../hooks/useUserFetch";
 // import { fetchFromUser } from "../requestMethods";
+import fetchFromUser from "../funcs/fetchFromUser";
 
 export default function MyPods() {
   const [podsOfTheUser, setPodsOfTheUser] = useState([]);
-  const { auth } = useAuth();
-  const userId = auth.id;
-  const url = "http://localhost:3500/";
+  // let data = useUserFetch("GET", "pods/personalPods");
+  // console.log(data);
 
-  useUserFetch({ reqMethod: "GET", reqUrl: "pods/personalPods" });
+  useEffect(() => {
+    let data = useUserFetch("GET", "pods/personalPods");
+    console.log(data);
+  }, []);
+
+  // const { auth } = useAuth();
+
+  // const jsonData = useUserFetch({
+  //   reqMethod: "GET",
+  //   reqUrl: "pods/personalPods",
+  // });
 
   // useEffect(() => {
-  //   let data = useUserFetch("GET", "pods/personalPods");
-  // }, []);
+  //   setPodsOfTheUser(jsonData);
+  // }, [jsonData]);
+
+  // console.log(podsOfTheUser);
 
   /////**********works like a charm
   // useEffect(() => {
@@ -42,7 +54,7 @@ export default function MyPods() {
 
   return (
     <main>
-      <div>myPods</div>
+      <div>pods</div>
       {/* {podsElements} */}
 
       {/* <div className="pod">

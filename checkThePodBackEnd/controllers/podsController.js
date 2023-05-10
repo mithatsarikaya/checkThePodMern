@@ -22,11 +22,10 @@ const getAllPods = asyncHandler(async (req, res) => {
 // @route GET /pods/personalPods
 // @access Private
 const getPersonalPods = asyncHandler(async (req, res) => {
+  //getting from verifyJwt middleware
   const userId = req.userId;
   const pods = await Pod.find({ usersOfThePod: userId }).lean();
-  console.log({ pods });
-  console.log(pods.length);
-  return res.json(pods);
+  return res.status(201).json(pods);
 });
 
 // @desc Create new pod

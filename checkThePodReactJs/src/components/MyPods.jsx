@@ -10,11 +10,12 @@ export default function MyPods() {
   const userId = auth.id;
   const url = "http://localhost:3500/";
 
-  useEffect(() => {
-    let data = useUserFetch({ method: "GET" }, { url: "pods/personalPods" });
-    setPodsOfTheUser(data);
-    // console.log(podsOfTheUser);
-  }, []);
+  useUserFetch({ reqMethod: "GET", reqUrl: "pods/personalPods" });
+
+  // useEffect(() => {
+  //   let data = useUserFetch("GET", "pods/personalPods");
+  // }, []);
+
   /////**********works like a charm
   // useEffect(() => {
   //   fetch(`${url}pods/personalPods`, {
@@ -27,21 +28,22 @@ export default function MyPods() {
   //     });
   // }, []);
 
-  const podsElements = podsOfTheUser.map((p) => (
-    <Pod
-      podId={p._id}
-      creator={p.creatorId}
-      podName={p.podName}
-      usersOfThePod={p.usersOfThePod}
-      podFreeWeight={p.podFreeWeight}
-      podTotalWeight={p.podTotalWeight}
-      productRawAmount={p.productRawAmount}
-    />
-  ));
+  // const podsElements = podsOfTheUser.map((p) => (
+  //   <Pod
+  //     podId={p._id}
+  //     creator={p.creatorId}
+  //     podName={p.podName}
+  //     usersOfThePod={p.usersOfThePod}
+  //     podFreeWeight={p.podFreeWeight}
+  //     podTotalWeight={p.podTotalWeight}
+  //     productRawAmount={p.productRawAmount}
+  //   />
+  // ));
 
   return (
     <main>
-      {podsElements}
+      <div>myPods</div>
+      {/* {podsElements} */}
 
       {/* <div className="pod">
         <div className="podName">

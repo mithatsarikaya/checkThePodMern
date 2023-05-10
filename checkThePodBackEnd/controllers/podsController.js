@@ -22,7 +22,8 @@ const getAllPods = asyncHandler(async (req, res) => {
 // @route GET /pods/personalPods
 // @access Private
 const getPersonalPods = asyncHandler(async (req, res) => {
-  let userId = req.headers.id;
+  console.log(req);
+  let userId = req.headers.token;
   console.log(userId);
   const pods = await Pod.find({ usersOfThePod: userId }).lean();
   console.log({ pods });

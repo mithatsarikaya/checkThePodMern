@@ -1,13 +1,11 @@
 import useAuth from "./useAuth";
 
-export default function useUserFetch(reqMethod, reqUrl) {
+export default function useFetch() {
   const { auth } = useAuth();
   const BASE_URL = "http://localhost:3500/";
   const TOKEN = auth.token;
 
   const fetchFromUser = async (method, url) => {
-    console.log(method);
-    console.log(url);
     let responseFromServer = await fetch(`${BASE_URL}${url}`, {
       method: `${method}`,
       headers: {
@@ -21,5 +19,5 @@ export default function useUserFetch(reqMethod, reqUrl) {
     return responseFromServerJson;
   };
 
-  return fetchFromUser(reqMethod, reqUrl);
+  return { fetchFromUser };
 }

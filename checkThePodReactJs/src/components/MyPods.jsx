@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 import Pod from "./Pod";
-import useAuth from "../hooks/useAuth";
-import useUserFetch from "../hooks/useUserFetch";
+import useFetch from "../hooks/useUserFetch";
 // import { fetchFromUser } from "../requestMethods";
-import fetchFromUser from "../funcs/fetchFromUser";
 
 export default function MyPods() {
   const [podsOfTheUser, setPodsOfTheUser] = useState([]);
+  const { fetchFromUser } = useFetch();
   // let data = useUserFetch("GET", "pods/personalPods");
   // console.log(data);
 
   useEffect(() => {
-    let data = useUserFetch("GET", "pods/personalPods");
-    console.log(data);
+    fetchFromUser("GET", "pods/personalPods").then((data) =>
+      setPodsOfTheUser(data)
+    );
   }, []);
+
+  console.log(podsOfTheUser);
 
   // const { auth } = useAuth();
 
@@ -40,22 +42,23 @@ export default function MyPods() {
   //     });
   // }, []);
 
-  // const podsElements = podsOfTheUser.map((p) => (
-  //   <Pod
-  //     podId={p._id}
-  //     creator={p.creatorId}
-  //     podName={p.podName}
-  //     usersOfThePod={p.usersOfThePod}
-  //     podFreeWeight={p.podFreeWeight}
-  //     podTotalWeight={p.podTotalWeight}
-  //     productRawAmount={p.productRawAmount}
-  //   />
-  // ));
+  const podsElements = podsOfTheUser.map((p) => (
+    <Pod
+      key={p._id}
+      podId={p._id}
+      creator={p.creatorId}
+      podName={p.podName}
+      usersOfThePod={p.usersOfThePod}
+      podFreeWeight={p.podFreeWeight}
+      podTotalWeight={p.podTotalWeight}
+      productRawAmount={p.productRawAmount}
+    />
+  ));
 
   return (
     <main>
-      <div>pods</div>
-      {/* {podsElements} */}
+      {/* <div>pods</div> */}
+      {podsElements}
 
       {/* <div className="pod">
         <div className="podName">

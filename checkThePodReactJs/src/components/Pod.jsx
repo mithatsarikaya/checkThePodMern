@@ -14,10 +14,6 @@ export default function Pod({
 
   let isOwner = auth.id === creator;
 
-  const handleDeletePod = (id) => {
-    console.log(id);
-  };
-
   return (
     <div className="pod">
       <div className="podName">

@@ -6,14 +6,24 @@ import useFetch from "../hooks/useUserFetch";
 export default function MyPods() {
   const [podsOfTheUser, setPodsOfTheUser] = useState([]);
   const { fetchFromUser } = useFetch();
+
+  const personalPodsUrl = "pods/personalPods";
+  const deletePodUrl = "pods";
+
   // let data = useUserFetch("GET", "pods/personalPods");
   // console.log(data);
 
   useEffect(() => {
-    fetchFromUser("GET", "pods/personalPods").then((data) =>
+    fetchFromUser("GET", personalPodsUrl).then((data) =>
       setPodsOfTheUser(data)
     );
   }, []);
+
+  const handleDeletePod = (id) => {
+    fetchFromUser("DELETE", deletePodUrl, { id }).then((res) =>
+      console.log(res)
+    );
+  };
 
   console.log(podsOfTheUser);
 
@@ -52,6 +62,7 @@ export default function MyPods() {
       podFreeWeight={p.podFreeWeight}
       podTotalWeight={p.podTotalWeight}
       productRawAmount={p.productRawAmount}
+      handleDeletePod={handleDeletePod}
     />
   ));
 

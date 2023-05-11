@@ -42,12 +42,18 @@ const createNewPod = asyncHandler(async (req, res) => {
   } = req.body;
   console.log(req.body);
 
-  // Confirm data
+  let userId = req.userId;
+
   if (!creatorId || !podName || !podFreeWeight) {
+    // Confirm data
     return res
       .status(400)
       .json({ message: "Pod Name and Pod Tare are required." });
   }
+  if (creatorId !== userId)
+    return res
+      .status(400)
+      .json({ message: "Pod Name and Pod Tare are required." });
 
   // Check for duplicate podName, if any parameter used with find documents suggest to use exec
   const duplicate = await Pod.findOne({ podName }).lean().exec();
@@ -58,7 +64,7 @@ const createNewPod = asyncHandler(async (req, res) => {
 
   //user send users username i need to save them with theirId
 
-  if (usersOfThePod.length > 5) {
+  if (usersOfThePod.length > 4) {
     return res
       .status(400)
       .json({ message: "You can not share your pod with more than 4 people" });
@@ -154,6 +160,7 @@ const updatePod = asyncHandler(async (req, res) => {
 // @route DELETE /pods
 // @access Private
 const deletePod = asyncHandler(async (req, res) => {
+  console.log(req.body);
   const { id } = req.body;
 
   // Confirm data

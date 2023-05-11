@@ -20,9 +20,13 @@ export default function MyPods() {
   }, []);
 
   const handleDeletePod = (id) => {
-    fetchFromUser("DELETE", deletePodUrl, { id }).then((res) =>
-      console.log(res)
-    );
+    fetchFromUser("DELETE", deletePodUrl, { id }).then((res) => {
+      console.log(res);
+      if (res.ok) {
+        console.log("it deleted");
+        setPodsOfTheUser((prevPod) => prevPod.filter((p) => p._id !== id));
+      }
+    });
   };
 
   console.log(podsOfTheUser);

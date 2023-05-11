@@ -4,7 +4,7 @@ const User = require("../models/Users");
 const verifyJwt = (req, res, next) => {
   const token = req.headers.token.split(" ")[1];
   if (!token)
-    return res.status(401).res.json({ message: "You are not authorized" });
+    return res.status(401).json({ message: "You are not authorized mdw" });
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decodedToken) => {
     if (err) {

@@ -12,7 +12,7 @@ export default function useFetch() {
         "Content-Type": "application/json",
         token: `Bearer ${TOKEN}`,
       },
-      body,
+      body: JSON.stringify(body),
     });
 
     let responseFromServerJson = await responseFromServer.json();

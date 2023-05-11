@@ -9,6 +9,7 @@ export default function Pod({
   podFreeWeight,
   podTotalWeight,
   productRawAmount,
+  handleDeletePod,
 }) {
   const { auth } = useContext(AuthContext);
 

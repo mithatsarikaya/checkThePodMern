@@ -6,9 +6,9 @@ const { verifyJwt } = require("../middleware/verifyJwt");
 router
   .route("/")
   .get(verifyJwt, podsController.getAllPods)
-  .post(podsController.createNewPod)
+  .post(verifyJwt, podsController.createNewPod)
   .patch(podsController.updatePod)
-  .delete(podsController.deletePod);
+  .delete(verifyJwt, podsController.deletePod);
 
 router.route("/personalPods").get(verifyJwt, podsController.getPersonalPods);
 

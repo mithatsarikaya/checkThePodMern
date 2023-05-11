@@ -1,6 +1,7 @@
 const User = require("../models/Users");
 const Pod = require("../models/Pods");
 const asyncHandler = require("express-async-handler");
+
 // @desc Get all pods
 // @route GET /pods
 // @access public
@@ -50,10 +51,9 @@ const createNewPod = asyncHandler(async (req, res) => {
       .status(400)
       .json({ message: "Pod Name and Pod Tare are required." });
   }
-  if (creatorId !== userId)
-    return res
-      .status(400)
-      .json({ message: "Pod Name and Pod Tare are required." });
+  if (creatorId !== userId) {
+    return res.status(400).json({ message: "creatorid and userid not equal" });
+  }
 
   // Check for duplicate podName, if any parameter used with find documents suggest to use exec
   const duplicate = await Pod.findOne({ podName }).lean().exec();
@@ -160,8 +160,9 @@ const updatePod = asyncHandler(async (req, res) => {
 // @route DELETE /pods
 // @access Private
 const deletePod = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const { id } = req.body;
+
+  const userId = req.userId;
 
   // Confirm data
   if (!id) {
@@ -174,6 +175,16 @@ const deletePod = asyncHandler(async (req, res) => {
   if (!pod) {
     return res.status(400).json({ message: "Pod not found" });
   }
+
+  if (userId !== pod.creatorId.toString()) {
+    console.log(userId);
+    console.log(pod.creatorId);
+    return res.status(401).json({
+      message: "You can not delete this pod. It does not belong to you",
+    });
+  }
+
+  console.log(pod);
 
   const result = await pod.deleteOne();
 

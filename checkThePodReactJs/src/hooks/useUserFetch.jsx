@@ -15,9 +15,10 @@ export default function useFetch() {
       body: JSON.stringify(body),
     });
 
-    let responseFromServerJson = await responseFromServer.json();
+    //need detailed response. so commented this line
+    // let responseFromServerJson = await responseFromServer.json();
 
-    return responseFromServerJson;
+    return responseFromServer;
   };
 
   return { fetchFromUser };

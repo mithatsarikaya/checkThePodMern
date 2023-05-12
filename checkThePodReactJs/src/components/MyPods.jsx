@@ -14,9 +14,9 @@ export default function MyPods() {
   // console.log(data);
 
   useEffect(() => {
-    fetchFromUser("GET", personalPodsUrl).then((data) =>
-      setPodsOfTheUser(data)
-    );
+    fetchFromUser("GET", personalPodsUrl)
+      .then((data) => data.json())
+      .then((jsonData) => setPodsOfTheUser(jsonData));
   }, []);
 
   const handleDeletePod = (id) => {

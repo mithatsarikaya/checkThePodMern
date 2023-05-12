@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
+import { RiLoaderFill } from "react-icons/ri";
 import useAuth from "../hooks/useAuth";
+import useFetch from "../hooks/useUserFetch";
 import SelectOfUsers from "./SelectOfUsers";
 import LabelOfUser from "./LabelOfUser";
 
 export default function CreatePod() {
   const { auth } = useAuth();
+  const { fetchFromUser } = useFetch();
   const [allUsers, setAllUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [serverMessage, setServerMessage] = useState({
     message: "",
@@ -67,23 +71,39 @@ export default function CreatePod() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        token: auth.token,
-      },
-      body: JSON.stringify(pod),
-    })
+    setIsLoading(true);
+    fetchFromUser("POST", "pods", pod)
       .then((res) => {
+        console.log(res);
         setServerMessage((prevMsg) => ({ ...prevMsg, ok: res.ok }));
         return res.json();
       })
-      .then((data) =>
-        setServerMessage((prevMsg) => ({ ...prevMsg, message: data.message }))
-      );
+      .then((data) => {
+        setIsLoading(false);
+        setServerMessage((prevMsg) => ({ ...prevMsg, message: data.message }));
+      });
   }
+
+  //working
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+
+  //   fetch(url, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       token: auth.token,
+  //     },
+  //     body: JSON.stringify(pod),
+  //   })
+  //     .then((res) => {
+  //       setServerMessage((prevMsg) => ({ ...prevMsg, ok: res.ok }));
+  //       return res.json();
+  //     })
+  //     .then((data) =>
+  //       setServerMessage((prevMsg) => ({ ...prevMsg, message: data.message }))
+  //     );
+  // }
 
   return (
     <main>
@@ -138,6 +158,7 @@ export default function CreatePod() {
               <LabelOfUser user={u} removeFromPod={removeFromPod} />
             ))}
           </div>
+          {isLoading && <RiLoaderFill />}
           {serverMessage && (
             <p style={{ color: serverMessage.ok ? "green" : "red" }}>
               {serverMessage.message}

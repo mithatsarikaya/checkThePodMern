@@ -3,7 +3,7 @@ import AuthContext from "../context/AuthProvider";
 
 export default function Pod({
   podId,
-  creator,
+  creatorId,
   usersOfThePod,
   podName,
   podFreeWeight,
@@ -12,8 +12,18 @@ export default function Pod({
   handleDeletePod,
 }) {
   const { auth } = useContext(AuthContext);
+  let isOwner = auth.id === creatorId;
+  let creatorName = usersOfThePod.filter((u) => u._id === creatorId)[0]
+    .username;
+  console.log({ creatorName });
 
-  let isOwner = auth.id === creator;
+  let usersOfThePodExceptCreatorNames = usersOfThePod
+    .filter((u) => {
+      if (u._id !== creatorId) {
+        return u.username;
+      }
+    })
+    .map((i) => i.username);
 
   return (
     <div className="pod">
@@ -33,10 +43,14 @@ export default function Pod({
         <label htmlFor="">Raw Product</label>
         <h3 className="podName--raw">{productRawAmount}</h3>
       </div>
+      <div className="creatorNameOfThePod">
+        <label htmlFor="">Creator</label>
+        <h3 className="podName--raw">{creatorName}</h3>
+      </div>
       <div className="usersOfThePod">
         <label htmlFor="">Shared with</label>
-        {usersOfThePod.map((u) => (
-          <h3 className="podName--raw">{u.username}</h3>
+        {usersOfThePodExceptCreatorNames.map((u) => (
+          <h3 className="podName--raw">{u}</h3>
         ))}
       </div>
 

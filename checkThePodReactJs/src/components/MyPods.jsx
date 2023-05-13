@@ -60,7 +60,7 @@ export default function MyPods() {
     <Pod
       key={p._id}
       podId={p._id}
-      creator={p.creatorId}
+      creatorId={p.creatorId}
       podName={p.podName}
       usersOfThePod={p.usersOfThePod}
       podFreeWeight={p.podFreeWeight}

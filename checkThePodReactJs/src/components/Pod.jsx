@@ -33,6 +33,13 @@ export default function Pod({
         <label htmlFor="">Raw Product</label>
         <h3 className="podName--raw">{productRawAmount}</h3>
       </div>
+      <div className="usersOfThePod">
+        <label htmlFor="">Shared with</label>
+        {usersOfThePod.map((u) => (
+          <h3 className="podName--raw">{u.username}</h3>
+        ))}
+      </div>
+
       <div className="buttons">
         <button className="createPod--button">Take</button>
         <button className="createPod--button">Put</button>

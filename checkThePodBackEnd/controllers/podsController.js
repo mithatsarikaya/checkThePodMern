@@ -25,7 +25,11 @@ const getAllPods = asyncHandler(async (req, res) => {
 const getPersonalPods = asyncHandler(async (req, res) => {
   //getting from verifyJwt middleware
   const userId = req.userId;
-  const pods = await Pod.find({ usersOfThePod: userId }).lean();
+  const pods = await Pod.find({ usersOfThePod: userId })
+    .populate("usersOfThePod", "username")
+    .lean();
+
+  // return console.log(pods[0].usersOfThePod);
   return res.status(201).json(pods);
 });
 

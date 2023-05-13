@@ -21,5 +21,17 @@ export default function useFetch() {
     return responseFromServer;
   };
 
-  return { fetchFromUser };
+  const fetchPublic = async (method, url, body) => {
+    let responseFromServer = await fetch(`${BASE_URL}${url}`, {
+      method: `${method}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    return responseFromServer;
+  };
+
+  return { fetchFromUser, fetchPublic };
 }

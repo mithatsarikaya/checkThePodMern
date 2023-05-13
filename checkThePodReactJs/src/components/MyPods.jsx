@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Pod from "./Pod";
-import useFetch from "../hooks/useUserFetch";
+import useFetch from "../hooks/useFetch";
 // import { fetchFromUser } from "../requestMethods";
 
 export default function MyPods() {

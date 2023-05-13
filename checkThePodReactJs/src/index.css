@@ -180,6 +180,9 @@ button:not([disabled]):hover{
     height: 40px;
     cursor: pointer;   
 }
+.createPod--button.delete{
+    color: rgb(255, 0, 0);
+}
 
 .createPod--button:not([disabled]):hover{
     font-size: 25px;

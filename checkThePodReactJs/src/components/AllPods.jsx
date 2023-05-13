@@ -1,4 +1,16 @@
+import PodHome from "./PodHome";
+import { useEffect } from "react";
+import useFetch from "../hooks/useFetch";
+
 export default function AllPods() {
+  const { fetchPublic } = useFetch();
+
+  useEffect(() => {
+    fetchPublic("GET", "pods")
+      .then((res) => res.json())
+      .then((jsonData) => console.log(jsonData));
+  }, []);
+
   return (
     <main>
       <div className="pod">

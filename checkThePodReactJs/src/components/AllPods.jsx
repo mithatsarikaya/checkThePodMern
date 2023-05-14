@@ -1,6 +1,6 @@
-import PodHome from "./PodHome";
 import { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
+import PodHome from "./PodHome";
 
 export default function AllPods() {
   const [pods, setPods] = useState([]);
@@ -12,25 +12,15 @@ export default function AllPods() {
       .then((jsonData) => setPods(jsonData));
   }, []);
 
+  console.log(pods);
   const podElements = pods.map((pod) => (
-    <div className="pod">
-      <div className="podName">
-        <label htmlFor="">Pod Name</label>
-        <h3 className="podName--title">{pod.podName}</h3>
-      </div>
-      <div className="podTare">
-        <label htmlFor="">Pod Tare</label>
-        <h3 className="podName--tare">{pod.podFreeWeight}</h3>
-      </div>
-      <div className="podTotal">
-        <label htmlFor="">Pod Total</label>
-        <h3 className="podName--total">{pod.podTotalWeight}</h3>
-      </div>
-      <div className="podRaw">
-        <label htmlFor="">Raw Product</label>
-        <h3 className="podName--raw">{pod.productRawAmount}</h3>
-      </div>
-    </div>
+    <PodHome
+      creatorUsername={pod.creatorId.username}
+      podName={pod.podName}
+      podFreeWeight={pod.podFreeWeight}
+      podTotalWeight={pod.podTotalWeight}
+      productRawAmount={pod.productRawAmount}
+    />
   ));
 
   return (

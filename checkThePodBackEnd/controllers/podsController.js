@@ -9,7 +9,10 @@ const asyncHandler = require("express-async-handler");
 //adding
 const getAllPods = asyncHandler(async (req, res) => {
   // Get all pods from MongoDB. if no methods will be used then use lean()
-  const pods = await Pod.find().lean();
+  const pods = await Pod.find()
+    .populate("creatorId", "username")
+    .sort({ updatedAt: -1 })
+    .lean();
 
   // If no pods
   if (!pods?.length) {
@@ -27,6 +30,7 @@ const getPersonalPods = asyncHandler(async (req, res) => {
   const userId = req.userId;
   const pods = await Pod.find({ usersOfThePod: userId })
     .populate("usersOfThePod", "username")
+    .sort({ updatedAt: -1 })
     .lean();
 
   // return console.log(pods[0].usersOfThePod);

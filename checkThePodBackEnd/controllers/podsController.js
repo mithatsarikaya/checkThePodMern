@@ -9,7 +9,7 @@ const asyncHandler = require("express-async-handler");
 //adding
 const getAllPods = asyncHandler(async (req, res) => {
   // Get all pods from MongoDB. if no methods will be used then use lean()
-  const pods = await Pod.find().select("podName").lean();
+  const pods = await Pod.find().lean();
 
   // If no pods
   if (!pods?.length) {

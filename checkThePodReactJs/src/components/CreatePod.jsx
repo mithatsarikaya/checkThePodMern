@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { RiLoaderFill } from "react-icons/ri";
 import useAuth from "../hooks/useAuth";
-import useFetch from "../hooks/useUserFetch";
+import useFetch from "../hooks/useFetch";
 import SelectOfUsers from "./SelectOfUsers";
 import LabelOfUser from "./LabelOfUser";
 

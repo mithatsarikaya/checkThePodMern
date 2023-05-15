@@ -22,22 +22,23 @@ const getAllPods = asyncHandler(async (req, res) => {
   res.json(pods);
 });
 // @desc Get all pods
-// @route GET /pods/getThePod
+// @route GET /pods/getThePod/:podId
 // @access private
 const getThePod = asyncHandler(async (req, res) => {
   // Get all pods from MongoDB. if no methods will be used then use lean()
-  return console.log(req.body);
-  const pods = await Pod.find()
-    .populate("creatorId", "username")
-    .sort({ updatedAt: -1 })
+  let podId = req.params.podId;
+  const pod = await Pod.findById(podId)
+    .populate("usersOfThePod", "username")
     .lean();
 
-  // If no pods
-  if (!pods?.length) {
-    return res.status(400).json({ message: "No pods found" });
+  return console.log(pod);
+
+  // If no pod
+  if (!pod?.length) {
+    return res.status(400).json({ message: "No pod found" });
   }
 
-  res.json(pods);
+  res.json(pod);
 });
 
 // @desc Get all pods

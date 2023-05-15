@@ -12,9 +12,9 @@ export default function AllPods() {
       .then((jsonData) => setPods(jsonData));
   }, []);
 
-  console.log(pods);
   const podElements = pods.map((pod) => (
     <PodHome
+      key={pod._id}
       creatorUsername={pod.creatorId.username}
       podName={pod.podName}
       podFreeWeight={pod.podFreeWeight}

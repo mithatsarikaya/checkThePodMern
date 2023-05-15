@@ -11,6 +11,6 @@ router
   .delete(verifyJwt, podsController.deletePod);
 
 router.route("/personalPods").get(verifyJwt, podsController.getPersonalPods);
-router.route("/getThePod").get(verifyJwt, podsController.getThePod);
+router.route("/getThePod/:podId").get(verifyJwt, podsController.getThePod);
 
 module.exports = router;

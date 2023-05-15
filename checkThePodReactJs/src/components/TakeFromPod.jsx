@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectOfUsers from "./SelectOfUsers";
 import LabelOfUser from "./LabelOfUser";
 import { useParams } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
 
 //users of the page : owner of the pod and users that add by the owner
 
 export default function TakeFromPod() {
+  const { fetchFromUser } = useFetch();
   const [pod, setPod] = useState({
     creatorId: "",
     podName: "",
@@ -15,6 +17,16 @@ export default function TakeFromPod() {
   });
 
   const { podId } = useParams();
+
+  let urlToGetPod = `pods/getThePod/${podId}`;
+
+  useEffect(() => {
+    fetchFromUser("GET", urlToGetPod)
+      .then((res) => res.json())
+      .then((jsonData) => setPod(jsonData));
+  }, []);
+
+  console.log(pod);
 
   const user = "nuuklu";
   const allUsers = ["nuuklu", "hypno", "user1", "user2", "user3"];

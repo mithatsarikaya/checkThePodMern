@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { RiLoaderFill } from "react-icons/ri";
 import useAuth from "../hooks/useAuth";
 import useFetch from "../hooks/useFetch";
+import ShareUnshareWithUser from "./ShareUnshareWithUser";
 import SelectOfUsers from "./SelectOfUsers";
 import LabelOfUser from "./LabelOfUser";
 
@@ -21,13 +22,13 @@ export default function CreatePod() {
   //owner is default user of the pod, user cannot remove himself
   const [usersOfThePod, setUsersOfThePod] = useState([user]);
 
-  function removeFromPod(nameOfTheUser) {
-    setUsersOfThePod((prevPod) => prevPod.filter((p) => p !== nameOfTheUser));
-  }
+  // function removeFromPod(nameOfTheUser) {
+  //   setUsersOfThePod((prevPod) => prevPod.filter((p) => p !== nameOfTheUser));
+  // }
 
-  function addToPod(nameOfTheUser) {
-    setUsersOfThePod((prevPod) => [...prevPod, nameOfTheUser]);
-  }
+  // function addToPod(nameOfTheUser) {
+  //   setUsersOfThePod((prevPod) => [...prevPod, nameOfTheUser]);
+  // }
 
   const [pod, setPod] = useState({
     creatorId: auth.id,
@@ -125,7 +126,12 @@ export default function CreatePod() {
               type="number"
             />
           </div>
-          <div className="createPodProp">
+          <ShareUnshareWithUser
+            allUsersExceptUser={allUsersExceptUser}
+            usersOfThePod={usersOfThePod}
+            setUsersOfThePod={setUsersOfThePod}
+          />
+          {/* <div className="createPodProp">
             <label htmlFor="">Share your pod with other users</label>
             {allUsersExceptUser.length !== 0 && (
               <SelectOfUsers users={allUsersExceptUser} addToPod={addToPod} />
@@ -135,7 +141,7 @@ export default function CreatePod() {
             {usersOfThePod.map((u) => (
               <LabelOfUser user={u} removeFromPod={removeFromPod} />
             ))}
-          </div>
+          </div> */}
           {isLoading && <RiLoaderFill />}
           {serverMessage && (
             <p style={{ color: serverMessage.ok ? "green" : "red" }}>

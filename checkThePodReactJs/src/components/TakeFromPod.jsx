@@ -23,7 +23,9 @@ export default function TakeFromPod() {
   useEffect(() => {
     fetchFromUser("GET", urlToGetPod)
       .then((res) => res.json())
-      .then((jsonData) => setPod(jsonData));
+      .then((jsonData) => {
+        console.log(jsonData);
+      });
   }, []);
 
   console.log(pod);
@@ -82,6 +84,7 @@ export default function TakeFromPod() {
               name="podName"
               type="text"
               required
+              readOnly
             />
           </div>
           <div className="createPodProp">
@@ -92,6 +95,7 @@ export default function TakeFromPod() {
               name="podFreeWeight"
               type="number"
               required
+              readOnly
             />
           </div>
           <div className="createPodProp">

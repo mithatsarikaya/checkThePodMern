@@ -1,4 +1,5 @@
 import { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 
 export default function Pod({
@@ -12,11 +13,11 @@ export default function Pod({
   handleDeletePod,
 }) {
   const { auth } = useContext(AuthContext);
+  const navigate = useNavigate();
   let onlineUser = auth.username;
   let isOwner = auth.id === creatorId;
   let creatorName = usersOfThePod.filter((u) => u._id === creatorId)[0]
     .username;
-  console.log({ creatorName });
 
   let usersOfThePodExceptCreatorNames = usersOfThePod
     .filter((u) => {
@@ -27,6 +28,12 @@ export default function Pod({
     .map((i) =>
       i.username === onlineUser ? `${i.username}(you)` : i.username
     );
+
+  let TakeFromPodLink = `/myPods/take/${podId}`;
+
+  function navigateToTakePage() {
+    navigate(TakeFromPodLink);
+  }
 
   return (
     <div className="pod">
@@ -54,13 +61,19 @@ export default function Pod({
       </div>
       <div className="usersOfThePod">
         <label htmlFor="">Shared with</label>
-        {usersOfThePodExceptCreatorNames.map((u) => (
-          <h3 className="podName--raw">{u}</h3>
-        ))}
+
+        {/* if user shares with noone then */}
+        {usersOfThePodExceptCreatorNames.length === 0
+          ? "-"
+          : usersOfThePodExceptCreatorNames.map((u) => (
+              <h3 className="podName--raw">{u}</h3>
+            ))}
       </div>
 
       <div className="buttons">
-        <button className="createPod--button">Take</button>
+        <button onClick={navigateToTakePage} className="createPod--button">
+          Take
+        </button>
         <button className="createPod--button">Put</button>
         <button className="createPod--button">Reset</button>
         {isOwner && (

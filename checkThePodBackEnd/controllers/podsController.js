@@ -21,6 +21,24 @@ const getAllPods = asyncHandler(async (req, res) => {
 
   res.json(pods);
 });
+// @desc Get all pods
+// @route GET /pods/getThePod
+// @access private
+const getThePod = asyncHandler(async (req, res) => {
+  // Get all pods from MongoDB. if no methods will be used then use lean()
+  return console.log(req.body);
+  const pods = await Pod.find()
+    .populate("creatorId", "username")
+    .sort({ updatedAt: -1 })
+    .lean();
+
+  // If no pods
+  if (!pods?.length) {
+    return res.status(400).json({ message: "No pods found" });
+  }
+
+  res.json(pods);
+});
 
 // @desc Get all pods
 // @route GET /pods/personalPods
@@ -124,6 +142,8 @@ const updatePod = asyncHandler(async (req, res) => {
     usersOfThePod,
   } = req.body;
 
+  console.log(req.body);
+
   // Confirm data
   if (
     !podName ||
@@ -203,6 +223,7 @@ const deletePod = asyncHandler(async (req, res) => {
 
 module.exports = {
   getAllPods,
+  getThePod,
   getPersonalPods,
   createNewPod,
   updatePod,

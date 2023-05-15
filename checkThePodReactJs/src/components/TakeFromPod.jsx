@@ -1,10 +1,11 @@
 import { useState } from "react";
 import SelectOfUsers from "./SelectOfUsers";
 import LabelOfUser from "./LabelOfUser";
+import { useParams } from "react-router-dom";
 
 //users of the page : owner of the pod and users that add by the owner
 
-export default function UpdatePod() {
+export default function TakeFromPod() {
   const [pod, setPod] = useState({
     creatorId: "",
     podName: "",
@@ -12,6 +13,8 @@ export default function UpdatePod() {
     podTotalWeight: 0,
     productRawAmount: 0,
   });
+
+  const { podId } = useParams();
 
   const user = "nuuklu";
   const allUsers = ["nuuklu", "hypno", "user1", "user2", "user3"];
@@ -56,6 +59,7 @@ export default function UpdatePod() {
 
   return (
     <main>
+      {podId}
       <form className="form--create-update" action="">
         <div className="createPod">
           <div className="createPodProp">

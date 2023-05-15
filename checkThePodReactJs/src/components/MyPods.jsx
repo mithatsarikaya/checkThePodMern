@@ -29,33 +29,6 @@ export default function MyPods() {
     });
   };
 
-  console.log(podsOfTheUser);
-
-  // const { auth } = useAuth();
-
-  // const jsonData = useUserFetch({
-  //   reqMethod: "GET",
-  //   reqUrl: "pods/personalPods",
-  // });
-
-  // useEffect(() => {
-  //   setPodsOfTheUser(jsonData);
-  // }, [jsonData]);
-
-  // console.log(podsOfTheUser);
-
-  /////**********works like a charm
-  // useEffect(() => {
-  //   fetch(`${url}pods/personalPods`, {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json", id: userId },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setPodsOfTheUser(data);
-  //     });
-  // }, []);
-
   const podsElements = podsOfTheUser.map((p) => (
     <Pod
       key={p._id}

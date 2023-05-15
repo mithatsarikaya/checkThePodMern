@@ -7,6 +7,8 @@ import CreatePod from "./components/CreatePod";
 import UpdatePod from "./components/UpdatePod";
 import MyPods from "./components/MyPods";
 import RequireAuth from "./components/RequireAuth";
+import TakeFromPod from "./components/TakeFromPod";
+import PutToPod from "./components/PutToPod";
 
 export default function App() {
   return (
@@ -20,6 +22,8 @@ export default function App() {
           <Route path="/createPod" element={<CreatePod />} />
           <Route path="/updatePod" element={<UpdatePod />} />
           <Route path="/myPods" element={<MyPods />} />
+          <Route path="/myPods/take/:podId" element={<TakeFromPod />} />
+          <Route path="/myPods/put/:podId" element={<PutToPod />} />
         </Route>
       </Routes>
     </section>

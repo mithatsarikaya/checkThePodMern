@@ -1,5 +1,4 @@
-import { useEffect, useContext } from "react";
-import AuthContext from "../context/AuthProvider";
+import useAuth from "../hooks/useAuth";
 
 export default function PodHome({
   podId,
@@ -12,6 +11,10 @@ export default function PodHome({
   creatorUsername,
   handleDeletePod,
 }) {
+  const { auth } = useAuth();
+
+  let onlineUsername = auth?.username;
+
   return (
     <div className="pod">
       <div className="podName">
@@ -20,7 +23,11 @@ export default function PodHome({
       </div>
       <div className="podName">
         <label htmlFor="">Pod Creator</label>
-        <h3 className="podName--title">{creatorUsername}</h3>
+        <h3 className="podName--title">
+          {creatorUsername === onlineUsername
+            ? `${creatorUsername}(you)`
+            : creatorUsername}
+        </h3>
       </div>
       <div className="podTare">
         <label htmlFor="">Pod Tare</label>

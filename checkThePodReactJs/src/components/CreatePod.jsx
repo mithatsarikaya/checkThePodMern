@@ -83,27 +83,6 @@ export default function CreatePod() {
       });
   }
 
-  //working
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-
-  //   fetch(url, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       token: auth.token,
-  //     },
-  //     body: JSON.stringify(pod),
-  //   })
-  //     .then((res) => {
-  //       setServerMessage((prevMsg) => ({ ...prevMsg, ok: res.ok }));
-  //       return res.json();
-  //     })
-  //     .then((data) =>
-  //       setServerMessage((prevMsg) => ({ ...prevMsg, message: data.message }))
-  //     );
-  // }
-
   return (
     <main>
       <form onSubmit={handleSubmit} className="form--create-update">

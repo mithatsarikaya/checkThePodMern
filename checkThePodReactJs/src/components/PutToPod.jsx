@@ -4,7 +4,7 @@ import LabelOfUser from "./LabelOfUser";
 
 //users of the page : owner of the pod and users that add by the owner
 
-export default function UpdatePod() {
+export default function PutThePod() {
   const [pod, setPod] = useState({
     creatorId: "",
     podName: "",

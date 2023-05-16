@@ -5,10 +5,13 @@ const bcrypt = require("bcrypt");
 // @desc Get all users
 // @route GET /users
 // @access Private
+// @protected by verifyJWT
 //asyncHandler will take care what 'try catch' can
 const getAllUsers = asyncHandler(async (req, res) => {
   // Get all users from MongoDB. if no methods will be used then use lean()
+
   const users = await User.find().select("-_id -password").lean();
+  // const users = await User.find().select("-password").lean();
 
   // If no users
   if (!users?.length) {

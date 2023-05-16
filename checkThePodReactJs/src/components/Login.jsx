@@ -1,19 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import jwt_decode from "jwt-decode";
-import useAuth from "../hooks/useAuth";
 import { RiLoaderFill } from "react-icons/ri";
+import useAuth from "../hooks/useAuth";
+import useData from "../hooks/useData";
 
 export default function Login() {
   const navigate = useNavigate();
-  const url = "http://localhost:3500/";
-  const { auth, setAuth } = useAuth();
+  const { setAuth } = useAuth();
+  const { setAllUsernames } = useData();
   const [anyError, setAnyError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [areInputsValid, setAreInputsValid] = useState(false);
 
   const [loginInfos, setLoginInfos] = useState({ username: "", password: "" });
+  const url = "http://localhost:3500/";
 
   const userRef = useRef();
 
@@ -65,6 +67,12 @@ export default function Login() {
       setTimeout(() => navigate("/"), 1500);
     }
   };
+
+  // useEffect(()=>{
+  //   if(success){
+
+  //   }
+  // }, [success])
 
   const sendUserToRegisterPage = () => {
     navigate("/register");

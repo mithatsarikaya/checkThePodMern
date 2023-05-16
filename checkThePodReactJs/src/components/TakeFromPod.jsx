@@ -19,13 +19,22 @@ export default function TakeFromPod() {
   const { podId } = useParams();
 
   let urlToGetPod = `pods/getThePod/${podId}`;
+  let urlToGetUsers = `users`;
 
+  //get the pod infos to take from it
   useEffect(() => {
     fetchFromUser("GET", urlToGetPod)
       .then((res) => res.json())
       .then((jsonData) => {
-        console.log(jsonData);
+        // console.log(jsonData);
       });
+  }, []);
+
+  //get users to add or remove from the pod
+  useEffect(() => {
+    fetchFromUser("GET", urlToGetUsers)
+      .then((res) => res.json())
+      .then((jsonData) => console.log(jsonData));
   }, []);
 
   console.log(pod);
@@ -131,9 +140,9 @@ export default function TakeFromPod() {
             <button onClick={handleSubmit} className="createPod--button">
               Take
             </button>
-            <button onClick={handleSubmit} className="createPod--button">
+            {/* <button onClick={handleSubmit} className="createPod--button">
               Put
-            </button>
+            </button> */}
             <button onClick={handleSubmit} className="createPod--button">
               Reset
             </button>

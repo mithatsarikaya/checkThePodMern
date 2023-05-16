@@ -8,7 +8,7 @@ const verifyJwt = (req, res, next) => {
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decodedToken) => {
     if (err) {
-      return res.status(401).res.json({
+      return res.status(401).json({
         message:
           "There is a problem about your token, talk to nuuklu about it or maybe i should automate this shit lol",
       });

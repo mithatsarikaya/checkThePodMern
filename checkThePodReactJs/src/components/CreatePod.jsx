@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { RiLoaderFill } from "react-icons/ri";
 import useAuth from "../hooks/useAuth";
 import useFetch from "../hooks/useFetch";
+import useData from "../hooks/useData";
 import ShareUnshareWithUser from "./ShareUnshareWithUser";
 import SelectOfUsers from "./SelectOfUsers";
 import LabelOfUser from "./LabelOfUser";
@@ -9,9 +10,21 @@ import LabelOfUser from "./LabelOfUser";
 export default function CreatePod() {
   const { auth } = useAuth();
   const { fetchFromUser } = useFetch();
+  const { allUsernames } = useData();
   const [allUsers, setAllUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [allUsersExceptUser, setAllUsersExceptUser] = useState([]);
 
+  useEffect(() => {
+    setAllUsers(allUsernames);
+    setAllUsersExceptUser(allUsers.filter((a) => a !== auth.username));
+
+    // allUsers.map((u) => {
+    //   if (!usersOfThePod.includes(u)) allUsersExceptUser.push(u);
+    // });
+  }, []);
+
+  console.log({ allUsersExceptUser });
   const [serverMessage, setServerMessage] = useState({
     message: "",
     ok: false,
@@ -44,20 +57,13 @@ export default function CreatePod() {
     setPod((prevPod) => ({ ...prevPod, usersOfThePod }));
   }, [usersOfThePod]);
 
-  const allUsersExceptUser = [];
-
-  allUsers.map((u) => {
-    if (!usersOfThePod.includes(u.username))
-      allUsersExceptUser.push(u.username);
-  });
-
   //get users to be able to share the pod with them
-  useEffect(() => {
-    fetch("http://localhost:3500/users")
-      .then((data) => data.json())
-      .then((userJsonData) => setAllUsers(userJsonData))
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:3500/users")
+  //     .then((data) => data.json())
+  //     .then((userJsonData) => setAllUsers(userJsonData))
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   const url = "http://localhost:3500/pods";
 

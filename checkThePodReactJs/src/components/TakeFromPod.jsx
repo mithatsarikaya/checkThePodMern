@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import SelectOfUsers from "./SelectOfUsers";
-import LabelOfUser from "./LabelOfUser";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
+import useData from "../hooks/useData";
+import ShareUnshareWithUser from "./ShareUnshareWithUser";
 
 //users of the page : owner of the pod and users that add by the owner
 
@@ -10,6 +10,7 @@ export default function TakeFromPod() {
   const { fetchFromUser } = useFetch();
   const [pod, setPod] = useState({
     creatorId: "",
+    usersOfThePod: [],
     podName: "",
     podFreeWeight: 0,
     podTotalWeight: 0,
@@ -125,17 +126,12 @@ export default function TakeFromPod() {
               type="number"
             />
           </div>
-          <div className="createPodProp">
-            <label htmlFor="">Share your pod with other users</label>
-            {allUsersExceptUser.length !== 0 && (
-              <SelectOfUsers users={allUsersExceptUser} addToPod={addToPod} />
-            )}
-          </div>
-          <div className="usersOfThePodLabels">
-            {usersOfThePod.map((u) => (
-              <LabelOfUser user={u} removeFromPod={removeFromPod} />
-            ))}
-          </div>
+          <ShareUnshareWithUser
+            allUsersExceptUser={allUsersExceptUser}
+            setAllUsersExceptUser={setAllUsersExceptUser}
+            usersOfThePod={usersOfThePod}
+            setUsersOfThePod={setUsersOfThePod}
+          />
           <div className="buttons">
             <button onClick={handleSubmit} className="createPod--button">
               Take

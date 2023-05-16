@@ -3,15 +3,26 @@ import LabelOfUser from "./LabelOfUser";
 
 export default function ShareUnshareWithUser({
   allUsersExceptUser,
+  setAllUsersExceptUser,
   usersOfThePod,
   setUsersOfThePod,
 }) {
   function removeFromPod(nameOfTheUser) {
-    setUsersOfThePod((prevPod) => prevPod.filter((p) => p !== nameOfTheUser));
+    if (!nameOfTheUser.includes("you")) {
+      setUsersOfThePod((prevList) =>
+        prevList.filter((p) => p !== nameOfTheUser)
+      );
+      setAllUsersExceptUser((prevList) => [...prevList, nameOfTheUser]);
+    }
   }
 
   function addToPod(nameOfTheUser) {
-    setUsersOfThePod((prevPod) => [...prevPod, nameOfTheUser]);
+    if (!nameOfTheUser.includes("you")) {
+      setUsersOfThePod((prevList) => [...prevList, nameOfTheUser]);
+      setAllUsersExceptUser((prevList) =>
+        prevList.filter((p) => p !== nameOfTheUser)
+      );
+    }
   }
 
   return (

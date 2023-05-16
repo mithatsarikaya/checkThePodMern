@@ -4,27 +4,18 @@ import useAuth from "../hooks/useAuth";
 import useFetch from "../hooks/useFetch";
 import useData from "../hooks/useData";
 import ShareUnshareWithUser from "./ShareUnshareWithUser";
-import SelectOfUsers from "./SelectOfUsers";
-import LabelOfUser from "./LabelOfUser";
 
 export default function CreatePod() {
   const { auth } = useAuth();
   const { fetchFromUser } = useFetch();
   const { allUsernames } = useData();
-  const [allUsers, setAllUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [allUsersExceptUser, setAllUsersExceptUser] = useState([]);
 
   useEffect(() => {
-    setAllUsers(allUsernames);
-    setAllUsersExceptUser(allUsers.filter((a) => a !== auth.username));
-
-    // allUsers.map((u) => {
-    //   if (!usersOfThePod.includes(u)) allUsersExceptUser.push(u);
-    // });
+    setAllUsersExceptUser(allUsernames.filter((a) => a !== auth.username));
   }, []);
 
-  console.log({ allUsersExceptUser });
   const [serverMessage, setServerMessage] = useState({
     message: "",
     ok: false,
@@ -34,14 +25,6 @@ export default function CreatePod() {
 
   //owner is default user of the pod, user cannot remove himself
   const [usersOfThePod, setUsersOfThePod] = useState([user]);
-
-  // function removeFromPod(nameOfTheUser) {
-  //   setUsersOfThePod((prevPod) => prevPod.filter((p) => p !== nameOfTheUser));
-  // }
-
-  // function addToPod(nameOfTheUser) {
-  //   setUsersOfThePod((prevPod) => [...prevPod, nameOfTheUser]);
-  // }
 
   const [pod, setPod] = useState({
     creatorId: auth.id,
@@ -56,16 +39,6 @@ export default function CreatePod() {
   useEffect(() => {
     setPod((prevPod) => ({ ...prevPod, usersOfThePod }));
   }, [usersOfThePod]);
-
-  //get users to be able to share the pod with them
-  // useEffect(() => {
-  //   fetch("http://localhost:3500/users")
-  //     .then((data) => data.json())
-  //     .then((userJsonData) => setAllUsers(userJsonData))
-  //     .catch((err) => console.log(err));
-  // }, []);
-
-  const url = "http://localhost:3500/pods";
 
   function handleChange(e) {
     setPod((prevPod) => ({
@@ -134,20 +107,11 @@ export default function CreatePod() {
           </div>
           <ShareUnshareWithUser
             allUsersExceptUser={allUsersExceptUser}
+            setAllUsersExceptUser={setAllUsersExceptUser}
             usersOfThePod={usersOfThePod}
             setUsersOfThePod={setUsersOfThePod}
           />
-          {/* <div className="createPodProp">
-            <label htmlFor="">Share your pod with other users</label>
-            {allUsersExceptUser.length !== 0 && (
-              <SelectOfUsers users={allUsersExceptUser} addToPod={addToPod} />
-            )}
-          </div>
-          <div className="usersOfThePodLabels">
-            {usersOfThePod.map((u) => (
-              <LabelOfUser user={u} removeFromPod={removeFromPod} />
-            ))}
-          </div> */}
+
           {isLoading && <RiLoaderFill />}
           {serverMessage && (
             <p style={{ color: serverMessage.ok ? "green" : "red" }}>

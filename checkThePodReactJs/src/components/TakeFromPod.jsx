@@ -2,12 +2,19 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import useData from "../hooks/useData";
+import useAuth from "../hooks/useAuth";
 import ShareUnshareWithUser from "./ShareUnshareWithUser";
 
 //users of the page : owner of the pod and users that add by the owner
 
 export default function TakeFromPod() {
   const { fetchFromUser } = useFetch();
+  const { allUsernames } = useData();
+  const { auth } = useAuth();
+  const [usersOfThePod, setUsersOfThePod] = useState(["nuuklu", "user1"]);
+  const [allUsersExceptUsersOfThePod, setAllUsersExceptUsersOfThePod] =
+    useState([]);
+  const [isOwner, setIsOwner] = useState(false);
   const [pod, setPod] = useState({
     creatorId: "",
     usersOfThePod: [],
@@ -27,28 +34,17 @@ export default function TakeFromPod() {
     fetchFromUser("GET", urlToGetPod)
       .then((res) => res.json())
       .then((jsonData) => {
-        // console.log(jsonData);
+        console.log({ podData: jsonData });
       });
   }, []);
 
-  //get users to add or remove from the pod
-  useEffect(() => {
-    fetchFromUser("GET", urlToGetUsers)
-      .then((res) => res.json())
-      .then((jsonData) => console.log(jsonData));
-  }, []);
+  // console.log(pod);
 
-  console.log(pod);
-
-  const user = "nuuklu";
-  const allUsers = ["nuuklu", "hypno", "user1", "user2", "user3"];
-
-  const [usersOfThePod, setUsersOfThePod] = useState(["nuuklu", "user1"]);
-
-  const allUsersExceptUser = [];
+  const user = auth.username;
+  const allUsers = allUsernames;
 
   allUsers.map((u) => {
-    if (!usersOfThePod.includes(u)) allUsersExceptUser.push(u);
+    if (!usersOfThePod.includes(u)) allUsersExceptUsersOfThePod.push(u);
   });
 
   const url = "http://localhost:3500/pods";
@@ -70,15 +66,6 @@ export default function TakeFromPod() {
       },
       body: JSON.stringify(pod),
     }).then((res) => console.log(res));
-  }
-
-  function removeFromPod(nameOfTheUser) {
-    setUsersOfThePod((prevPod) => prevPod.filter((p) => p !== nameOfTheUser));
-  }
-
-  function addToPod(nameOfTheUser) {
-    console.log(nameOfTheUser);
-    setUsersOfThePod((prevPod) => [...prevPod, nameOfTheUser]);
   }
 
   return (
@@ -126,12 +113,17 @@ export default function TakeFromPod() {
               type="number"
             />
           </div>
-          <ShareUnshareWithUser
-            allUsersExceptUser={allUsersExceptUser}
-            setAllUsersExceptUser={setAllUsersExceptUser}
+
+          <div>
+            {"allUsersExceptUsersOfThePod:" + allUsersExceptUsersOfThePod}
+          </div>
+          <div>{"podUsers: " + usersOfThePod}</div>
+          {/* <ShareUnshareWithUser
+            allUsersExceptUsersOfThePod={allUsersExceptUsersOfThePod}
+            setAllUsersExceptUsersOfThePod={setAllUsersExceptUsersOfThePod}
             usersOfThePod={usersOfThePod}
             setUsersOfThePod={setUsersOfThePod}
-          />
+          /> */}
           <div className="buttons">
             <button onClick={handleSubmit} className="createPod--button">
               Take

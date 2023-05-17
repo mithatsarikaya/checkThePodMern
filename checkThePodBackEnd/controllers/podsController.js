@@ -31,7 +31,7 @@ const getThePod = asyncHandler(async (req, res) => {
     .populate("usersOfThePod", "username")
     .lean();
 
-  console.log(pod);
+  console.log({ pod });
 
   return res.json(pod);
   // If no pod

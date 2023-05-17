@@ -2,8 +2,8 @@ import SelectOfUsers from "./SelectOfUsers";
 import LabelOfUser from "./LabelOfUser";
 
 export default function ShareUnshareWithUser({
-  allUsersExceptUser,
-  setAllUsersExceptUser,
+  allUsersExceptUsersOfthePod,
+  setAllUsersExceptUsersOfthePod,
   usersOfThePod,
   setUsersOfThePod,
 }) {
@@ -12,14 +12,17 @@ export default function ShareUnshareWithUser({
       setUsersOfThePod((prevList) =>
         prevList.filter((p) => p !== nameOfTheUser)
       );
-      setAllUsersExceptUser((prevList) => [...prevList, nameOfTheUser]);
+      setAllUsersExceptUsersOfthePod((prevList) => [
+        ...prevList,
+        nameOfTheUser,
+      ]);
     }
   }
 
   function addToPod(nameOfTheUser) {
     if (!nameOfTheUser.includes("you")) {
       setUsersOfThePod((prevList) => [...prevList, nameOfTheUser]);
-      setAllUsersExceptUser((prevList) =>
+      setAllUsersExceptUsersOfthePod((prevList) =>
         prevList.filter((p) => p !== nameOfTheUser)
       );
     }
@@ -29,8 +32,11 @@ export default function ShareUnshareWithUser({
     <>
       <div className="createPodProp">
         <label htmlFor="">Share your pod with other users</label>
-        {allUsersExceptUser.length !== 0 && (
-          <SelectOfUsers users={allUsersExceptUser} addToPod={addToPod} />
+        {allUsersExceptUsersOfthePod.length !== 0 && (
+          <SelectOfUsers
+            users={allUsersExceptUsersOfthePod}
+            addToPod={addToPod}
+          />
         )}
       </div>
       <div className="usersOfThePodLabels">

@@ -10,10 +10,13 @@ export default function CreatePod() {
   const { fetchFromUser } = useFetch();
   const { allUsernames } = useData();
   const [isLoading, setIsLoading] = useState(false);
-  const [allUsersExceptUser, setAllUsersExceptUser] = useState([]);
+  const [allUsersExceptUsersOfthePod, setAllUsersExceptUsersOfthePod] =
+    useState([]);
 
   useEffect(() => {
-    setAllUsersExceptUser(allUsernames.filter((a) => a !== auth.username));
+    setAllUsersExceptUsersOfthePod(
+      allUsernames.filter((a) => a !== auth.username)
+    );
   }, []);
 
   const [serverMessage, setServerMessage] = useState({
@@ -106,8 +109,8 @@ export default function CreatePod() {
             />
           </div>
           <ShareUnshareWithUser
-            allUsersExceptUser={allUsersExceptUser}
-            setAllUsersExceptUser={setAllUsersExceptUser}
+            allUsersExceptUsersOfthePod={allUsersExceptUsersOfthePod}
+            setAllUsersExceptUsersOfthePod={setAllUsersExceptUsersOfthePod}
             usersOfThePod={usersOfThePod}
             setUsersOfThePod={setUsersOfThePod}
           />

@@ -19,6 +19,10 @@ export default function ShareUnshareWithUser({
     }
   }
 
+  let a = [];
+  console.log({ allUsersExceptUsersOfthePod });
+  console.log({ a });
+
   function addToPod(nameOfTheUser) {
     if (!nameOfTheUser.includes("you")) {
       setUsersOfThePod((prevList) => [...prevList, nameOfTheUser]);
@@ -30,15 +34,17 @@ export default function ShareUnshareWithUser({
 
   return (
     <>
-      <div className="createPodProp">
-        <label htmlFor="">Share your pod with other users</label>
-        {allUsersExceptUsersOfthePod.length !== 0 && (
+      {allUsersExceptUsersOfthePod && (
+        <div className="createPodProp">
+          <label htmlFor="">Share your pod with other users</label>
+          allUsersExceptUsersOfthePod.length !== 0 && (
           <SelectOfUsers
             users={allUsersExceptUsersOfthePod}
             addToPod={addToPod}
           />
-        )}
-      </div>
+          )
+        </div>
+      )}
       <div className="usersOfThePodLabels">
         {usersOfThePod.map((u) => (
           <LabelOfUser user={u} removeFromPod={removeFromPod} />

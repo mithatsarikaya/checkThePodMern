@@ -11,13 +11,13 @@ export default function TakeFromPod() {
   const { fetchFromUser } = useFetch();
   const { allUsernames } = useData();
   const { auth } = useAuth();
-  const [usersOfThePod, setUsersOfThePod] = useState(["nuuklu", "user1"]);
+  const [usersOfThePod, setUsersOfThePod] = useState([]);
   const [allUsersExceptUsersOfThePod, setAllUsersExceptUsersOfThePod] =
     useState([]);
   const [isOwner, setIsOwner] = useState(false);
   const [pod, setPod] = useState({
     creatorId: "",
-    usersOfThePod: [],
+    usersOfThePod: usersOfThePod,
     podName: "",
     podFreeWeight: 0,
     podTotalWeight: 0,
@@ -29,12 +29,19 @@ export default function TakeFromPod() {
   let urlToGetPod = `pods/getThePod/${podId}`;
   let urlToGetUsers = `users`;
 
+  console.log({ takefrompod: allUsersExceptUsersOfThePod });
+
   //get the pod infos to take from it
   useEffect(() => {
     fetchFromUser("GET", urlToGetPod)
       .then((res) => res.json())
       .then((jsonData) => {
         console.log({ podData: jsonData });
+        setIsOwner(auth.id === jsonData.creatorId);
+        setUsersOfThePod(jsonData.usersOfThePod.map((u) => u.username));
+        setAllUsersExceptUsersOfThePod(
+          allUsernames.filter((a) => !usersOfThePod.includes(a))
+        );
       });
   }, []);
 
@@ -43,9 +50,9 @@ export default function TakeFromPod() {
   const user = auth.username;
   const allUsers = allUsernames;
 
-  allUsers.map((u) => {
-    if (!usersOfThePod.includes(u)) allUsersExceptUsersOfThePod.push(u);
-  });
+  // allUsers.map((u) => {
+  //   if (!usersOfThePod.includes(u)) allUsersExceptUsersOfThePod.push(u);
+  // });
 
   const url = "http://localhost:3500/pods";
 
@@ -114,16 +121,18 @@ export default function TakeFromPod() {
             />
           </div>
 
-          <div>
+          {/* <div>
             {"allUsersExceptUsersOfThePod:" + allUsersExceptUsersOfThePod}
           </div>
           <div>{"podUsers: " + usersOfThePod}</div>
-          {/* <ShareUnshareWithUser
+          <div>{"isOwner: " + isOwner}</div> */}
+
+          <ShareUnshareWithUser
             allUsersExceptUsersOfThePod={allUsersExceptUsersOfThePod}
             setAllUsersExceptUsersOfThePod={setAllUsersExceptUsersOfThePod}
             usersOfThePod={usersOfThePod}
             setUsersOfThePod={setUsersOfThePod}
-          /> */}
+          />
           <div className="buttons">
             <button onClick={handleSubmit} className="createPod--button">
               Take

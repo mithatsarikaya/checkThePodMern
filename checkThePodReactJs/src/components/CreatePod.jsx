@@ -109,8 +109,8 @@ export default function CreatePod() {
             />
           </div>
           <ShareUnshareWithUser
-            allUsersExceptUsersOfthePod={allUsersExceptUsersOfthePod}
-            setAllUsersExceptUsersOfthePod={setAllUsersExceptUsersOfthePod}
+            allUsersExceptUsersOfThePod={allUsersExceptUsersOfthePod}
+            setAllUsersExceptUsersOfThePod={setAllUsersExceptUsersOfthePod}
             usersOfThePod={usersOfThePod}
             setUsersOfThePod={setUsersOfThePod}
           />

@@ -8,14 +8,17 @@ import ShareUnshareWithUser from "./ShareUnshareWithUser";
 //users of the page : owner of the pod and users that add by the owner
 
 export default function TakeFromPod() {
+  const { podId } = useParams();
   const { fetchFromUser } = useFetch();
   const { allUsernames } = useData();
   const { auth } = useAuth();
   const [usersOfThePod, setUsersOfThePod] = useState([]);
+  const [remainingValueOnScale, setRemainingValueOnScale] = useState("");
   const [allUsersExceptUsersOfThePod, setAllUsersExceptUsersOfThePod] =
     useState([]);
   const [isOwner, setIsOwner] = useState(false);
   const [pod, setPod] = useState({
+    podId: "",
     creatorId: "",
     usersOfThePod: usersOfThePod,
     podName: "",
@@ -23,13 +26,19 @@ export default function TakeFromPod() {
     podTotalWeight: 0,
     productRawAmount: 0,
   });
+  const [initialValues, setInitialValues] = useState({});
 
-  const { podId } = useParams();
+  useEffect(() => {
+    setPod((prevPod) => ({ ...prevPod, usersOfThePod }));
+    setAllUsersExceptUsersOfThePod(
+      allUsernames.filter((a) => !usersOfThePod.includes(a))
+    );
+    console.log({ pod });
+  }, [usersOfThePod]);
 
   let urlToGetPod = `pods/getThePod/${podId}`;
-  let urlToGetUsers = `users`;
 
-  console.log({ takefrompod: allUsersExceptUsersOfThePod });
+  console.log({ pod });
 
   //get the pod infos to take from it
   useEffect(() => {
@@ -39,16 +48,20 @@ export default function TakeFromPod() {
         console.log({ podData: jsonData });
         setIsOwner(auth.id === jsonData.creatorId);
         setUsersOfThePod(jsonData.usersOfThePod.map((u) => u.username));
-        setAllUsersExceptUsersOfThePod(
-          allUsernames.filter((a) => !usersOfThePod.includes(a))
-        );
+        setPod({
+          podId: jsonData._id,
+          creatorId: jsonData.creatorId,
+          podFreeWeight: jsonData.podFreeWeight,
+          podName: jsonData.podName,
+          podTotalWeight: jsonData.podTotalWeight,
+          productRawAmount: jsonData.productRawAmount,
+          usersOfThePod,
+        });
+        setInitialValues(pod);
       });
   }, []);
 
   // console.log(pod);
-
-  const user = auth.username;
-  const allUsers = allUsernames;
 
   // allUsers.map((u) => {
   //   if (!usersOfThePod.includes(u)) allUsersExceptUsersOfThePod.push(u);
@@ -75,15 +88,43 @@ export default function TakeFromPod() {
     }).then((res) => console.log(res));
   }
 
+  function handleTake(e) {
+    console.log(e.target.value);
+    if (e.target.value > 0) {
+      setPod(initialValues);
+      let askedValueToTake = e.target.value;
+
+      setPod((prevPod) => ({
+        ...prevPod,
+        productRawAmount: prevPod.productRawAmount - askedValueToTake,
+        podTotalWeight:
+          prevPod.podTotalWeight -
+          ((prevPod.podTotalWeight - prevPod.podFreeWeight) /
+            prevPod.productRawAmount) *
+            askedValueToTake,
+      }));
+    }
+    if (e.target.value === "") {
+      setPod(initialValues);
+    }
+  }
+
+  console.log({ initialValues });
+  useEffect(() => {
+    setRemainingValueOnScale(pod.podTotalWeight);
+  }, [pod.podTotalWeight]);
+
   return (
     <main>
       {podId}
+      {pod.podName}
       <form className="form--create-update" action="">
         <div className="createPod">
           <div className="createPodProp">
             <label htmlFor="">Pod Name</label>
             <input
               autoComplete="off"
+              value={pod.podName}
               onChange={handleChange}
               name="podName"
               type="text"
@@ -94,6 +135,7 @@ export default function TakeFromPod() {
           <div className="createPodProp">
             <label htmlFor="">Pod Tare</label>
             <input
+              value={pod.podFreeWeight}
               autoComplete="off"
               onChange={handleChange}
               name="podFreeWeight"
@@ -105,6 +147,7 @@ export default function TakeFromPod() {
           <div className="createPodProp">
             <label htmlFor="">Pod Total</label>
             <input
+              value={pod.podTotalWeight}
               autoComplete="off"
               onChange={handleChange}
               name="podTotalWeight"
@@ -114,10 +157,31 @@ export default function TakeFromPod() {
           <div className="createPodProp">
             <label htmlFor="">Pod Raw Product</label>
             <input
+              value={pod.productRawAmount}
               autoComplete="off"
               onChange={handleChange}
               name="productRawAmount"
               type="number"
+            />
+          </div>
+          <div className="createPodProp">
+            <label htmlFor="">How Much Raw Product Do You Want ?</label>
+            <input
+              autoComplete="off"
+              onChange={handleTake}
+              name="takeProductRawAmount"
+              type="number"
+            />
+          </div>
+          <div className="createPodProp">
+            <label htmlFor="">Remaining Value On Scale</label>
+            <input
+              value={remainingValueOnScale}
+              placeholder="0"
+              autoComplete="off"
+              name="remainingValueOnScale"
+              type="number"
+              readOnly
             />
           </div>
 
@@ -127,15 +191,17 @@ export default function TakeFromPod() {
           <div>{"podUsers: " + usersOfThePod}</div>
           <div>{"isOwner: " + isOwner}</div> */}
 
-          <ShareUnshareWithUser
-            allUsersExceptUsersOfThePod={allUsersExceptUsersOfThePod}
-            setAllUsersExceptUsersOfThePod={setAllUsersExceptUsersOfThePod}
-            usersOfThePod={usersOfThePod}
-            setUsersOfThePod={setUsersOfThePod}
-          />
+          {isOwner && (
+            <ShareUnshareWithUser
+              allUsersExceptUsersOfThePod={allUsersExceptUsersOfThePod}
+              setAllUsersExceptUsersOfThePod={setAllUsersExceptUsersOfThePod}
+              usersOfThePod={usersOfThePod}
+              setUsersOfThePod={setUsersOfThePod}
+            />
+          )}
           <div className="buttons">
             <button onClick={handleSubmit} className="createPod--button">
-              Take
+              {isOwner ? "Take/Update" : "Take"}
             </button>
             {/* <button onClick={handleSubmit} className="createPod--button">
               Put

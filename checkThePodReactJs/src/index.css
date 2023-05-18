@@ -135,7 +135,7 @@ button:not([disabled]):hover{
 
 .createPodProp{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 5px;
     align-items: center;
 }
@@ -171,6 +171,14 @@ button:not([disabled]):hover{
     cursor: pointer;
 }
 
+.createPodProp > input[name="remainingValueOnScale"] {
+    border: none;
+    color: green;
+    font-weight: 900;
+    font-size: 40px;
+  }
+
+
 .createPod--button{
     background-color:salmon;
     color: white;
@@ -187,6 +195,7 @@ button:not([disabled]):hover{
 .createPod--button:not([disabled]):hover{
     font-size: 25px;
 }
+
 
 .usersOfThePodLabels{
     display: grid;

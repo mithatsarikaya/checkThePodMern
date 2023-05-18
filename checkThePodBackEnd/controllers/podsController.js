@@ -2,6 +2,19 @@ const User = require("../models/Users");
 const Pod = require("../models/Pods");
 const asyncHandler = require("express-async-handler");
 
+const getIdsFromNameList = async (usersOfThePod) => {
+  // //convert list of usernames to list of their id's
+  const idOfTheUsersOfThePod = [];
+
+  for (let i = 0; i < usersOfThePod.length; i++) {
+    const username = usersOfThePod[i];
+    let foundUserFromCreatedPod = await User.findOne({ username });
+    idOfTheUsersOfThePod.push(foundUserFromCreatedPod._id);
+  }
+
+  return idOfTheUsersOfThePod;
+};
+
 // @desc Get all pods
 // @route GET /pods
 // @access public
@@ -98,14 +111,16 @@ const createNewPod = asyncHandler(async (req, res) => {
       .json({ message: "You can not share your pod with more than 4 people" });
   }
 
-  //convert list of usernames to list of their id's
-  const idOfTheUsersOfThePod = [];
+  // //convert list of usernames to list of their id's
+  // const idOfTheUsersOfThePod = [];
 
-  for (let i = 0; i < usersOfThePod.length; i++) {
-    const username = usersOfThePod[i];
-    let foundUserFromCreatedPod = await User.findOne({ username });
-    idOfTheUsersOfThePod.push(foundUserFromCreatedPod._id);
-  }
+  // for (let i = 0; i < usersOfThePod.length; i++) {
+  //   const username = usersOfThePod[i];
+  //   let foundUserFromCreatedPod = await User.findOne({ username });
+  //   idOfTheUsersOfThePod.push(foundUserFromCreatedPod._id);
+  // }
+
+  let idOfTheUsersOfThePod = getIdsFromNameList(usersOfThePod);
 
   const podObject = {
     creatorId,
@@ -144,7 +159,7 @@ const updatePod = asyncHandler(async (req, res) => {
     usersOfThePod,
   } = req.body;
 
-  console.log(req.body);
+  return console.log(req.body);
 
   // Confirm data
   if (

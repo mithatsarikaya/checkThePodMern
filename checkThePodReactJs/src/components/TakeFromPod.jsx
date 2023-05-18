@@ -47,17 +47,21 @@ export default function TakeFromPod() {
       .then((jsonData) => {
         console.log({ podData: jsonData });
         setIsOwner(auth.id === jsonData.creatorId);
-        setUsersOfThePod(jsonData.usersOfThePod.map((u) => u.username));
-        setPod({
+        const initialUsersOfThePod = jsonData.usersOfThePod.map(
+          (u) => u.username
+        );
+        setUsersOfThePod(initialUsersOfThePod);
+        const initialPodData = {
           podId: jsonData._id,
           creatorId: jsonData.creatorId,
           podFreeWeight: jsonData.podFreeWeight,
           podName: jsonData.podName,
           podTotalWeight: jsonData.podTotalWeight,
           productRawAmount: jsonData.productRawAmount,
-          usersOfThePod,
-        });
-        setInitialValues(pod);
+          usersOfThePod: initialUsersOfThePod,
+        };
+        setPod(initialPodData);
+        setInitialValues(initialPodData);
       });
   }, []);
 
@@ -69,7 +73,10 @@ export default function TakeFromPod() {
 
   const url = "http://localhost:3500/pods";
 
-  function postTheData() {}
+  function handleUpdate(e) {
+    e.preventDefault();
+    fetchFromUser("PATCH", "pods", pod).then((res) => console.log(res));
+  }
 
   function handleChange(e) {
     setPod((prevPod) => ({
@@ -110,6 +117,7 @@ export default function TakeFromPod() {
   }
 
   console.log({ initialValues });
+
   useEffect(() => {
     setRemainingValueOnScale(pod.podTotalWeight);
   }, [pod.podTotalWeight]);
@@ -152,6 +160,7 @@ export default function TakeFromPod() {
               onChange={handleChange}
               name="podTotalWeight"
               type="number"
+              readOnly
             />
           </div>
           <div className="createPodProp">
@@ -162,6 +171,7 @@ export default function TakeFromPod() {
               onChange={handleChange}
               name="productRawAmount"
               type="number"
+              readOnly
             />
           </div>
           <div className="createPodProp">
@@ -200,15 +210,13 @@ export default function TakeFromPod() {
             />
           )}
           <div className="buttons">
-            <button onClick={handleSubmit} className="createPod--button">
+            <button onClick={handleUpdate} className="createPod--button">
               {isOwner ? "Take/Update" : "Take"}
             </button>
             {/* <button onClick={handleSubmit} className="createPod--button">
               Put
             </button> */}
-            <button onClick={handleSubmit} className="createPod--button">
-              Reset
-            </button>
+            <button className="createPod--button">Reset</button>
           </div>
         </div>
       </form>

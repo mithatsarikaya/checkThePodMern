@@ -111,6 +111,9 @@ form > input {
 
 /* disabled input and button */
 input[type="submit"]:disabled{background-color:red;}
+input[readonly] {
+    border: none;
+  }
 button:disabled{background-color:red;}
 
 

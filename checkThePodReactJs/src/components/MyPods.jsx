@@ -9,6 +9,7 @@ export default function MyPods() {
 
   const personalPodsUrl = "pods/personalPods";
   const deletePodUrl = "pods";
+  const resetPodUrl = "pods";
 
   // let data = useUserFetch("GET", "pods/personalPods");
   // console.log(data);
@@ -29,6 +30,16 @@ export default function MyPods() {
     });
   };
 
+  const handleResetPod = (id) => {
+    fetchFromUser("PATCH", resetPodUrl, { id }).then((res) => {
+      console.log(res);
+      if (res.ok) {
+        console.log("it reseted");
+        setPodsOfTheUser((prevPod) => prevPod.filter((p) => p._id !== id));
+      }
+    });
+  };
+
   const podsElements = podsOfTheUser.map((p) => (
     <Pod
       key={p._id}
@@ -40,6 +51,7 @@ export default function MyPods() {
       podTotalWeight={p.podTotalWeight}
       productRawAmount={p.productRawAmount}
       handleDeletePod={handleDeletePod}
+      handleResetPod={handleResetPod}
     />
   ));
 

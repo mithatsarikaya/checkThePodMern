@@ -75,7 +75,9 @@ export default function TakeFromPod() {
 
   function handleUpdate(e) {
     e.preventDefault();
-    fetchFromUser("PATCH", "pods", pod).then((res) => console.log(res));
+    fetchFromUser("PATCH", "pods", pod)
+      .then((res) => res.json())
+      .then((jsonData) => console.log(jsonData));
   }
 
   function handleChange(e) {
@@ -124,8 +126,6 @@ export default function TakeFromPod() {
 
   return (
     <main>
-      {podId}
-      {pod.podName}
       <form className="form--create-update" action="">
         <div className="createPod">
           <div className="createPodProp">
@@ -216,7 +216,7 @@ export default function TakeFromPod() {
             {/* <button onClick={handleSubmit} className="createPod--button">
               Put
             </button> */}
-            <button className="createPod--button">Reset</button>
+            {/* <button className="createPod--button">Reset</button> */}
           </div>
         </div>
       </form>

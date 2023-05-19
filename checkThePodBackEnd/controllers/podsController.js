@@ -171,9 +171,7 @@ const updatePod = asyncHandler(async (req, res) => {
 
   // Does the pod exist to update?
   const pod = await Pod.findById(podId).exec();
-  console.log(req.body);
-  console.log(pod.creatorId.toString());
-  console.log(req.userId);
+  let isOwner = req.userId === pod.creatorId.toString();
 
   if (!pod) {
     return res.status(400).json({ message: "Pod not found" });
@@ -192,14 +190,17 @@ const updatePod = asyncHandler(async (req, res) => {
   pod.podTotalWeight = podTotalWeight;
   pod.productRawAmount = productRawAmount;
 
-  pod.usersOfThePod = !usersOfThePod
-    ? [creatorId]
-    : [creatorId, ...usersOfThePod];
+  //update users of the pod if he/she is the owner. also restricted in frontend
+  if (isOwner) {
+    pod.usersOfThePod = !usersOfThePod
+      ? [creatorId]
+      : await getIdsFromNameList(usersOfThePod);
+  }
   // user.active = active;
 
   const updatedPod = await pod.save();
 
-  res.json({ message: `${updatedPod.podName} updated` });
+  return res.json({ message: `${updatedPod.podName} updated` });
 });
 
 // @desc Delete a pod

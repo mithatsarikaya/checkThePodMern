@@ -58,6 +58,7 @@ export default function CreatePod() {
     fetchFromUser("POST", "pods", pod)
       .then((res) => {
         setServerMessage((prevMsg) => ({ ...prevMsg, ok: res.ok }));
+        console.log(res);
         return res.json();
       })
       .then((data) => {

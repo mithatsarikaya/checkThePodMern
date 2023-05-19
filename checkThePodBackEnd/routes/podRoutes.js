@@ -7,7 +7,7 @@ router
   .route("/")
   .get(podsController.getAllPods)
   .post(verifyJwt, podsController.createNewPod)
-  .patch(podsController.updatePod)
+  .patch(verifyJwt, podsController.updatePod)
   .delete(verifyJwt, podsController.deletePod);
 
 router.route("/personalPods").get(verifyJwt, podsController.getPersonalPods);

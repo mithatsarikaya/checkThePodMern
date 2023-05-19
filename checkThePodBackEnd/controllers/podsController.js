@@ -120,7 +120,7 @@ const createNewPod = asyncHandler(async (req, res) => {
   //   idOfTheUsersOfThePod.push(foundUserFromCreatedPod._id);
   // }
 
-  let idOfTheUsersOfThePod = getIdsFromNameList(usersOfThePod);
+  let idOfTheUsersOfThePod = await getIdsFromNameList(usersOfThePod);
 
   const podObject = {
     creatorId,
@@ -149,8 +149,7 @@ const createNewPod = asyncHandler(async (req, res) => {
 // @access Private
 const updatePod = asyncHandler(async (req, res) => {
   const {
-    id,
-    userId,
+    podId,
     creatorId,
     podName,
     podFreeWeight,
@@ -158,8 +157,6 @@ const updatePod = asyncHandler(async (req, res) => {
     productRawAmount,
     usersOfThePod,
   } = req.body;
-
-  return console.log(req.body);
 
   // Confirm data
   if (
@@ -173,7 +170,10 @@ const updatePod = asyncHandler(async (req, res) => {
   }
 
   // Does the pod exist to update?
-  const pod = await Pod.findById(id).exec();
+  const pod = await Pod.findById(podId).exec();
+  console.log(req.body);
+  console.log(pod.creatorId.toString());
+  console.log(req.userId);
 
   if (!pod) {
     return res.status(400).json({ message: "Pod not found" });
@@ -183,7 +183,7 @@ const updatePod = asyncHandler(async (req, res) => {
   const duplicate = await Pod.findOne({ podName }).lean().exec();
 
   // Allow updates to the original user
-  if (duplicate && duplicate?._id.toString() !== id) {
+  if (duplicate && duplicate?._id.toString() !== podId) {
     return res.status(409).json({ message: "Duplicate podName" });
   }
 
@@ -191,6 +191,7 @@ const updatePod = asyncHandler(async (req, res) => {
   pod.podFreeWeight = podFreeWeight;
   pod.podTotalWeight = podTotalWeight;
   pod.productRawAmount = productRawAmount;
+
   pod.usersOfThePod = !usersOfThePod
     ? [creatorId]
     : [creatorId, ...usersOfThePod];

@@ -27,14 +27,11 @@ export default function TakeFromPod() {
     productRawAmount: 0,
   });
   const [initialValues, setInitialValues] = useState({});
+  const [userListChanged, setUserListChanged] = useState(false);
 
-  useEffect(() => {
-    setPod((prevPod) => ({ ...prevPod, usersOfThePod }));
-    setAllUsersExceptUsersOfThePod(
-      allUsernames.filter((a) => !usersOfThePod.includes(a))
-    );
-    console.log({ pod });
-  }, [usersOfThePod]);
+  function areListsEqual(a, b) {
+    a.sort().toString() == b.sort().toString();
+  }
 
   let urlToGetPod = `pods/getThePod/${podId}`;
 
@@ -64,6 +61,25 @@ export default function TakeFromPod() {
         setInitialValues(initialPodData);
       });
   }, []);
+
+  useEffect(() => {
+    setPod((prevPod) => ({ ...prevPod, usersOfThePod }));
+    setAllUsersExceptUsersOfThePod(
+      allUsernames.filter((a) => !usersOfThePod.includes(a))
+    );
+    // console.log({ pod });
+
+    console.log({ usersOfThePod });
+    console.log(initialValues.usersOfThePod);
+
+    if (usersOfThePod.length > 0) {
+      if (areListsEqual(usersOfThePod, initialValues.usersOfThePod)) {
+        setUserListChanged(false);
+      } else {
+        setUserListChanged(true);
+      }
+    }
+  }, [usersOfThePod]);
 
   // console.log(pod);
 

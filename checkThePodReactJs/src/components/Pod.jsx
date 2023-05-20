@@ -30,9 +30,13 @@ export default function Pod({
     );
 
   let TakeFromPodLink = `/myPods/take/${podId}`;
+  let PutToPodLink = `/myPods/put/${podId}`;
 
   function navigateToTakePage() {
     navigate(TakeFromPodLink);
+  }
+  function navigateToPutPage() {
+    navigate(PutToPodLink);
   }
 
   return (
@@ -74,7 +78,9 @@ export default function Pod({
         <button onClick={navigateToTakePage} className="createPod--button">
           Take
         </button>
-        <button className="createPod--button">Put</button>
+        <button onClick={navigateToPutPage} className="createPod--button">
+          Put
+        </button>
         <button className="createPod--button">Reset</button>
         {isOwner && (
           <button

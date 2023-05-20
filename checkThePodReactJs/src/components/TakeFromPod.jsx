@@ -210,7 +210,11 @@ export default function TakeFromPod() {
             />
           )}
           <div className="buttons">
-            <button onClick={handleUpdate} className="createPod--button">
+            <button
+              disabled={initialValues.productRawAmount === pod.productRawAmount}
+              onClick={handleUpdate}
+              className="createPod--button"
+            >
               {isOwner ? "Take/Update" : "Take"}
             </button>
             {/* <button onClick={handleSubmit} className="createPod--button">

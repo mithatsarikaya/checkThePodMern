@@ -4,12 +4,11 @@ import useFetch from "../hooks/useFetch";
 // import { fetchFromUser } from "../requestMethods";
 
 export default function MyPods() {
-  const [podsOfTheUser, setPodsOfTheUser] = useState([]);
+  const [myPods, setMyPods] = useState([]);
   const { fetchFromUser } = useFetch();
 
   const personalPodsUrl = "pods/personalPods";
   const deletePodUrl = "pods";
-  const resetPodUrl = "pods";
 
   // let data = useUserFetch("GET", "pods/personalPods");
   // console.log(data);
@@ -17,7 +16,7 @@ export default function MyPods() {
   useEffect(() => {
     fetchFromUser("GET", personalPodsUrl)
       .then((data) => data.json())
-      .then((jsonData) => setPodsOfTheUser(jsonData));
+      .then((jsonData) => setMyPods(jsonData));
   }, []);
 
   const handleDeletePod = (id) => {
@@ -25,22 +24,34 @@ export default function MyPods() {
       console.log(res);
       if (res.ok) {
         console.log("it deleted");
-        setPodsOfTheUser((prevPod) => prevPod.filter((p) => p._id !== id));
+        setMyPods((prevPod) => prevPod.filter((p) => p._id !== id));
       }
     });
   };
 
   const handleResetPod = (id) => {
-    fetchFromUser("PATCH", resetPodUrl, { id }).then((res) => {
+    let resetPodUrl = `pods/getThePod/${id}`;
+    fetchFromUser("PATCH", resetPodUrl).then((res) => {
       console.log(res);
       if (res.ok) {
         console.log("it reseted");
-        setPodsOfTheUser((prevPod) => prevPod.filter((p) => p._id !== id));
+        setMyPods((prevPod) =>
+          prevPod.map((p) => {
+            if (p._id === id) {
+              console.log(p._id);
+              console.log(id);
+              return { ...p, productRawAmount: 0, podTotalWeight: 0 };
+            } else {
+              return p;
+            }
+          })
+        );
+        // setMyPods((prevPod) => prevPod.filter((p) => p._id !== id));
       }
     });
   };
 
-  const podsElements = podsOfTheUser.map((p) => (
+  const podsElements = myPods.map((p) => (
     <Pod
       key={p._id}
       podId={p._id}

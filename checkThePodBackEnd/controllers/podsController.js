@@ -52,7 +52,33 @@ const getThePod = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "No pod found" });
   }
 
-  res.json(pod);
+  return res.json(pod);
+});
+
+// @desc Reset pod.producRaw and totalWeight
+// @route PATCH pods/getThePod/:podId
+// @access Private
+const resetThePod = asyncHandler(async (req, res) => {
+  let podId = req.params.podId;
+
+  let pod = await Pod.findById(podId);
+
+  if (!pod) {
+    return res.status(400).json({ message: "No pod found to reset" });
+  }
+
+  let isOwner = req.userId === pod.creatorId.toString();
+
+  if (!isOwner) {
+    return res.status(401).json({ message: "You are not authorized" });
+  }
+
+  pod.podTotalWeight = 0;
+  pod.productRawAmount = 0;
+
+  const updatedPod = await pod.save();
+
+  return res.json({ message: `${updatedPod.podName} updated` });
 });
 
 // @desc Get all pods
@@ -247,4 +273,5 @@ module.exports = {
   createNewPod,
   updatePod,
   deletePod,
+  resetThePod,
 };

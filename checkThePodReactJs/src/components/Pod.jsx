@@ -11,6 +11,7 @@ export default function Pod({
   podTotalWeight,
   productRawAmount,
   handleDeletePod,
+  handleResetPod,
 }) {
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -81,7 +82,13 @@ export default function Pod({
         <button onClick={navigateToPutPage} className="createPod--button">
           Put
         </button>
-        <button className="createPod--button">Reset</button>
+        <button
+          disabled={podTotalWeight === 0 || productRawAmount === 0}
+          onClick={() => handleResetPod(podId)}
+          className="createPod--button"
+        >
+          Reset
+        </button>
         {isOwner && (
           <button
             onClick={() => handleDeletePod(podId)}

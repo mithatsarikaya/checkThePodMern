@@ -12,5 +12,6 @@ router
 
 router.route("/personalPods").get(verifyJwt, podsController.getPersonalPods);
 router.route("/getThePod/:podId").get(verifyJwt, podsController.getThePod);
+router.route("/getThePod/:podId").patch(verifyJwt, podsController.resetThePod);
 
 module.exports = router;

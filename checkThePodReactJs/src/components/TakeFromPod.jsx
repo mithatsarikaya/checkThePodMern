@@ -132,11 +132,12 @@ export default function TakeFromPod() {
       setPod((prevPod) => ({
         ...prevPod,
         productRawAmount: prevPod.productRawAmount - askedValueToTake,
-        podTotalWeight:
+        podTotalWeight: (
           prevPod.podTotalWeight -
           ((prevPod.podTotalWeight - prevPod.podFreeWeight) /
             prevPod.productRawAmount) *
-            askedValueToTake,
+            askedValueToTake
+        ).toFixed(2),
       }));
     }
     if (e.target.value === "") {
@@ -201,12 +202,13 @@ export default function TakeFromPod() {
             />
           </div>
           <div className="createPodProp">
-            <label htmlFor="">How Much Raw Product Do You Want ?</label>
+            <label htmlFor="">Request Raw Product</label>
             <input
               autoComplete="off"
               onChange={handleTake}
               name="takeProductRawAmount"
               type="number"
+              readOnly={serverMessage}
             />
           </div>
           <div className="createPodProp">
@@ -239,7 +241,10 @@ export default function TakeFromPod() {
           <p style={{ color: "green" }}>{serverMessage}</p>
           <div className="buttons">
             <button
-              disabled={initialValues.productRawAmount === pod.productRawAmount}
+              disabled={
+                initialValues.productRawAmount === pod.productRawAmount ||
+                serverMessage
+              }
               onClick={handleUpdate}
               className="createPod--button"
             >

@@ -143,21 +143,38 @@ button:not([disabled]):hover{
     align-items: center;
 }
 
+.createPodProp.share{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
 .createPodProp > label {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
+    flex: 1;
+    text-align: left;
+    width: 200px;
+    
+}
+
+.createPodProp.share > label{
+    width: 300px;
 }
 
 .createPodProp > input {
+    flex: 2;
     height: 40px;
     width: 100%;
     text-align: center;
-    font-size: 30px;
+    font-size: 25px;
     border-width: medium;
 }
 .createPodProp > select {
+    flex: 2;
     height: 40px;
-    width: 50%;
+    width: 100%;
     text-align: center;
     font-size: 30px;
     border-width: medium;

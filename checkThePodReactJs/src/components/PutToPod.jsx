@@ -5,7 +5,7 @@ import useData from "../hooks/useData";
 import useAuth from "../hooks/useAuth";
 import ShareUnshareWithUser from "./ShareUnshareWithUser";
 import { GrRevert } from "react-icons/gr";
-
+import { RiLoaderFill } from "react-icons/ri";
 //users of the page : owner of the pod and users that add by the owner
 
 export default function PutToPod() {
@@ -17,6 +17,8 @@ export default function PutToPod() {
   const [allUsersExceptUsersOfThePod, setAllUsersExceptUsersOfThePod] =
     useState([]);
   const [isOwner, setIsOwner] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [serverMessage, setServerMessage] = useState("");
   const [pod, setPod] = useState({
     podId: "",
     creatorId: "",
@@ -72,10 +74,17 @@ export default function PutToPod() {
   // });
 
   function handleUpdate(e) {
+    setIsLoading(true);
     e.preventDefault();
     fetchFromUser("PATCH", "pods", pod)
-      .then((res) => res.json())
-      .then((jsonData) => console.log(jsonData));
+      .then((res) => {
+        setIsLoading(false);
+        return res.json();
+      })
+      .then((jsonData) => {
+        setServerMessage(jsonData.message);
+        console.log(jsonData);
+      });
   }
 
   function handleChange(e) {
@@ -139,32 +148,6 @@ export default function PutToPod() {
               type="number"
             />
           </div>
-          {/* <div className="createPodProp">
-            <label htmlFor="">How Much Raw Product Do You Want ?</label>
-            <input
-              autoComplete="off"
-              onChange={handlePut}
-              name="takeProductRawAmount"
-              type="number"
-            />
-          </div>
-          <div className="createPodProp">
-            <label htmlFor="">Remaining Value On Scale</label>
-            <input
-              value={remainingValueOnScale}
-              placeholder="0"
-              autoComplete="off"
-              name="remainingValueOnScale"
-              type="number"
-              readOnly
-            />
-          </div> */}
-
-          {/* <div>
-            {"allUsersExceptUsersOfThePod:" + allUsersExceptUsersOfThePod}
-          </div>
-          <div>{"podUsers: " + usersOfThePod}</div>
-          <div>{"isOwner: " + isOwner}</div> */}
 
           {isOwner && (
             <ShareUnshareWithUser
@@ -174,6 +157,8 @@ export default function PutToPod() {
               setUsersOfThePod={setUsersOfThePod}
             />
           )}
+          {isLoading && <RiLoaderFill />}
+          <p style={{ color: "green" }}>{serverMessage}</p>
           <div className="buttons">
             <button onClick={handleUpdate} className="createPod--button">
               {isOwner ? "Put/Update" : "Put"}

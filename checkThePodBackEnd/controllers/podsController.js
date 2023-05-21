@@ -226,7 +226,8 @@ const updatePod = asyncHandler(async (req, res) => {
 
   const updatedPod = await pod.save();
 
-  return res.json({ message: `${updatedPod.podName} updated` });
+  console.log("hey");
+  return res.status(201).json({ message: `${updatedPod.podName} updated` });
 });
 
 // @desc Delete a pod

@@ -31,8 +31,8 @@ export default function ShareUnshareWithUser({
   return (
     <>
       {allUsersExceptUsersOfThePod && (
-        <div className="createPodProp">
-          <label htmlFor="">Share your pod with other users</label>
+        <div className="createPodProp share">
+          <label htmlFor="">Share your pod with others</label>
           {allUsersExceptUsersOfThePod.length !== 0 && (
             <SelectOfUsers
               users={allUsersExceptUsersOfThePod}

@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 
@@ -76,7 +76,11 @@ export default function Pod({
       </div>
 
       <div className="buttons">
-        <button onClick={navigateToTakePage} className="createPod--button">
+        <button
+          disabled={productRawAmount === 0}
+          onClick={navigateToTakePage}
+          className="createPod--button"
+        >
           Take
         </button>
         <button onClick={navigateToPutPage} className="createPod--button">

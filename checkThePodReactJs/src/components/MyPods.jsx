@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Pod from "./Pod";
 import useFetch from "../hooks/useFetch";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 // import { fetchFromUser } from "../requestMethods";
 
 export default function MyPods() {
@@ -9,6 +10,8 @@ export default function MyPods() {
 
   const personalPodsUrl = "pods/personalPods";
   const deletePodUrl = "pods";
+
+  const [podList] = useAutoAnimate();
 
   // let data = useUserFetch("GET", "pods/personalPods");
   // console.log(data);
@@ -66,5 +69,5 @@ export default function MyPods() {
     />
   ));
 
-  return <main>{podsElements}</main>;
+  return <main ref={podList}>{podsElements}</main>;
 }

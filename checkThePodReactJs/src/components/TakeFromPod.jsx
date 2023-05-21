@@ -4,6 +4,7 @@ import useFetch from "../hooks/useFetch";
 import useData from "../hooks/useData";
 import useAuth from "../hooks/useAuth";
 import ShareUnshareWithUser from "./ShareUnshareWithUser";
+import { RiLoaderFill } from "react-icons/ri";
 
 //users of the page : owner of the pod and users that add by the owner
 
@@ -12,6 +13,8 @@ export default function TakeFromPod() {
   const { fetchFromUser } = useFetch();
   const { allUsernames } = useData();
   const { auth } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [serverMessage, setServerMessage] = useState("");
   const [usersOfThePod, setUsersOfThePod] = useState([]);
   const [remainingValueOnScale, setRemainingValueOnScale] = useState("");
   const [allUsersExceptUsersOfThePod, setAllUsersExceptUsersOfThePod] =
@@ -91,9 +94,16 @@ export default function TakeFromPod() {
 
   function handleUpdate(e) {
     e.preventDefault();
+    setIsLoading(true);
     fetchFromUser("PATCH", "pods", pod)
-      .then((res) => res.json())
-      .then((jsonData) => console.log(jsonData));
+      .then((res) => {
+        setIsLoading(false);
+        return res.json();
+      })
+      .then((jsonData) => {
+        setServerMessage(jsonData.message);
+        console.log(jsonData);
+      });
   }
 
   function handleChange(e) {
@@ -225,6 +235,8 @@ export default function TakeFromPod() {
               setUsersOfThePod={setUsersOfThePod}
             />
           )}
+          {isLoading && <RiLoaderFill />}
+          <p style={{ color: "green" }}>{serverMessage}</p>
           <div className="buttons">
             <button
               disabled={initialValues.productRawAmount === pod.productRawAmount}

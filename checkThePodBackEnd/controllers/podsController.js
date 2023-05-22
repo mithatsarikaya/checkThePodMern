@@ -67,10 +67,6 @@ const resetThePod = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "No pod found to reset" });
   }
 
-  // console.log(pod.usersOfThePod.toString());
-  // console.log(req.userId);
-
-  // let isAuthorized = req.userId === pod.creatorId.toString();
   let isAuthorized = pod.usersOfThePod.some((p) => p.toString() === req.userId);
 
   if (!isAuthorized) {

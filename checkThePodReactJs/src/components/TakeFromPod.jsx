@@ -147,9 +147,9 @@ export default function TakeFromPod() {
 
   console.log({ initialValues });
 
-  useEffect(() => {
-    setRemainingValueOnScale(pod.podTotalWeight);
-  }, [pod.podTotalWeight]);
+  // useEffect(() => {
+  //   setRemainingValueOnScale(pod.podTotalWeight);
+  // }, [pod.podTotalWeight]);
 
   return (
     <main>
@@ -208,13 +208,15 @@ export default function TakeFromPod() {
               onChange={handleTake}
               name="takeProductRawAmount"
               type="number"
+              max="100"
               readOnly={serverMessage}
             />
           </div>
           <div className="createPodProp">
             <label htmlFor="">Remaining Value On Scale</label>
             <input
-              value={remainingValueOnScale}
+              // value={remainingValueOnScale}
+              value={pod.podTotalWeight}
               placeholder="0"
               autoComplete="off"
               name="remainingValueOnScale"
@@ -222,12 +224,6 @@ export default function TakeFromPod() {
               readOnly
             />
           </div>
-
-          {/* <div>
-            {"allUsersExceptUsersOfThePod:" + allUsersExceptUsersOfThePod}
-          </div>
-          <div>{"podUsers: " + usersOfThePod}</div>
-          <div>{"isOwner: " + isOwner}</div> */}
 
           {isOwner && (
             <ShareUnshareWithUser
@@ -250,10 +246,6 @@ export default function TakeFromPod() {
             >
               {isOwner ? "Take/Update" : "Take"}
             </button>
-            {/* <button onClick={handleSubmit} className="createPod--button">
-              Put
-            </button> */}
-            {/* <button className="createPod--button">Reset</button> */}
           </div>
         </div>
       </form>

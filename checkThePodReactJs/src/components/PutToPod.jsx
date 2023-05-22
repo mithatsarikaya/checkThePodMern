@@ -35,19 +35,17 @@ export default function PutToPod() {
     setAllUsersExceptUsersOfThePod(
       allUsernames.filter((a) => !usersOfThePod.includes(a))
     );
-    console.log({ pod });
+    // console.log({ pod });
   }, [usersOfThePod]);
 
   let urlToGetPod = `pods/getThePod/${podId}`;
-
-  console.log({ pod });
 
   //get the pod infos to take from it
   useEffect(() => {
     fetchFromUser("GET", urlToGetPod)
       .then((res) => res.json())
       .then((jsonData) => {
-        console.log({ podData: jsonData });
+        // console.log({ podData: jsonData });
         setIsOwner(auth.id === jsonData.creatorId);
         const initialUsersOfThePod = jsonData.usersOfThePod.map(
           (u) => u.username
@@ -66,12 +64,6 @@ export default function PutToPod() {
         setInitialValues(initialPodData);
       });
   }, []);
-
-  // console.log(pod);
-
-  // allUsers.map((u) => {
-  //   if (!usersOfThePod.includes(u)) allUsersExceptUsersOfThePod.push(u);
-  // });
 
   function handleUpdate(e) {
     setIsLoading(true);
@@ -93,6 +85,10 @@ export default function PutToPod() {
       [e.target.name]: e.target.value,
     }));
   }
+  console.log(pod.podTotalWeight == initialValues.podTotalWeight);
+  console.log(typeof pod.podTotalWeight);
+  console.log(typeof initialValues.podTotalWeight);
+  console.log({ pod });
 
   function handleReverse(e) {
     e.preventDefault();
@@ -163,14 +159,17 @@ export default function PutToPod() {
             <button onClick={handleUpdate} className="createPod--button">
               {isOwner ? "Put/Update" : "Put"}
             </button>
-            <button onClick={handleReverse} className="createPod--button">
+            {pod.podTotalWeight === initialValues.podTotalWeight
+              ? "true"
+              : "false"}
+            <button
+              disabled={pod.podTotalWeight == initialValues.podTotalWeight}
+              onClick={handleReverse}
+              className="createPod--button"
+            >
               Reverse
               <GrRevert />
             </button>
-            {/* <button onClick={handleSubmit} className="createPod--button">
-              Put
-            </button> */}
-            {/* <button className="createPod--button">Reset</button> */}
           </div>
         </div>
       </form>

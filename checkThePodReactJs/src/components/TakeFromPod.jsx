@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import useData from "../hooks/useData";
 import useAuth from "../hooks/useAuth";
-import ShareUnshareWithUser from "./ShareUnshareWithUser";
 import { RiLoaderFill } from "react-icons/ri";
+import ShareUnshareWithUser from "./ShareUnshareWithUser";
+import ReverseButton from "./ReverseButton";
 
 //users of the page : owner of the pod and users that add by the owner
 
@@ -31,6 +32,7 @@ export default function TakeFromPod() {
   });
   const [initialValues, setInitialValues] = useState({});
   const [userListChanged, setUserListChanged] = useState(false);
+  const inputRef = useRef(null);
 
   function areListsEqual(a, b) {
     a.sort().toString() == b.sort().toString();
@@ -125,7 +127,7 @@ export default function TakeFromPod() {
 
   function handleTake(e) {
     console.log(e.target.value);
-    if (e.target.value > 0) {
+    if (e.target.value > 0 && e.target.value <= pod.productRawAmount) {
       setPod(initialValues);
       let askedValueToTake = e.target.value;
 
@@ -143,9 +145,19 @@ export default function TakeFromPod() {
     if (e.target.value === "") {
       setPod(initialValues);
     }
+
+    if (e.target.value > pod.productRawAmount) {
+      console.log("what is wrong with u man?");
+    }
   }
 
   console.log({ initialValues });
+
+  function handleReverse(e) {
+    e.preventDefault();
+    inputRef.current.value = null;
+    setPod(initialValues);
+  }
 
   // useEffect(() => {
   //   setRemainingValueOnScale(pod.podTotalWeight);
@@ -208,8 +220,9 @@ export default function TakeFromPod() {
               onChange={handleTake}
               name="takeProductRawAmount"
               type="number"
-              max="100"
+              max={initialValues.productRawAmount}
               readOnly={serverMessage}
+              ref={inputRef}
             />
           </div>
           <div className="createPodProp">
@@ -246,6 +259,13 @@ export default function TakeFromPod() {
             >
               {isOwner ? "Take/Update" : "Take"}
             </button>
+            <ReverseButton
+              anyChange={
+                pod.podTotalWeight == initialValues.podTotalWeight &&
+                pod.productRawAmount == initialValues.productRawAmount
+              }
+              handleReverse={handleReverse}
+            />
           </div>
         </div>
       </form>

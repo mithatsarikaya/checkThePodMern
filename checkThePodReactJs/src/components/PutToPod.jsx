@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import useData from "../hooks/useData";
 import useAuth from "../hooks/useAuth";
-import ShareUnshareWithUser from "./ShareUnshareWithUser";
-import { GrRevert } from "react-icons/gr";
 import { RiLoaderFill } from "react-icons/ri";
+import ShareUnshareWithUser from "./ShareUnshareWithUser";
+import ReverseButton from "./ReverseButton";
 //users of the page : owner of the pod and users that add by the owner
 
 export default function PutToPod() {
@@ -85,10 +85,6 @@ export default function PutToPod() {
       [e.target.name]: e.target.value,
     }));
   }
-  console.log(pod.podTotalWeight == initialValues.podTotalWeight);
-  console.log(typeof pod.podTotalWeight);
-  console.log(typeof initialValues.podTotalWeight);
-  console.log({ pod });
 
   function handleReverse(e) {
     e.preventDefault();
@@ -159,17 +155,26 @@ export default function PutToPod() {
             <button onClick={handleUpdate} className="createPod--button">
               {isOwner ? "Put/Update" : "Put"}
             </button>
-            {pod.podTotalWeight === initialValues.podTotalWeight
-              ? "true"
-              : "false"}
-            <button
-              disabled={pod.podTotalWeight == initialValues.podTotalWeight}
+
+            {/* <button
+              disabled={
+                pod.podTotalWeight == initialValues.podTotalWeight &&
+                pod.productRawAmount == initialValues.productRawAmount
+              }
               onClick={handleReverse}
               className="createPod--button"
             >
               Reverse
               <GrRevert />
-            </button>
+            </button> */}
+
+            <ReverseButton
+              anyChange={
+                pod.podTotalWeight == initialValues.podTotalWeight &&
+                pod.productRawAmount == initialValues.productRawAmount
+              }
+              handleReverse={handleReverse}
+            />
           </div>
         </div>
       </form>

@@ -42,8 +42,8 @@ export default function ShareUnshareWithUser({
         </div>
       )}
       <div className="usersOfThePodLabels">
-        {usersOfThePod.map((u) => (
-          <LabelOfUser user={u} removeFromPod={removeFromPod} />
+        {usersOfThePod.map((u, key) => (
+          <LabelOfUser key={key} user={u} removeFromPod={removeFromPod} />
         ))}
       </div>
     </>

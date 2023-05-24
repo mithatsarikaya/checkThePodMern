@@ -8,7 +8,6 @@ import useData from "../hooks/useData";
 export default function Login() {
   const navigate = useNavigate();
   const { setAuth } = useAuth();
-  const { setAllUsernames } = useData();
   const [anyError, setAnyError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState("");

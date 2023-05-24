@@ -18,13 +18,19 @@ export default function Nav() {
           <Link tabIndex={1} to="/">
             <li>HOME</li>
           </Link>
+          <Link tabIndex={4} to="/about">
+            <li>About</li>
+          </Link>
           {username ? (
             <>
-              <Link onClick={handleLogout} tabIndex={2} to="/login">
-                <li>LOGOUT</li>
+              <Link tabIndex={3} to="/createPod">
+                <li>Create Pod</li>
               </Link>
               <Link to="/myPods">
                 <li>My PODS</li>
+              </Link>
+              <Link onClick={handleLogout} tabIndex={2} to="/login">
+                <li>LOGOUT</li>
               </Link>
             </>
           ) : (
@@ -32,12 +38,6 @@ export default function Nav() {
               <li>LOGIN</li>
             </Link>
           )}
-          <Link tabIndex={3} to="/createPod">
-            <li>Create Pod</li>
-          </Link>
-          <Link tabIndex={4} to="/updatePod">
-            <li>Update Pod</li>
-          </Link>
         </ul>
       </nav>
     </>

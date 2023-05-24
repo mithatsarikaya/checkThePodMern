@@ -80,16 +80,22 @@ export default function PutToPod() {
   }
 
   function handleChange(e) {
-    setPod((prevPod) => ({
-      ...prevPod,
-      [e.target.name]: e.target.value,
-    }));
+    if (e.target.value >= 0) {
+      setPod((prevPod) => ({
+        ...prevPod,
+        [e.target.name]: e.target.value,
+      }));
+    }
   }
 
   function handleReverse(e) {
     e.preventDefault();
     setPod(initialValues);
   }
+
+  let reverseBtnDisabled =
+    pod.podTotalWeight == initialValues.podTotalWeight &&
+    pod.productRawAmount == initialValues.productRawAmount;
 
   return (
     <main>
@@ -152,29 +158,29 @@ export default function PutToPod() {
           {isLoading && <RiLoaderFill />}
           <p style={{ color: "green" }}>{serverMessage}</p>
           <div className="buttons">
-            <button onClick={handleUpdate} className="createPod--button">
+            <button
+              disabled={reverseBtnDisabled || serverMessage}
+              onClick={handleUpdate}
+              className="createPod--button"
+            >
               {isOwner ? "Put/Update" : "Put"}
             </button>
 
-            {/* <button
-              disabled={
-                pod.podTotalWeight == initialValues.podTotalWeight &&
-                pod.productRawAmount == initialValues.productRawAmount
-              }
-              onClick={handleReverse}
-              className="createPod--button"
-            >
-              Reverse
-              <GrRevert />
-            </button> */}
-
             <ReverseButton
-              anyChange={
-                pod.podTotalWeight == initialValues.podTotalWeight &&
-                pod.productRawAmount == initialValues.productRawAmount
-              }
+              anyChange={reverseBtnDisabled || serverMessage}
               handleReverse={handleReverse}
             />
+            {/* <button
+                disabled={
+                  pod.podTotalWeight == initialValues.podTotalWeight &&
+                  pod.productRawAmount == initialValues.productRawAmount
+                }
+                onClick={handleReverse}
+                className="createPod--button"
+              >
+                Reverse
+                <GrRevert />
+              </button> */}
           </div>
         </div>
       </form>

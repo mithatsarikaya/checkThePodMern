@@ -41,8 +41,6 @@ export default function MyPods() {
         setMyPods((prevPod) =>
           prevPod.map((p) => {
             if (p._id === id) {
-              console.log(p._id);
-              console.log(id);
               return { ...p, productRawAmount: 0, podTotalWeight: 0 };
             } else {
               return p;

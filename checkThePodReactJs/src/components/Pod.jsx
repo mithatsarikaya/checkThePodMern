@@ -87,7 +87,7 @@ export default function Pod({
           Put
         </button>
         <button
-          disabled={podTotalWeight === 0 || productRawAmount === 0}
+          disabled={podTotalWeight === 0 && productRawAmount === 0}
           onClick={() => handleResetPod(podId)}
           className="createPod--button"
         >

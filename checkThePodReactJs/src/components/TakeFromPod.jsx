@@ -32,6 +32,7 @@ export default function TakeFromPod() {
   });
   const [initialValues, setInitialValues] = useState({});
   const [userListChanged, setUserListChanged] = useState(false);
+  const [requestAmountValid, setRequestAmountValid] = useState(false);
   const inputRef = useRef(null);
 
   function areListsEqual(a, b) {
@@ -127,9 +128,14 @@ export default function TakeFromPod() {
 
   function handleTake(e) {
     console.log(e.target.value);
-    if (e.target.value > 0 && e.target.value <= pod.productRawAmount) {
+    if (
+      e.target.value > 0 &&
+      e.target.value <= initialValues.productRawAmount
+    ) {
       setPod(initialValues);
+      setRequestAmountValid(true);
       let askedValueToTake = e.target.value;
+      console.log({ requestAmountValid });
 
       setPod((prevPod) => ({
         ...prevPod,
@@ -144,14 +150,14 @@ export default function TakeFromPod() {
     }
     if (e.target.value === "") {
       setPod(initialValues);
+      setRequestAmountValid(false);
     }
 
-    if (e.target.value > pod.productRawAmount) {
+    if (e.target.value > initialValues.productRawAmount) {
       console.log("what is wrong with u man?");
+      setRequestAmountValid(false);
     }
   }
-
-  console.log({ initialValues });
 
   function handleReverse(e) {
     e.preventDefault();
@@ -250,10 +256,12 @@ export default function TakeFromPod() {
           <p style={{ color: "green" }}>{serverMessage}</p>
           <div className="buttons">
             <button
-              disabled={
-                initialValues.productRawAmount === pod.productRawAmount ||
-                serverMessage
-              }
+              // disabled={
+              //   initialValues.productRawAmount === pod.productRawAmount ||
+              //   serverMessage ||
+              //   !requestAmountValid
+              // }
+              disabled={!requestAmountValid}
               onClick={handleUpdate}
               className="createPod--button"
             >

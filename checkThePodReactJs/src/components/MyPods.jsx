@@ -7,6 +7,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 export default function MyPods() {
   const [myPods, setMyPods] = useState([]);
   const { fetchFromUser } = useFetch();
+  const [pageLoading, setPageLoading] = useState(true);
 
   const personalPodsUrl = "pods/personalPods";
   const deletePodUrl = "pods";
@@ -19,7 +20,11 @@ export default function MyPods() {
   useEffect(() => {
     fetchFromUser("GET", personalPodsUrl)
       .then((data) => data.json())
-      .then((jsonData) => setMyPods(jsonData));
+      .then((jsonData) => {
+        setMyPods(jsonData);
+        console.log("hi");
+        setPageLoading(false);
+      });
   }, []);
 
   const handleDeletePod = (id) => {
@@ -67,7 +72,13 @@ export default function MyPods() {
 
   return (
     <main ref={podList}>
-      {podsElements.length ? podsElements : <div>You need to create a pod</div>}
+      {pageLoading ? (
+        <div>Loading</div>
+      ) : podsElements.length ? (
+        podsElements
+      ) : (
+        <div>You need to create a pod</div>
+      )}
     </main>
   );
 }

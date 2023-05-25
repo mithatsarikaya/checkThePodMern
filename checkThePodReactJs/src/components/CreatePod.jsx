@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { RiLoaderFill } from "react-icons/ri";
 import useAuth from "../hooks/useAuth";
 import useFetch from "../hooks/useFetch";
@@ -12,6 +13,7 @@ export default function CreatePod() {
   const [isLoading, setIsLoading] = useState(false);
   const [allUsersExceptUsersOfthePod, setAllUsersExceptUsersOfthePod] =
     useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setAllUsersExceptUsersOfthePod(
@@ -62,7 +64,10 @@ export default function CreatePod() {
       })
       .then((data) => {
         setIsLoading(false);
-        setServerMessage((prevMsg) => ({ ...prevMsg, message: data.message }));
+        setServerMessage((prevMsg) => {
+          setTimeout(() => navigate("/myPods"), 1500);
+          return { ...prevMsg, message: data.message };
+        });
       });
   }
 

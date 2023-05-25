@@ -1,0 +1,20 @@
+section{
+    width: 100%;
+}
+
+.from--login-register {
+    width: 100% !important;
+    border: 2px solid salmon;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 10px;
+    padding: 20px;
+    align-items: center;
+}
+
+.pod {
+    width: 100% !important;
+    border: 2px solid salmon;
+    margin-bottom: 20px;
+}

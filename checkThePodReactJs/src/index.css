@@ -37,6 +37,14 @@ nav > ul > li {
 
 a {
     text-decoration: none;
+    border: 3px salmon solid;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: greenyellow;
+}
+
+a:hover{
+    background-color: white;
 }
 
 main {

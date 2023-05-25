@@ -65,7 +65,7 @@ export default function CreatePod() {
       .then((data) => {
         setIsLoading(false);
         setServerMessage((prevMsg) => {
-          setTimeout(() => navigate("/myPods"), 1500);
+          prevMsg.ok && setTimeout(() => navigate("/myPods"), 1500);
           return { ...prevMsg, message: data.message };
         });
       });

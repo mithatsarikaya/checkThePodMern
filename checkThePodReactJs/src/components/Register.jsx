@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import useLoginLogout from "../hooks/useLoginLogout";
+import { RiLoaderFill } from "react-icons/ri";
 
 export default function Register() {
-  const url = "http://localhost:3500/";
-  const navigate = useNavigate();
   const { fetchPublic } = useFetch();
   const { handleLoginAfterRegistration } = useLoginLogout();
 
@@ -13,6 +11,7 @@ export default function Register() {
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [anyError, setAnyError] = useState("");
   const [isCreated, setIsCreated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [registerData, setRegisterData] = useState({
     username: "",
@@ -42,7 +41,7 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const response = await fetchPublic("POST", "users", registerData);
     const jsonData = await response.json();
 
@@ -50,6 +49,7 @@ export default function Register() {
     if (response.ok) {
       setIsCreated(true);
       // setTimeout(() => navigate("/"), 2000);
+      setTimeout(() => setIsLoading(false), 1850);
       setTimeout(
         () =>
           handleLoginAfterRegistration(
@@ -100,8 +100,9 @@ export default function Register() {
           {anyError}
         </p>
         <p style={{ display: !isCreated ? "none" : "block", color: "green" }}>
-          {`${registerData.username} created`}
+          {`${registerData.username} created, You are sending to homepage`}
         </p>
+        {isLoading && <RiLoaderFill />}
         <input
           disabled={!passwordsMatched || !isUsernameValid}
           className="form--button"

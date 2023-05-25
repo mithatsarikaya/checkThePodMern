@@ -27,7 +27,7 @@ export default function useLoginLogout() {
       setAuth({ ...decoded.UserInfo, token });
 
       //if user manages to login then send him to main page
-      setTimeout(() => navigate("/myPods"), 1500);
+      setTimeout(() => navigate("/"), 1500);
     }
   }
 

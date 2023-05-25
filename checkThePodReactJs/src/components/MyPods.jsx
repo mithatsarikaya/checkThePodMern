@@ -26,7 +26,6 @@ export default function MyPods() {
     fetchFromUser("DELETE", deletePodUrl, { id }).then((res) => {
       console.log(res);
       if (res.ok) {
-        console.log("it deleted");
         setMyPods((prevPod) => prevPod.filter((p) => p._id !== id));
       }
     });
@@ -37,7 +36,6 @@ export default function MyPods() {
     fetchFromUser("PATCH", resetPodUrl).then((res) => {
       console.log(res);
       if (res.ok) {
-        console.log("it reseted");
         setMyPods((prevPod) =>
           prevPod.map((p) => {
             if (p._id === id) {

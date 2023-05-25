@@ -128,13 +128,14 @@ export default function TakeFromPod() {
 
   function handleTake(e) {
     console.log(e.target.value);
+    let askedValueToTake = e.target.value;
     if (
-      e.target.value > 0 &&
-      e.target.value <= initialValues.productRawAmount
+      askedValueToTake > 0 &&
+      askedValueToTake <= initialValues.productRawAmount
     ) {
       setPod(initialValues);
       setRequestAmountValid(true);
-      let askedValueToTake = e.target.value;
+      // let askedValueToTake = e.target.value;
       console.log({ requestAmountValid });
 
       setPod((prevPod) => ({
@@ -148,12 +149,13 @@ export default function TakeFromPod() {
         ).toFixed(2),
       }));
     }
-    if (e.target.value === "") {
+    if (askedValueToTake === "" || askedValueToTake <= 0) {
+      e.target.value = null;
       setPod(initialValues);
       setRequestAmountValid(false);
     }
 
-    if (e.target.value > initialValues.productRawAmount) {
+    if (askedValueToTake > initialValues.productRawAmount) {
       console.log("what is wrong with u man?");
       setRequestAmountValid(false);
     }

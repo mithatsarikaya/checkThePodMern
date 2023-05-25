@@ -65,6 +65,14 @@ export default function PutToPod() {
       });
   }, []);
 
+  function deleteTheFirstZeroAtTheBeginning(number) {
+    if (number.length > 1 && number[0] == 0) {
+      let modifiedNumber = number.substring(1);
+      return modifiedNumber;
+    }
+    return number;
+  }
+
   function handleUpdate(e) {
     setIsLoading(true);
     e.preventDefault();
@@ -80,11 +88,23 @@ export default function PutToPod() {
   }
 
   function handleChange(e) {
-    if (e.target.value >= 0) {
+    let amount = e.target.value;
+
+    // if (amount.length > 1 && amount[0] == 0) {
+    //   amount = amount.substring(1);
+    // }
+
+    amount = deleteTheFirstZeroAtTheBeginning(amount);
+
+    console.log(amount);
+
+    if (amount >= 0) {
       setPod((prevPod) => ({
         ...prevPod,
-        [e.target.name]: e.target.value,
+        [e.target.name]: amount,
       }));
+    } else if (amount < 0) {
+      amount = null;
     }
   }
 

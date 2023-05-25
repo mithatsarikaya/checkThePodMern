@@ -3,18 +3,18 @@ import { useState, useRef, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { RiLoaderFill } from "react-icons/ri";
 import useAuth from "../hooks/useAuth";
-import useData from "../hooks/useData";
+import useLoginLogout from "../hooks/useLoginLogout";
 
 export default function Login() {
   const navigate = useNavigate();
   const { setAuth } = useAuth();
+  const { handleLogin } = useLoginLogout();
   const [anyError, setAnyError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [areInputsValid, setAreInputsValid] = useState(false);
 
   const [loginInfos, setLoginInfos] = useState({ username: "", password: "" });
-  const url = "http://localhost:3500/";
 
   const userRef = useRef();
 
@@ -40,17 +40,11 @@ export default function Login() {
     }));
   };
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setAnyError("");
-    let response = await fetch(`${url}auth`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginInfos),
-    });
+    let response = await handleLogin(loginInfos.username, loginInfos.password);
 
     if (!response.ok) {
       let errMsg = await response.json();
@@ -79,7 +73,7 @@ export default function Login() {
 
   return (
     <main>
-      <form className="from--login-register" action="" onSubmit={handleLogin}>
+      <form className="from--login-register" action="" onSubmit={handleSubmit}>
         <input
           ref={userRef}
           onChange={handleChange}

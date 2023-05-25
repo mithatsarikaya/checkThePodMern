@@ -67,5 +67,9 @@ export default function MyPods() {
     />
   ));
 
-  return <main ref={podList}>{podsElements}</main>;
+  return (
+    <main ref={podList}>
+      {podsElements.length ? podsElements : <div>You need to create a pod</div>}
+    </main>
+  );
 }

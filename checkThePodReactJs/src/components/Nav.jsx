@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import useLoginLogout from "../hooks/useLoginLogout";
 
 export default function Nav() {
-  const { auth, setAuth } = useAuth();
+  const { auth } = useAuth();
+  const { handleLogout } = useLoginLogout();
 
   const username = auth?.username;
 
-  function handleLogout() {
-    setAuth({});
-  }
   return (
     <>
       <header>Check The Pods</header>

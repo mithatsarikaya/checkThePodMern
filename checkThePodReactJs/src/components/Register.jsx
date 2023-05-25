@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
+import useLoginLogout from "../hooks/useLoginLogout";
 
 export default function Register() {
   const url = "http://localhost:3500/";
   const navigate = useNavigate();
+  const { fetchPublic } = useFetch();
+  const { handleLoginAfterRegistration } = useLoginLogout();
 
   const [passwordsMatched, setPasswordsMatched] = useState(false);
   const [isUsernameValid, setIsUsernameValid] = useState(false);
@@ -39,20 +43,24 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const responseWithoutJson = await fetch(url + "users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(registerData),
-    });
-    const response = await responseWithoutJson.json();
+    const response = await fetchPublic("POST", "users", registerData);
+    const jsonData = await response.json();
 
     //if response okey send user to home page after 2 seconds, i should make them automatic login
-    if (responseWithoutJson.ok) {
+    if (response.ok) {
       setIsCreated(true);
-      setTimeout(() => navigate("/"), 2000);
+      // setTimeout(() => navigate("/"), 2000);
+      setTimeout(
+        () =>
+          handleLoginAfterRegistration(
+            registerData.username,
+            registerData.password
+          ),
+        2000
+      );
     } else {
       setIsCreated(false);
-      setAnyError(response.message);
+      setAnyError(jsonData.message);
     }
   };
 

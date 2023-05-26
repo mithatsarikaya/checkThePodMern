@@ -41,14 +41,11 @@ export default function TakeFromPod() {
 
   let urlToGetPod = `pods/getThePod/${podId}`;
 
-  console.log({ pod });
-
   //get the pod infos to take from it
   useEffect(() => {
     fetchFromUser("GET", urlToGetPod)
       .then((res) => res.json())
       .then((jsonData) => {
-        console.log({ podData: jsonData });
         setIsOwner(auth.id === jsonData.creatorId);
         const initialUsersOfThePod = jsonData.usersOfThePod.map(
           (u) => u.username
@@ -75,9 +72,6 @@ export default function TakeFromPod() {
     );
     // console.log({ pod });
 
-    console.log({ usersOfThePod });
-    console.log(initialValues.usersOfThePod);
-
     //   if (usersOfThePod.length > 0) {
     //     if (areListsEqual(usersOfThePod, initialValues.usersOfThePod)) {
     //       setUserListChanged(false);
@@ -88,8 +82,10 @@ export default function TakeFromPod() {
   }, [usersOfThePod]);
 
   if (usersOfThePod.length > 0) {
-    userListChanged = areListsEqual(usersOfThePod, initialValues.usersOfThePod);
-    console.log({ userListChanged });
+    userListChanged = !areListsEqual(
+      usersOfThePod,
+      initialValues.usersOfThePod
+    );
   }
 
   // console.log(pod);
@@ -110,7 +106,6 @@ export default function TakeFromPod() {
       })
       .then((jsonData) => {
         setServerMessage(jsonData.message);
-        console.log(jsonData);
       });
   }
 
@@ -121,18 +116,7 @@ export default function TakeFromPod() {
     }));
   }
 
-  function handleSubmit() {
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(pod),
-    }).then((res) => console.log(res));
-  }
-
   function handleTake(e) {
-    console.log(e.target.value);
     let askedValueToTake = e.target.value;
     if (
       askedValueToTake > 0 &&
@@ -141,7 +125,6 @@ export default function TakeFromPod() {
       setPod(initialValues);
       setRequestAmountValid(true);
       // let askedValueToTake = e.target.value;
-      console.log({ requestAmountValid });
 
       setPod((prevPod) => ({
         ...prevPod,
@@ -161,7 +144,6 @@ export default function TakeFromPod() {
     }
 
     if (askedValueToTake > initialValues.productRawAmount) {
-      console.log("what is wrong with u man?");
       setRequestAmountValid(false);
     }
   }
@@ -170,7 +152,13 @@ export default function TakeFromPod() {
     e.preventDefault();
     inputRef.current.value = null;
     setPod(initialValues);
+    setUsersOfThePod(initialValues.usersOfThePod);
   }
+
+  console.log({ requestAmountValid });
+  console.log({ userListChanged });
+
+  console.log(!requestAmountValid && !userListChanged);
 
   // useEffect(() => {
   //   setRemainingValueOnScale(pod.podTotalWeight);
@@ -268,7 +256,11 @@ export default function TakeFromPod() {
               //   serverMessage ||
               //   !requestAmountValid
               // }
-              disabled={!requestAmountValid}
+              disabled={
+                requestAmountValid == false
+                  ? true
+                  : !requestAmountValid && !userListChanged
+              }
               onClick={handleUpdate}
               className="createPod--button"
             >
@@ -276,8 +268,8 @@ export default function TakeFromPod() {
             </button>
             <ReverseButton
               anyChange={
-                // (pod.podTotalWeight == initialValues.podTotalWeight &&
-                //   pod.productRawAmount == initialValues.productRawAmount) ||
+                pod.podTotalWeight != initialValues.podTotalWeight ||
+                pod.productRawAmount != initialValues.productRawAmount ||
                 userListChanged
               }
               handleReverse={handleReverse}

@@ -3,7 +3,7 @@ import { GrRevert } from "react-icons/gr";
 export default function ReverseButton({ anyChange, handleReverse }) {
   return (
     <button
-      disabled={anyChange}
+      disabled={!anyChange}
       onClick={(e) => {
         handleReverse(e);
       }}

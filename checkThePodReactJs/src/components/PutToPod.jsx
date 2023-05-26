@@ -30,6 +30,8 @@ export default function PutToPod() {
   });
   const [initialValues, setInitialValues] = useState({});
 
+  let userListChanged = false;
+
   useEffect(() => {
     setPod((prevPod) => ({ ...prevPod, usersOfThePod }));
     setAllUsersExceptUsersOfThePod(
@@ -111,11 +113,25 @@ export default function PutToPod() {
   function handleReverse(e) {
     e.preventDefault();
     setPod(initialValues);
+    setUsersOfThePod(initialValues.usersOfThePod);
+  }
+
+  function areListsEqual(a, b) {
+    return a.sort().toString() == b.sort().toString();
+  }
+
+  if (usersOfThePod.length > 0) {
+    userListChanged = !areListsEqual(
+      usersOfThePod,
+      initialValues.usersOfThePod
+    );
+    console.log({ userListChanged });
   }
 
   let reverseBtnDisabled =
-    pod.podTotalWeight == initialValues.podTotalWeight &&
-    pod.productRawAmount == initialValues.productRawAmount;
+    pod.podTotalWeight != initialValues.podTotalWeight ||
+    pod.productRawAmount != initialValues.productRawAmount ||
+    userListChanged;
 
   return (
     <main>

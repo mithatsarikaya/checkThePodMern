@@ -17,7 +17,6 @@ export default function TakeFromPod() {
   const [isLoading, setIsLoading] = useState(false);
   const [serverMessage, setServerMessage] = useState("");
   const [usersOfThePod, setUsersOfThePod] = useState([]);
-  const [remainingValueOnScale, setRemainingValueOnScale] = useState("");
   const [allUsersExceptUsersOfThePod, setAllUsersExceptUsersOfThePod] =
     useState([]);
   const [isOwner, setIsOwner] = useState(false);
@@ -31,12 +30,13 @@ export default function TakeFromPod() {
     productRawAmount: 0,
   });
   const [initialValues, setInitialValues] = useState({});
-  const [userListChanged, setUserListChanged] = useState(false);
+  // const [userListChanged, setUserListChanged] = useState(false);
   const [requestAmountValid, setRequestAmountValid] = useState(false);
   const inputRef = useRef(null);
+  let userListChanged = false;
 
   function areListsEqual(a, b) {
-    a.sort().toString() == b.sort().toString();
+    return a.sort().toString() == b.sort().toString();
   }
 
   let urlToGetPod = `pods/getThePod/${podId}`;
@@ -78,14 +78,19 @@ export default function TakeFromPod() {
     console.log({ usersOfThePod });
     console.log(initialValues.usersOfThePod);
 
-    if (usersOfThePod.length > 0) {
-      if (areListsEqual(usersOfThePod, initialValues.usersOfThePod)) {
-        setUserListChanged(false);
-      } else {
-        setUserListChanged(true);
-      }
-    }
+    //   if (usersOfThePod.length > 0) {
+    //     if (areListsEqual(usersOfThePod, initialValues.usersOfThePod)) {
+    //       setUserListChanged(false);
+    //     } else {
+    //       setUserListChanged(true);
+    //     }
+    //   }
   }, [usersOfThePod]);
+
+  if (usersOfThePod.length > 0) {
+    userListChanged = areListsEqual(usersOfThePod, initialValues.usersOfThePod);
+    console.log({ userListChanged });
+  }
 
   // console.log(pod);
 
@@ -271,8 +276,9 @@ export default function TakeFromPod() {
             </button>
             <ReverseButton
               anyChange={
-                pod.podTotalWeight == initialValues.podTotalWeight &&
-                pod.productRawAmount == initialValues.productRawAmount
+                // (pod.podTotalWeight == initialValues.podTotalWeight &&
+                //   pod.productRawAmount == initialValues.productRawAmount) ||
+                userListChanged
               }
               handleReverse={handleReverse}
             />

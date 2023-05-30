@@ -260,3 +260,48 @@ button:not([disabled]):hover{
     gap: 5px;
 }
 
+
+
+@media screen and (max-width: 500px) {
+    /* Your styles here */
+
+    .pod{
+        width: 90%;
+    }
+
+    .form--button{
+        width: 75%;
+    }
+
+    nav > ul {
+        padding-inline-start: 0px;
+    }
+    nav > ul > a{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .createPod--button{
+        width: 80%;
+    }
+
+    .form--create-update{
+        width: 90%;
+    }
+
+    .createPodProp{
+        border-bottom: solid 1px salmon;
+        padding-bottom: 1px;
+    }
+
+    .createPodProp > select{
+        width: 80%;
+    }
+
+    .createPodProp.share > label{
+        width: 100%;
+    }
+  }
+

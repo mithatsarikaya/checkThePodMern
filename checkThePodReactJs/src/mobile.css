@@ -18,3 +18,8 @@ section{
     border: 2px solid salmon;
     margin-bottom: 20px;
 }
+
+.form--create-update {
+    height: auto;
+    width: 80%;
+}

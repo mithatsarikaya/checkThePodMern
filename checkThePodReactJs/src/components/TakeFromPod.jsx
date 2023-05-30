@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import { RiLoaderFill } from "react-icons/ri";
 import ShareUnshareWithUser from "./ShareUnshareWithUser";
 import ReverseButton from "./ReverseButton";
+import UpdateUserListButton from "./UpdateUserListButton";
 
 //users of the page : owner of the pod and users that add by the owner
 
@@ -264,8 +265,16 @@ export default function TakeFromPod() {
               onClick={handleUpdate}
               className="createPod--button"
             >
-              {isOwner ? "Take/Update" : "Take"}
+              Take
             </button>
+            {isOwner && (
+              <UpdateUserListButton
+                pod={pod}
+                setIsLoading={setIsLoading}
+                setServerMessage={setServerMessage}
+                anyChange={userListChanged}
+              />
+            )}
             <ReverseButton
               anyChange={
                 pod.podTotalWeight != initialValues.podTotalWeight ||

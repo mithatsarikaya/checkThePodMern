@@ -22,7 +22,6 @@ export default function MyPods() {
       .then((data) => data.json())
       .then((jsonData) => {
         setMyPods(jsonData);
-        console.log("hi");
         setPageLoading(false);
       });
   }, []);

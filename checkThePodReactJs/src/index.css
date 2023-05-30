@@ -220,7 +220,7 @@ button:not([disabled]):hover{
     font-size: 20px;
     font-weight: 700;
     width: 50%;
-    height: 40px;
+    height: auto;
     cursor: pointer;   
 }
 
@@ -265,8 +265,16 @@ button:not([disabled]):hover{
 @media screen and (max-width: 500px) {
     /* Your styles here */
 
+    section{
+        width: 95%;
+    }
+
     .pod{
         width: 90%;
+    }
+
+    .createPod{
+        width: 100%;
     }
 
     .form--button{
@@ -289,7 +297,7 @@ button:not([disabled]):hover{
     }
 
     .form--create-update{
-        width: 90%;
+        width: 100%;
     }
 
     .createPodProp{
@@ -298,8 +306,8 @@ button:not([disabled]):hover{
     }
 
     .createPodProp > select{
-        font-size: 15px;
-        width: 80%;
+        /* font-size: 15px; */
+        /* width: 80%; */
     }
 
     .createPodProp.share > label{
@@ -307,7 +315,7 @@ button:not([disabled]):hover{
     }
 
     .userTag{
-        font-size: 12px;
+        font-size: 15px;
     }
 
     .from--login-register{

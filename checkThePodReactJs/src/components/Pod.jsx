@@ -67,12 +67,14 @@ export default function Pod({
       <div className="usersOfThePod">
         <label htmlFor="">Shared with</label>
 
-        {/* if user shares with noone then */}
-        {usersOfThePodExceptCreatorNames.length === 0
-          ? "-"
-          : usersOfThePodExceptCreatorNames.map((u) => (
-              <h3 className="podName--raw">{u}</h3>
-            ))}
+        <div className="podNameDivs">
+          {/* if user shares with noone then */}
+          {usersOfThePodExceptCreatorNames.length === 0
+            ? "-"
+            : usersOfThePodExceptCreatorNames.map((u) => (
+                <h3 className="podName--raw">{u}</h3>
+              ))}
+        </div>
       </div>
 
       <div className="buttons">

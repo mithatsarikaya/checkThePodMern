@@ -1,3 +1,7 @@
 export default function OptionUser({ user }) {
-  return <option value={user}>{user}</option>;
+  return (
+    <option onClick={(e) => console.log(e)} value={user}>
+      {user}
+    </option>
+  );
 }

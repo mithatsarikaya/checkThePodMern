@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import { RiLoaderFill } from "react-icons/ri";
 import ShareUnshareWithUser from "./ShareUnshareWithUser";
 import ReverseButton from "./ReverseButton";
+import UpdateUserListButton from "./UpdateUserListButton";
 //users of the page : owner of the pod and users that add by the owner
 
 export default function PutToPod() {
@@ -92,10 +93,6 @@ export default function PutToPod() {
   function handleChange(e) {
     let amount = e.target.value;
 
-    // if (amount.length > 1 && amount[0] == 0) {
-    //   amount = amount.substring(1);
-    // }
-
     amount = deleteTheFirstZeroAtTheBeginning(amount);
 
     console.log(amount);
@@ -131,11 +128,10 @@ export default function PutToPod() {
   let reverseBtnDisabled =
     pod.podTotalWeight != initialValues.podTotalWeight ||
     pod.productRawAmount != initialValues.productRawAmount ||
-    userListChanged;
+    serverMessage;
 
   return (
     <main>
-      <div>PUT PAGE</div>
       <form className="form--create-update" action="">
         <div className="createPod">
           <div className="createPodProp">
@@ -195,28 +191,30 @@ export default function PutToPod() {
           <p style={{ color: "green" }}>{serverMessage}</p>
           <div className="buttons">
             <button
-              disabled={reverseBtnDisabled || serverMessage}
+              disabled={
+                !(
+                  pod.podTotalWeight != initialValues.podTotalWeight ||
+                  pod.productRawAmount != initialValues.productRawAmount
+                ) || serverMessage
+              }
               onClick={handleUpdate}
               className="createPod--button"
             >
-              {isOwner ? "Put/Update" : "Put"}
+              Put
             </button>
+            {isOwner && (
+              <UpdateUserListButton
+                pod={pod}
+                setIsLoading={setIsLoading}
+                setServerMessage={setServerMessage}
+                anyChange={userListChanged}
+              />
+            )}
 
             <ReverseButton
               anyChange={reverseBtnDisabled || serverMessage}
               handleReverse={handleReverse}
             />
-            {/* <button
-                disabled={
-                  pod.podTotalWeight == initialValues.podTotalWeight &&
-                  pod.productRawAmount == initialValues.productRawAmount
-                }
-                onClick={handleReverse}
-                className="createPod--button"
-              >
-                Reverse
-                <GrRevert />
-              </button> */}
           </div>
         </div>
       </form>

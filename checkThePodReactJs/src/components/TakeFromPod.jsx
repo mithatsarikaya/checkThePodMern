@@ -31,7 +31,6 @@ export default function TakeFromPod() {
     productRawAmount: 0,
   });
   const [initialValues, setInitialValues] = useState({});
-  // const [userListChanged, setUserListChanged] = useState(false);
   const [requestAmountValid, setRequestAmountValid] = useState(false);
   const inputRef = useRef(null);
   let userListChanged = false;
@@ -71,15 +70,6 @@ export default function TakeFromPod() {
     setAllUsersExceptUsersOfThePod(
       allUsernames.filter((a) => !usersOfThePod.includes(a))
     );
-    // console.log({ pod });
-
-    //   if (usersOfThePod.length > 0) {
-    //     if (areListsEqual(usersOfThePod, initialValues.usersOfThePod)) {
-    //       setUserListChanged(false);
-    //     } else {
-    //       setUserListChanged(true);
-    //     }
-    //   }
   }, [usersOfThePod]);
 
   if (usersOfThePod.length > 0) {
@@ -160,10 +150,6 @@ export default function TakeFromPod() {
   console.log({ userListChanged });
 
   console.log(!requestAmountValid && !userListChanged);
-
-  // useEffect(() => {
-  //   setRemainingValueOnScale(pod.podTotalWeight);
-  // }, [pod.podTotalWeight]);
 
   return (
     <main>

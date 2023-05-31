@@ -24,6 +24,7 @@ export default function useFetch() {
   };
 
   const fetchPublic = async (method, url, body) => {
+    console.log(`${BASE_URL}${url}`);
     let responseFromServer = await fetch(`${BASE_URL}${url}`, {
       method: `${method}`,
       headers: {

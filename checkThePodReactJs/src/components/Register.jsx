@@ -19,7 +19,7 @@ export default function Register() {
   });
 
   const checkPasswordMatch = (e) => {
-    if (e.target.value.length > 4 && e.target.value === registerData.password) {
+    if (e.target.value.length > 3 && e.target.value === registerData.password) {
       setPasswordsMatched(true);
     } else {
       setPasswordsMatched(false);

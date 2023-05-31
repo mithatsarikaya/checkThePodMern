@@ -27,5 +27,5 @@ export default function AllPods() {
       ))
     : pods.message;
 
-  return <main>{pods.length == 0 ? "what the fuck" : podElements}</main>;
+  return <main>{pods.length == 0 ? "There is no pod yet" : podElements}</main>;
 }

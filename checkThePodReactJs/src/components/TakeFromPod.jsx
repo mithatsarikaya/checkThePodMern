@@ -31,7 +31,7 @@ export default function TakeFromPod() {
     productRawAmount: 0,
   });
   const [initialValues, setInitialValues] = useState({});
-  const [requestAmountValid, setRequestAmountValid] = useState(false);
+  const [requestAmountValid, setRequestAmountValid] = useState(true);
   const inputRef = useRef(null);
   let userListChanged = false;
 
@@ -131,7 +131,6 @@ export default function TakeFromPod() {
     if (askedValueToTake === "" || askedValueToTake <= 0) {
       e.target.value = null;
       setPod(initialValues);
-      setRequestAmountValid(false);
     }
 
     if (askedValueToTake > initialValues.productRawAmount) {
@@ -146,10 +145,12 @@ export default function TakeFromPod() {
     setUsersOfThePod(initialValues.usersOfThePod);
   }
 
-  console.log({ requestAmountValid });
-  console.log({ userListChanged });
+  console.count(!requestAmountValid && !userListChanged);
 
-  console.log(!requestAmountValid && !userListChanged);
+  let requestButtonDisabled =
+    !requestAmountValid ||
+    pod.podTotalWeight == initialValues.podTotalWeight ||
+    serverMessage;
 
   return (
     <main>
@@ -194,6 +195,7 @@ export default function TakeFromPod() {
             <label htmlFor="">Pod Raw Product</label>
             <input
               value={pod.productRawAmount}
+              className={!requestAmountValid ? "bcRed" : null}
               autoComplete="off"
               onChange={handleChange}
               name="productRawAmount"
@@ -213,6 +215,9 @@ export default function TakeFromPod() {
               ref={inputRef}
             />
           </div>
+          {!requestAmountValid && (
+            <p className="warning">You can not take more than you have</p>
+          )}
           <div className="createPodProp">
             <label htmlFor="">Remaining Value On Scale</label>
             <input
@@ -238,16 +243,12 @@ export default function TakeFromPod() {
           <p style={{ color: "green" }}>{serverMessage}</p>
           <div className="buttons">
             <button
+              disabled={requestButtonDisabled}
               // disabled={
-              //   initialValues.productRawAmount === pod.productRawAmount ||
-              //   serverMessage ||
-              //   !requestAmountValid
+              //   requestAmountValid == false
+              //     ? true
+              //     : !requestAmountValid && !userListChanged
               // }
-              disabled={
-                requestAmountValid == false
-                  ? true
-                  : !requestAmountValid && !userListChanged
-              }
               onClick={handleUpdate}
               className="createPod--button"
             >
@@ -265,7 +266,8 @@ export default function TakeFromPod() {
               anyChange={
                 pod.podTotalWeight != initialValues.podTotalWeight ||
                 pod.productRawAmount != initialValues.productRawAmount ||
-                userListChanged
+                userListChanged ||
+                !serverMessage
               }
               handleReverse={handleReverse}
             />
